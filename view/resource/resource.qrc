@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/img">
+        <file alias="falta.png">img/falta.png</file>
+        <file>img/Error.png</file>
+        <file alias="Barra_superior.png">img/Barra_superior.png</file>
+        <file alias="ayuda.png">img/Ayuda.png</file>
+        <file>img/Advertencia.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,19 @@
+from PyQt5.QtWidgets import (
+    QWidget, QDialog, QVBoxLayout
+)
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from view.view.widget_chart_item import WidgetChartItem
+
+class DialogDetailsCorrelation(QDialog):
+    
+    def __init__(self, _correlation,*args, **kwargs):
+    
+        super(DialogDetailsCorrelation, self).__init__(*args, **kwargs)
+        layout = QVBoxLayout()
+        widget = WidgetChartItem(_correlation)
+        layout.addWidget(widget)
+        self.setWindowTitle("Correlación "+_correlation['label-y']+'-'+_correlation['label-x'])
+        self.setLayout(layout)
+
+        
