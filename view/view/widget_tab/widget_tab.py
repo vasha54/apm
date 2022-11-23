@@ -13,4 +13,5 @@ class WidgetTab(QWidget):
         super().__init__(*args,**kwargs)
         
     def clickNextStage(self):
+        print('Padre')
         self.next.emit()

@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
 )
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from view.view.widget_chart_item import WidgetChartItem
+from view.components.widget_chart_item import WidgetChartItem
 
 class DialogDetailsCorrelation(QDialog):
     

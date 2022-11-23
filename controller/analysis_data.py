@@ -23,6 +23,9 @@ class AnalysisData(metaclass=SingletonMeta):
     def getDataFrame(self):
         return self.dataFrameClean
     
+    def getVariablesSelect(self):
+        return self.variablesSelect
+    
     def addVariablesSelect(self,_variable):
         if _variable not in self.variablesSelect:
             self.variablesSelect.append(_variable)
@@ -43,7 +46,7 @@ class AnalysisData(metaclass=SingletonMeta):
             return None
     
     def getCorrelationVariablesSelect(self):
-        
+        self.correlactions = []
         for i in range(0,len(self.variablesSelect)):
             for j in range(i+1,len(self.variablesSelect)):
                 correlactionIJ = {

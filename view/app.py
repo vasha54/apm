@@ -16,8 +16,16 @@ from PyQt5 import QtCore
 from view.ui.mainwindow_ui import Ui_MainWindow
 from controller.analysis_data import AnalysisData
 from view.view.status_bar import StatusBar
-from view.view.widget_data_filter import WidgetDataFilter
-from view.view.widget_charts_variables import WidgetChartVariables
+
+from view.view.widget_tab.widget_data_filter import WidgetDataFilter
+from view.view.widget_tab.widget_charts_variables import WidgetChartVariables
+from view.view.widget_tab.widget_build_model import WidgetBuildModel
+from view.view.widget_tab.widget_comparative_model import WidgetComparativeModel
+from view.view.widget_tab.widget_details_model_select import WidgetDetailsModelSelect
+from view.view.widget_tab.widget_information_extrapolacion import WidgetInformationExtrapolacion
+from view.view.widget_tab.widget_quality_adjust_model import WidgetQualityAdjustModel
+from view.view.widget_tab.widget_validate import WidgetValidate
+
 from view.resource import resource
 
 
@@ -35,9 +43,42 @@ class App(QMainWindow, Ui_MainWindow):
         self.createCentralWidget()
         self.createStatusBar()
         self.createConnects()
-        self.widgetDataFilter = None
-        self.widgetChartsVariables = None
+        self.createTabWidget()
         
+        
+    def createTabWidget(self):
+        self.widgetDataFilter = WidgetDataFilter(self)
+        self.widgetChartsVariables = WidgetChartVariables(self)
+        self.widgetBuildModel = WidgetBuildModel(self)
+        self.widgetComparativeModel= WidgetComparativeModel(self)
+        self.widgetDetailsModelSelect = WidgetDetailsModelSelect(self)
+        self.widgetInformationExtrapolacion = WidgetInformationExtrapolacion(self)
+        self.widgetQualityAdjustModel = WidgetQualityAdjustModel(self)
+        self.widgetValidate = WidgetValidate(self)
+        
+        self.widgetDataFilter.next.connect(self.addOrUpdateTabChartVariables)
+        self.widgetChartsVariables.next.connect(self.addOrUpdateTabBuildModels)
+        self.widgetBuildModel.next.connect(self.addOrUpdateComparativeModel)
+        
+        self.m_tabWidget.addTab(self.widgetDataFilter,"Datos filtrados")
+        self.m_tabWidget.addTab(self.widgetChartsVariables,"Gráficas de correlación de la variables");
+        self.m_tabWidget.addTab(self.widgetBuildModel,"Conformación de los modelos");
+        self.m_tabWidget.addTab(self.widgetComparativeModel,"Comparativas del modelo");
+        self.m_tabWidget.addTab(self.widgetDetailsModelSelect,"Detalles del modelo seleccionado");
+        self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste al modelo");
+        self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Información de Extrapolación");
+        self.m_tabWidget.addTab(self.widgetValidate,"Validación");
+        
+        
+        self.m_tabWidget.setTabEnabled(1,False)
+        self.m_tabWidget.setTabEnabled(2,False)
+        self.m_tabWidget.setTabEnabled(3,False)
+        self.m_tabWidget.setTabEnabled(4,False)
+        self.m_tabWidget.setTabEnabled(5,False)
+        self.m_tabWidget.setTabEnabled(6,False)
+        self.m_tabWidget.setTabEnabled(7,False)
+        self.m_tabWidget.setTabEnabled(8,False)
+            
     def createMenuBar(self):
         self.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
 
@@ -53,12 +94,11 @@ class App(QMainWindow, Ui_MainWindow):
         self.m_logoMenuBar = QLabel(self.m_frameMenuBar)
         self.m_logoMenuBar.setPixmap(QPixmap(":/img/Barra_superior.png"));
 
-        self.m_helpAction=QAction(QIcon(":/img/falta.png"),"Ayuda de SISCOFI", self)
-        self.m_helpAction.setObjectName("helpAction")
+        self.m_helpAction=QAction(QIcon(":/img/ayuda.png"),"Ayuda de SugarLM-Regress", self)
+         
 
-        self.m_closeAction = QAction(QIcon(":/img/falta.png"),"Cerrar", self)
-        self.m_closeAction.setObjectName("closeAction")
-
+        self.m_closeAction = QAction(QIcon(":/img/Salir.png"),"Cerrar", self)
+        
 
         tSpacerWidget = QWidget(self.m_frameMenuBar)
         tSpacerWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
@@ -133,8 +173,9 @@ class App(QMainWindow, Ui_MainWindow):
         index = self.m_tabWidget.indexOf(self.widgetDataFilter);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetDataFilter,"Datos filtrados");
+            index=self.m_tabWidget.addTab(self.widgetDataFilter,"Datos filtrados")
         self.m_tabWidget.setCurrentIndex(index)
+        self.m_tabWidget.setTabEnabled(index,True)
         self.widgetDataFilter.update()
         
     def addOrUpdateTabChartVariables(self):
@@ -147,10 +188,45 @@ class App(QMainWindow, Ui_MainWindow):
         if index ==-1:
             index=self.m_tabWidget.addTab(self.widgetChartsVariables,"Gráficas de correlación de la variables");
         self.m_tabWidget.setCurrentIndex(index)
+        self.m_tabWidget.setTabEnabled(index,True)
         self.widgetChartsVariables.update()
         
-        
     def addOrUpdateTabBuildModels(self):
+        if self.widgetBuildModel == None:
+            self.widgetBuildModel = WidgetBuildModel(self)
+            self.widgetBuildModel.next.connect(self.addOrUpdateComparativeModel)
+            
+        index = self.m_tabWidget.indexOf(self.widgetBuildModel);
+        
+        if index ==-1:
+            index=self.m_tabWidget.addTab(self.widgetBuildModel,"Conformación de los modelos");
+        self.m_tabWidget.setCurrentIndex(index)
+        self.m_tabWidget.setTabEnabled(index,True)
+        self.widgetBuildModel.update()
+        
+    def addOrUpdateComparativeModel(self):
+        if self.widgetComparativeModel == None:
+            self.widgetComparativeModel = WidgetComparativeModel(self)
+            self.widgetBuildModel.next.connect(self.addOrUpdateComparativeModel)
+            
+        index = self.m_tabWidget.indexOf(self.widgetComparativeModel);
+        
+        if index ==-1:
+            index=self.m_tabWidget.addTab(self.widgetComparativeModel,"Comparativas del modelo");
+        self.m_tabWidget.setCurrentIndex(index)
+        self.m_tabWidget.setTabEnabled(index,True)
+        self.widgetComparativeModel.update()
+        
+    def addOrUpdateDetailsModelSelect(self):
+        pass
+    
+    def addOrUpdateQualityAdjustModel(self):
+        pass
+    
+    def addOrUpdateInformationExtrapolacion(self):
+        pass
+    
+    def addOrUpdateValidate(self):
         pass
         
     def nextVersion(self):

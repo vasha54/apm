@@ -1,7 +1,3 @@
-from PyQt5.QtWidgets import (
-    QApplication, QFileDialog, QMainWindow, QMessageBox
-)
-
 from PyQt5.QtCore import(
     QAbstractTableModel, QVariant
 )

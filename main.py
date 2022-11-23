@@ -15,4 +15,5 @@ if __name__ == "__main__":
     win = App()
     win.showMaximized()
     win.setWindowIcon(QIcon(":/img/falta.png"))
+    win.setWindowTitle("SugarLM-Regress")
     sys.exit(app.exec())

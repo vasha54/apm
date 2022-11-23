@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import (
 )
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from view.view.widget_tab import WidgetTab
-from view.view.widget_chart_item import WidgetChartItem
+from view.view.widget_tab.widget_tab import WidgetTab
+from view.components.widget_chart_item import WidgetChartItem
 from view.view.dialog_details_correlation import DialogDetailsCorrelation
 from controller.analysis_data import AnalysisData
 

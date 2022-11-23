@@ -4,12 +4,11 @@ from PyQt5.QtWidgets import (
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from view.ui.tab_data_filter_ui import Ui_WidgetDataFilter
-from view.delegate.delegate import ListView
+from view.components.list_view import ListViewCheckBox
 from controller.analysis_data import AnalysisData
 
 from view.model.data_frame_model import DataFrameModel
-from view.view.widget_tab import WidgetTab
+from view.view.widget_tab.widget_tab import WidgetTab
 
 class WidgetDataFilter(WidgetTab):
     
@@ -51,7 +50,7 @@ class WidgetDataFilter(WidgetTab):
         self.label_2.setSizePolicy(sizePolicy)
         self.label_2.setObjectName("label_2")
         self.verticalLayout_2.addWidget(self.label_2)
-        self.listViewVariable = ListView(WidgetDataFilter)
+        self.listViewVariable = ListViewCheckBox(WidgetDataFilter)
         self.listViewVariable.setMaximumWidth(260)
         self.label_2.setMaximumWidth(260)
         self.listViewVariable.setObjectName("listViewVariable")
@@ -107,4 +106,14 @@ class WidgetDataFilter(WidgetTab):
         self.pushButtonNext.clicked.connect(self.clickNextStage)
     
     def update(self):
-        pass
+        self.model = QtGui.QStandardItemModel(self.listViewVariable)
+        namesVariable = AnalysisData().getNamesVariables()
+        for line in namesVariable:
+            self.item = QtGui.QStandardItem(line)
+            self.item.setCheckable(True)
+            self.item.setCheckState(QtCore.Qt.Unchecked)
+            self.model.appendRow(self.item)
+
+        self.listViewVariable.setModel(self.model)
+        modelData =DataFrameModel(AnalysisData().getDataFrame(),self.tableViewDataFrame)
+        self.tableViewDataFrame.setModel(modelData)
