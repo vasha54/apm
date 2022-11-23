@@ -3,7 +3,7 @@ import pandas as pd
 class ModelLMR:
     
  
-    def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(), *args, **kwargs):
+    def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(),_isSelect=False, *args, **kwargs):
         super(ModelLMR, self).__init__(*args, **kwargs)
         self.idModel = _idModel
         self.nameModel= _nameModel
@@ -13,13 +13,7 @@ class ModelLMR:
             self.namesVariableI.append(name)
         self.dataFrameVI = _dataFrameVI
         self.dataFrameVD = _dataFrameVD
-        self.modelStr = self.nameModel+"("+self.nameVariableD+"~"
-        for c in range(0,len(self.namesVariableI)):
-            if c == 0:
-                self.modelStr = self.modelStr+str(self.namesVariableI[c])
-            else:
-                self.modelStr = self.modelStr+"+"+str(self.namesVariableI[c])
-        self.modelStr=self.modelStr+")"
+        self.isSelectModel = _isSelect
         
     def __str__(self):
         modelStr = self.nameModel+"("+self.nameVariableD+"~"
@@ -48,6 +42,9 @@ class ModelLMR:
     
     def setNameModel(self, _nameModel):
         self.nameModel = _nameModel
+        
+    def isSelect(self):
+        return self.isSelectModel
     
     def setIDModel(self, _idModel):
         self.idModel = _idModel
@@ -63,6 +60,9 @@ class ModelLMR:
         
     def setDataFrameVI(self,_dataFrameVI):
         self.dataFrameVI = _dataFrameVI
+    
+    def setIsSelect(self, _select):
+        self.isSelectModel = _select    
         
     def detailsModelForMessageBox(self):
         detailsStr="<p><b>Nombre:</b>"+str(self.nameModel)+"</p>"
