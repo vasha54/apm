@@ -8,5 +8,9 @@
         <file alias="informacion.png">img/informacion.png</file>
         <file alias="Confirmacion.png">img/Confirmacion.png</file>
         <file alias="Salir.png">img/Salir.png</file>
+        <file alias="folder-open.png">img/folder-open.png</file>
+    </qresource>
+    <qresource prefix="/css">
+        <file alias="style.css" >css/style.css</file>
     </qresource>
 </RCC>

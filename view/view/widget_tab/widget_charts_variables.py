@@ -13,20 +13,18 @@ class WidgetChartVariables(WidgetTab):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.setupUi(self)
+        self.createUI()
         self.createWorkspace()
         self.createConnect()
         
-    def setupUi(self, WidgetChartsVariables):
-        WidgetChartsVariables.setObjectName("WidgetChartsVariables")
-        WidgetChartsVariables.resize(861, 471)
-        self.gridLayout = QtWidgets.QGridLayout(WidgetChartsVariables)
+    def createUI(self):
+        self.gridLayout = QtWidgets.QGridLayout(self.widgetCentral)
         self.gridLayout.setObjectName("gridLayout")
-        self.tableWidgetChart = QtWidgets.QTableWidget(WidgetChartsVariables)
+        self.tableWidgetChart = QtWidgets.QTableWidget(self.widgetCentral)
         self.tableWidgetChart.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.tableWidgetChart.setFrameShadow(QtWidgets.QFrame.Plain)
         self.tableWidgetChart.setLineWidth(0)
-        self.tableWidgetChart.setStyleSheet('selection-background-color:white;')
-        self.tableWidgetChart.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.tableWidgetChart.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.tableWidgetChart.setShowGrid(False)
         self.tableWidgetChart.setGridStyle(QtCore.Qt.NoPen)
         self.tableWidgetChart.setColumnCount(3)
@@ -35,12 +33,8 @@ class WidgetChartVariables(WidgetTab):
         self.tableWidgetChart.horizontalHeader().setVisible(False)
         self.tableWidgetChart.verticalHeader().setVisible(False)
         self.gridLayout.addWidget(self.tableWidgetChart, 0, 0, 1, 2)
-        spacerItem = QtWidgets.QSpacerItem(749, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem, 1, 0, 1, 1)
-        self.pushButtonNext = QtWidgets.QPushButton(WidgetChartsVariables)
-        self.pushButtonNext.setObjectName("pushButtonNext")
-        self.gridLayout.addWidget(self.pushButtonNext, 1, 1, 1, 1)
-        self.pushButtonNext.setText("Siguiente paso")
+        
+        
         
     def createWorkspace(self):
         self.tableWidgetChart.clear()
@@ -69,7 +63,7 @@ class WidgetChartVariables(WidgetTab):
       
         
     def createConnect(self):
-        self.pushButtonNext.clicked.connect(self.clickNextStage)
+        super().createConnect()
         self.tableWidgetChart.doubleClicked.connect(self.showCorrelations)
         
     def update(self):

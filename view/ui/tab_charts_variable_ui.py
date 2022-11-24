@@ -30,11 +30,6 @@ class Ui_WidgetChartsVariables(object):
         self.tableWidgetChart.horizontalHeader().setVisible(False)
         self.tableWidgetChart.verticalHeader().setVisible(False)
         self.gridLayout.addWidget(self.tableWidgetChart, 0, 0, 1, 2)
-        spacerItem = QtWidgets.QSpacerItem(749, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem, 1, 0, 1, 1)
-        self.pushButtonNext = QtWidgets.QPushButton(WidgetChartsVariables)
-        self.pushButtonNext.setObjectName("pushButtonNext")
-        self.gridLayout.addWidget(self.pushButtonNext, 1, 1, 1, 1)
 
         self.retranslateUi(WidgetChartsVariables)
         QtCore.QMetaObject.connectSlotsByName(WidgetChartsVariables)
@@ -42,4 +37,3 @@ class Ui_WidgetChartsVariables(object):
     def retranslateUi(self, WidgetChartsVariables):
         _translate = QtCore.QCoreApplication.translate
         WidgetChartsVariables.setWindowTitle(_translate("WidgetChartsVariables", "Form"))
-        self.pushButtonNext.setText(_translate("WidgetChartsVariables", "Siguiente paso"))

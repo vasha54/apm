@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WidgetDetailsModelSelect</class>
+ <widget class="QWidget" name="WidgetDetailsModelSelect">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>941</width>
+    <height>521</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidgetDetailsModelSelect">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabTestNormalResidual">
+      <attribute name="title">
+       <string>Prueba de normalidad (Residuales no escalados)</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tabTestNormalResidualNot">
+      <attribute name="title">
+       <string>Pruebas de normalidad (Residuales estudertizados</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tabChartNormalResidualNot">
+      <attribute name="title">
+       <string>Gráficos de normalidad residuales no escalados</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tabChartNormalResidual">
+      <attribute name="title">
+       <string>Graficos de normalidad residuales estudertizados</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

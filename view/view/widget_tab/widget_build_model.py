@@ -22,16 +22,14 @@ class WidgetBuildModel(WidgetTab):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.setupUi(self)
+        self.createUi()
         self.createWorkspace()
         self.createConnect()
         
-    def setupUi(self, WidgetDataBuildModel):
-        
-        WidgetDataBuildModel.setObjectName("WidgetDataBuildModel")
-        WidgetDataBuildModel.resize(881, 471)
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(WidgetDataBuildModel)
+    def createUi(self):
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.widgetCentral)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.groupBox = QtWidgets.QGroupBox(WidgetDataBuildModel)
+        self.groupBox = QtWidgets.QGroupBox(self.widgetCentral)
         
         font = QtGui.QFont()
         font.setBold(False)
@@ -154,7 +152,7 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         
-        self.label_2 = QtWidgets.QLabel(WidgetDataBuildModel)
+        self.label_2 = QtWidgets.QLabel(self.widgetCentral)
         
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -164,7 +162,7 @@ class WidgetBuildModel(WidgetTab):
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
         
-        self.listViewModel = QtWidgets.QListView(WidgetDataBuildModel)
+        self.listViewModel = QtWidgets.QListView(self.widgetCentral)
         self.listViewModel.setMinimumSize(QtCore.QSize(0, 350))
         self.listViewModel.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.listViewModel.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -177,14 +175,14 @@ class WidgetBuildModel(WidgetTab):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         
-        self.pBEditModel = QtWidgets.QPushButton(WidgetDataBuildModel)
+        self.pBEditModel = QtWidgets.QPushButton(self.widgetCentral)
         self.pBEditModel.setObjectName("pBEditModel")
         self.horizontalLayout.addWidget(self.pBEditModel)
-        self.pBDetailsModel = QtWidgets.QPushButton(WidgetDataBuildModel)
+        self.pBDetailsModel = QtWidgets.QPushButton(self.widgetCentral)
         self.pBDetailsModel.setObjectName("pBRemoveModel_2")
         self.horizontalLayout.addWidget(self.pBDetailsModel)
         
-        self.pBRemoveModel = QtWidgets.QPushButton(WidgetDataBuildModel)
+        self.pBRemoveModel = QtWidgets.QPushButton(self.widgetCentral)
         self.pBRemoveModel.setObjectName("pBRemoveModel")
         self.horizontalLayout.addWidget(self.pBRemoveModel)
         self.verticalLayout_9.addLayout(self.horizontalLayout)
@@ -196,12 +194,7 @@ class WidgetBuildModel(WidgetTab):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         
-        spacerItem4 = QtWidgets.QSpacerItem(128, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem4)
         
-        self.pushButtonNext = QtWidgets.QPushButton(WidgetDataBuildModel)
-        self.pushButtonNext.setObjectName("pushButtonNext")
-        self.horizontalLayout_2.addWidget(self.pushButtonNext)
         self.verticalLayout_10.addLayout(self.horizontalLayout_2)
         self.horizontalLayout_5.addLayout(self.verticalLayout_10)
         
@@ -242,7 +235,7 @@ class WidgetBuildModel(WidgetTab):
         self.listViewCandidateVI.setModel(self.modelCandidateVI)
     
     def createConnect(self):
-        self.pushButtonNext.clicked.connect(self.clickNextStage)
+        super().createConnect()
         self.pBAddModel.clicked.connect(self.clickPBAddModel)
         self.pBEditModel.clicked.connect(self.clickPBEditModel)
         self.pBDetailsModel.clicked.connect(self.clickPBDetails)
@@ -292,7 +285,19 @@ class WidgetBuildModel(WidgetTab):
             messageBox.exec()
     
     def clickPBEditModel(self):
-        pass
+        indexes = self.listViewModel.selectedIndexes()
+        if len(indexes) == 1:
+            index=indexes[0]
+            model = self.modelModelLMR.getThisModel(index)
+            self.updateFormRegister(model)
+            self.modelModelLMR.revomeElement(index)
+            self.listViewModel.clearSelection()
+            self.enableButtoNext()
+        else:
+            messageBox=MB.showGenericMessage(self.parent(),MB.MESSAG_WARNING,
+                                                       "Advertencia",
+                                                       "Seleccione el modelo que desea eliminar.")
+            messageBox.exec()
     
     def clickPBRemoveModel(self):
         indexes = self.listViewModel.selectedIndexes()
@@ -373,6 +378,32 @@ class WidgetBuildModel(WidgetTab):
     def clickNextStage(self):
         print('Hijo')
         super().clickNextStage()
+        
+    def updateFormRegister(self,_model):
+        self.lineEditNameModel.setText(_model.getNameModel())
+        self.lineEditVariableDependent.setText(_model.getNameVariableD())
+        
+        self.modelVariablesIndepent.clear()
+        for var in _model.getNamesVariableI():
+            self.modelVariablesIndepent.addElement(var)
+            
+        rowsVCI = self.modelCandidateVI.rowCount()
+        for i in range(0,rowsVCI):
+            index = self.modelCandidateVI.index(i,0)
+            if self.modelCandidateVI.data(index,QtCore.Qt.DisplayRole) in _model.getNamesVariableI():
+                self.modelCandidateVI.setData(index,QtCore.Qt.Checked,QtCore.Qt.CheckStateRole)
+            else:
+                self.modelCandidateVI.setData(index,QtCore.Qt.Unchecked,QtCore.Qt.CheckStateRole)
+        
+        rowsVCD = self.modelCandidateVD.rowCount()
+        for i in range(0,rowsVCD):
+            index = self.modelCandidateVD.index(i,0)
+            if self.modelCandidateVD.data(index,QtCore.Qt.DisplayRole) == _model.getNameVariableD():
+                self.modelCandidateVD.setData(index,QtCore.Qt.Checked,QtCore.Qt.CheckStateRole)
+            else:
+                self.modelCandidateVD.setData(index,QtCore.Qt.Unchecked,QtCore.Qt.CheckStateRole)
+                
+        
     
     def update(self):
         self.modelCandidateVD = QtGui.QStandardItemModel(self.listViewCandidateVD)

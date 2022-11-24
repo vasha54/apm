@@ -3,9 +3,10 @@ from PyQt5.QtWidgets import (
 )
 
 from PyQt5 import QtCore
+from view.ui.tab_widget_ui import Ui_WidgetTab
 
 
-class WidgetTab(QWidget):
+class WidgetTab(QWidget, Ui_WidgetTab):
     
     next = QtCore.pyqtSignal()
     
@@ -13,5 +14,7 @@ class WidgetTab(QWidget):
         super().__init__(*args,**kwargs)
         
     def clickNextStage(self):
-        print('Padre')
         self.next.emit()
+        
+    def createConnect(self):
+        self.pushButtonNext.clicked.connect(self.clickNextStage)
