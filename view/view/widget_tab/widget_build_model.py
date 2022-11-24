@@ -261,7 +261,13 @@ class WidgetBuildModel(WidgetTab):
             
         if _nameVD in _namesVI:
             isModelOK = False
-            error = error +"- La variable dependiente no puede formar parte de las variables independientes del modelo"
+            error = error +"- La variable dependiente no puede formar parte de las variables independientes del modelo\n"
+            
+        modelTes =ModelLMR('test',_nameModel,_nameVD,_namesVI)
+        
+        if self.modelModelLMR.existThisModel(modelTes) == True:
+            isModelOK = False
+            error = error +"- El modelo conformado quiza su nombre no sea igual pero su estructura (Variable Dependiente y las Variables Inpendientes en su orden) es identica a otro ya definido\n"    
             
         return [isModelOK,error]          
     
@@ -376,8 +382,14 @@ class WidgetBuildModel(WidgetTab):
         self.modelVariablesIndepent.addElement(nameVariable)
         
     def clickNextStage(self):
-        print('Hijo')
+        tModelCreate = self.modelModelLMR.getElements()
+        for k,v in tModelCreate.items():
+            AnalysisData().addModel(v)
+        self.modelModelLMR.clear()
+        self.modelModelLMR.clearElements()  
         super().clickNextStage()
+        
+        
         
     def updateFormRegister(self,_model):
         self.lineEditNameModel.setText(_model.getNameModel())

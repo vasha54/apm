@@ -9,6 +9,10 @@ from PyQt5.QtGui import (
 from PyQt5 import QtCore, QtGui 
 
 class ModelLMRModel(QStandardItemModel):
+    
+    KEY = 'key'
+    NAME = 'name'
+    
     def __init__(self, parent=None):
         QStandardItemModel.__init__(self, parent)
         self.data = {}
@@ -32,6 +36,9 @@ class ModelLMRModel(QStandardItemModel):
         item = QtGui.QStandardItem(str(_model))
         self.appendRow(item)
         
+    def clearElements(self):
+        self.data.clear()
+        
     def revomeElement(self,_index):
         if 0 <=_index.row() and _index.row() <len(self.data.keys()):
             key = list(self.data.keys())[_index.row()]
@@ -46,3 +53,12 @@ class ModelLMRModel(QStandardItemModel):
            key = list(self.data.keys())[_index.row()]
            return self.data[key]
         return None
+    
+    def existThisModel(self,_model):
+        exist = False
+        for k,v in self.data.items():
+            if v == _model:
+                exist = True
+        return exist
+    
+    
