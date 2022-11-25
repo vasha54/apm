@@ -20,7 +20,7 @@ class ModelLMR:
     MSE_TOTAL = 'msetotal'
     RMSE_MODEL = 'rmsemodel' 
     
-    def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(),_dataFrameModel=pd.DataFrame(),_isSelect=False, *args, **kwargs):
+    def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _intervalConfidence=0.05, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(),_dataFrameModel=pd.DataFrame(),_isSelect=False, *args, **kwargs):
         super(ModelLMR, self).__init__(*args, **kwargs)
         self.idModel = _idModel
         self.nameModel= _nameModel
@@ -34,6 +34,7 @@ class ModelLMR:
         self.dataFrameVD = _dataFrameVD
         self.dataFrameModel = _dataFrameModel
         self.isSelectModel = _isSelect
+        self.intervalConfidence = _intervalConfidence
         
     def __str__(self):
         modelStr = self.nameModel+"("+self.nameVariableD+"~"
@@ -92,6 +93,9 @@ class ModelLMR:
     def isSelect(self):
         return self.isSelectModel
     
+    def getIntervalConfidence(self):
+        return self.intervalConfidence
+    
     def setIDModel(self, _idModel):
         self.idModel = _idModel
     
@@ -115,6 +119,9 @@ class ModelLMR:
     
     def setIsSelect(self, _select):
         self.isSelectModel = _select    
+        
+    def setIntervalConfidence(self,_intervalConfidence):
+        self.intervalConfidence=_intervalConfidence    
         
     def detailsModelForMessageBox(self):
         detailsStr="<p><b>Nombre:</b>"+str(self.nameModel)+"</p>"

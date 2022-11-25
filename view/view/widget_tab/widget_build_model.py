@@ -1,5 +1,15 @@
 from PyQt5.QtWidgets import (
-    QAbstractItemView
+    QAbstractItemView, QGridLayout,QHBoxLayout, QVBoxLayout, QGroupBox,
+    QLabel, QLineEdit, QSizePolicy, QSpacerItem, QDoubleSpinBox, QListView,
+    QPushButton
+)
+
+from PyQt5.QtGui import (
+    QFont, 
+)
+
+from PyQt5.QtCore import(
+    QSize
 )
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -27,177 +37,192 @@ class WidgetBuildModel(WidgetTab):
         self.createConnect()
         
     def createUi(self):
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.widgetCentral)
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.groupBox = QtWidgets.QGroupBox(self.widgetCentral)
+        self.horizontalLayout_5 = QHBoxLayout(self.widgetCentral)
+        
+        self.groupBox = QGroupBox(self.widgetCentral)
         
         font = QtGui.QFont()
         font.setBold(False)
         font.setWeight(50)
         font.setKerning(True)
-        
         self.groupBox.setFont(font)
-        self.groupBox.setObjectName("groupBox")
+        self.gridLayout = QGridLayout(self.groupBox)
         
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.groupBox)
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.verticalLayout_8 = QVBoxLayout()
         
-        self.verticalLayout_8 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.verticalLayout_6 = QVBoxLayout()
         
-        self.verticalLayout_6 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_6.setObjectName("verticalLayout_6")
-        
-        self.label_5 = QtWidgets.QLabel(self.groupBox)
-        self.label_5.setObjectName("label_5")
+        self.label_5 = QLabel(self.groupBox)        
         self.verticalLayout_6.addWidget(self.label_5)
-        
+
         self.listViewCandidateVD = ListViewRadioButton(self.groupBox)
-        self.listViewCandidateVD.setObjectName("listViewCandidateVD")
-        self.verticalLayout_6.addWidget(self.listViewCandidateVD)
+              
+        self.verticalLayout_6.addWidget(self.listViewCandidateVD)    
         self.verticalLayout_8.addLayout(self.verticalLayout_6)
+
+        self.verticalLayout_7 = QVBoxLayout()
+        self.label_6 = QLabel(self.groupBox)
         
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
-        
-        self.label_6 = QtWidgets.QLabel(self.groupBox)
-        self.label_6.setObjectName("label_6")
         self.verticalLayout_7.addWidget(self.label_6)
-        
         self.listViewCandidateVI = ListViewCheckBox(self.groupBox)
-        self.listViewCandidateVI.setObjectName("listViewCandidateVI")
         self.verticalLayout_7.addWidget(self.listViewCandidateVI)
+
         self.verticalLayout_8.addLayout(self.verticalLayout_7)
-        
-        font = QtGui.QFont()
-        font.setPointSize(8)
-        font.setBold(True)
-        font.setWeight(75)
-        font.setKerning(True)
-        
-        self.label_7 = QtWidgets.QLabel(self.groupBox)
-        self.label_7.setFont(font)
-        self.label_7.setObjectName("label_7")
+
+        self.label_7 = QLabel(self.groupBox)
+        font1 = QFont()
+        font1.setPointSize(8)
+        font1.setBold(True)
+        font1.setWeight(75)
+        font1.setKerning(True)
+        self.label_7.setFont(font1)
+
         self.verticalLayout_8.addWidget(self.label_7)
-        self.horizontalLayout_4.addLayout(self.verticalLayout_8)
-        
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
-        
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        
-        self.label = QtWidgets.QLabel(self.groupBox)
-        self.label.setObjectName("label")
+
+
+        self.gridLayout.addLayout(self.verticalLayout_8, 0, 0, 1, 1)
+
+        self.verticalLayout_11 = QVBoxLayout()
+        self.verticalLayout_2 = QVBoxLayout()
+        self.label = QLabel(self.groupBox)
+
         self.verticalLayout_2.addWidget(self.label)
-        
-        self.lineEditNameModel = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEditNameModel.setObjectName("lineEditNameModel")
-        self.verticalLayout_2.addWidget(self.lineEditNameModel)
-        self.verticalLayout_5.addLayout(self.verticalLayout_2)
-        
-        spacerItem = QtWidgets.QSpacerItem(20, 17, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_5.addItem(spacerItem)
-        
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        
-        self.label_3 = QtWidgets.QLabel(self.groupBox)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout_3.addWidget(self.label_3)
-        
-        self.lineEditVariableDependent = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEditVariableDependent.setReadOnly(True)
-        self.lineEditVariableDependent.setObjectName("lineEditVariableDependent")
-        self.verticalLayout_3.addWidget(self.lineEditVariableDependent)
-        self.verticalLayout_5.addLayout(self.verticalLayout_3)
-        
-        spacerItem1 = QtWidgets.QSpacerItem(20, 17, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_5.addItem(spacerItem1)
-        
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        
-        self.label_4 = QtWidgets.QLabel(self.groupBox)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout_4.addWidget(self.label_4)
-        
-        self.listViewVariablesIndepent = QtWidgets.QListView(self.groupBox)
-        self.listViewVariablesIndepent.setObjectName("listViewVariablesIndepent")
-        self.verticalLayout_4.addWidget(self.listViewVariablesIndepent)
-        self.verticalLayout_5.addLayout(self.verticalLayout_4)
-        
-        self.modelVariablesIndepent = VariableIndependtModel()
-        self.listViewVariablesIndepent.setModel(self.modelVariablesIndepent)
-        
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        
-        spacerItem2 = QtWidgets.QSpacerItem(78, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem2)
-        
-        self.pBAddModel = QtWidgets.QPushButton(self.groupBox)
-        self.pBAddModel.setObjectName("pBAddModel")
-        self.horizontalLayout_3.addWidget(self.pBAddModel)
-        self.verticalLayout_5.addLayout(self.horizontalLayout_3)
-        self.horizontalLayout_4.addLayout(self.verticalLayout_5)
-        self.horizontalLayout_5.addWidget(self.groupBox)
-        
-        self.verticalLayout_10 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_10.setObjectName("verticalLayout_10")
-        
-        self.verticalLayout_9 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_9.setObjectName("verticalLayout_9")
-        
-        self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setObjectName("verticalLayout")
-        
-        self.label_2 = QtWidgets.QLabel(self.widgetCentral)
-        
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+
+        self.lineEditNameModel = QLineEdit(self.groupBox)
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lineEditNameModel.sizePolicy().hasHeightForWidth())
+        self.lineEditNameModel.setSizePolicy(sizePolicy)
+
+        self.verticalLayout_2.addWidget(self.lineEditNameModel)
+
+
+        self.verticalLayout_11.addLayout(self.verticalLayout_2)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 17, QSizePolicy.Minimum, QSizePolicy.Preferred)
+
+        self.verticalLayout_11.addItem(self.verticalSpacer_3)
+
+        self.verticalLayout_5 = QVBoxLayout()
+        self.label_8 = QLabel(self.groupBox)
+
+        self.verticalLayout_5.addWidget(self.label_8)
+
+        self.doubleSBIntervalConfidence = QDoubleSpinBox(self.groupBox)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.doubleSBIntervalConfidence.sizePolicy().hasHeightForWidth())
+        self.doubleSBIntervalConfidence.setSizePolicy(sizePolicy1)
+        self.doubleSBIntervalConfidence.setMaximum(1.000000000000000)
+        self.doubleSBIntervalConfidence.setSingleStep(0.010000000000000)
+        self.doubleSBIntervalConfidence.setValue(0.050000000000000)
+
+        self.verticalLayout_5.addWidget(self.doubleSBIntervalConfidence)
+
+
+        self.verticalLayout_11.addLayout(self.verticalLayout_5)
+
+        self.verticalSpacer_4 = QSpacerItem(118, 13, QSizePolicy.Minimum, QSizePolicy.Preferred)
+
+        self.verticalLayout_11.addItem(self.verticalSpacer_4)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.label_3 = QLabel(self.groupBox)
+
+        self.verticalLayout_3.addWidget(self.label_3)
+
+        self.lineEditVariableDependent = QLineEdit(self.groupBox)
+        sizePolicy.setHeightForWidth(self.lineEditVariableDependent.sizePolicy().hasHeightForWidth())
+        self.lineEditVariableDependent.setSizePolicy(sizePolicy)
+        self.lineEditVariableDependent.setReadOnly(True)
+
+        self.verticalLayout_3.addWidget(self.lineEditVariableDependent)
+
+
+        self.verticalLayout_11.addLayout(self.verticalLayout_3)
+
+        self.verticalSpacer_2 = QSpacerItem(118, 13, QSizePolicy.Minimum, QSizePolicy.Preferred)
+
+        self.verticalLayout_11.addItem(self.verticalSpacer_2)
+
+        self.verticalLayout_4 = QVBoxLayout()
+        self.label_4 = QLabel(self.groupBox)
+
+        self.verticalLayout_4.addWidget(self.label_4)
+
+        self.listViewVariablesIndepent = QListView(self.groupBox)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.listViewVariablesIndepent.sizePolicy().hasHeightForWidth())
+        self.listViewVariablesIndepent.setSizePolicy(sizePolicy2)
+
+        self.verticalLayout_4.addWidget(self.listViewVariablesIndepent)
+
+
+        self.verticalLayout_11.addLayout(self.verticalLayout_4)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalSpacer_3 = QSpacerItem(78, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+
+        self.pBAddModel = QPushButton(self.groupBox)
+        self.horizontalLayout_3.addWidget(self.pBAddModel)
+
+
+        self.verticalLayout_11.addLayout(self.horizontalLayout_3)
+
+
+        self.gridLayout.addLayout(self.verticalLayout_11, 0, 1, 1, 1)
+
+
+        self.horizontalLayout_5.addWidget(self.groupBox)
+
+        self.verticalLayout_10 = QVBoxLayout()
+        self.verticalLayout_9 = QVBoxLayout()
+        self.verticalLayout = QVBoxLayout()
+        self.label_2 = QLabel(self.widgetCentral)
         sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
         self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setObjectName("label_2")
+
         self.verticalLayout.addWidget(self.label_2)
-        
-        self.listViewModel = QtWidgets.QListView(self.widgetCentral)
-        self.listViewModel.setMinimumSize(QtCore.QSize(0, 350))
-        self.listViewModel.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.listViewModel.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+
+        self.listViewModel = QListView(self.widgetCentral)
+        self.listViewModel.setMinimumSize(QSize(0, 350))
+
         self.verticalLayout.addWidget(self.listViewModel)
+
+
         self.verticalLayout_9.addLayout(self.verticalLayout)
-        
-        self.modelModelLMR = ModelLMRModel()
-        self.listViewModel.setModel(self.modelModelLMR)
-        
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        
-        self.pBEditModel = QtWidgets.QPushButton(self.widgetCentral)
-        self.pBEditModel.setObjectName("pBEditModel")
+
+        self.horizontalLayout = QHBoxLayout()
+        self.pBEditModel = QPushButton(self.widgetCentral)
+
         self.horizontalLayout.addWidget(self.pBEditModel)
-        self.pBDetailsModel = QtWidgets.QPushButton(self.widgetCentral)
-        self.pBDetailsModel.setObjectName("pBRemoveModel_2")
+
+        self.pBDetailsModel = QPushButton(self.widgetCentral)
+
         self.horizontalLayout.addWidget(self.pBDetailsModel)
-        
-        self.pBRemoveModel = QtWidgets.QPushButton(self.widgetCentral)
-        self.pBRemoveModel.setObjectName("pBRemoveModel")
+
+        self.pBRemoveModel = QPushButton(self.widgetCentral)
         self.horizontalLayout.addWidget(self.pBRemoveModel)
         self.verticalLayout_9.addLayout(self.horizontalLayout)
         self.verticalLayout_10.addLayout(self.verticalLayout_9)
-        
-        spacerItem3 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_10.addItem(spacerItem3)
-        
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        
-        
-        self.verticalLayout_10.addLayout(self.horizontalLayout_2)
+        self.verticalSpacer = QSpacerItem(20, 13, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout_10.addItem(self.verticalSpacer)
         self.horizontalLayout_5.addLayout(self.verticalLayout_10)
+        ##############################################################
+        self.modelVariablesIndepent = VariableIndependtModel()
+        self.listViewVariablesIndepent.setModel(self.modelVariablesIndepent)
+        self.listViewModel.setMinimumSize(QtCore.QSize(0, 350))
+        self.listViewModel.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.listViewModel.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         
+        self.modelModelLMR = ModelLMRModel()
+        self.listViewModel.setModel(self.modelModelLMR)
         self.groupBox.setTitle("Conformación del modelo")
         self.label_5.setText("Posibles variables  dependientes")
         self.label_6.setText("Posibles variables  independientes")

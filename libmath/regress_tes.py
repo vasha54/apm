@@ -74,6 +74,27 @@ def RMSEModel(_model):
     msetotal = MSETotal(_model)
     rmse=round(np.sqrt(msetotal),4)
     return rmse
+
+def coefficientVariablesModel(_model):
+    resul=fit(_model)
+    coeff=list(resul.params)
+    return coeff
+
+def sterrVariablesModel(_model):
+    resul=fit(_model)
+    sterr=list(resul.bse)
+    return sterr
+
+def tcVariablesModel(_model):
+    resul=fit(_model)
+    tc=list(resul.tvalues)
+    return tc
+
+def pvCoefficientVariablesModel(_model):
+    resul=fit(_model)
+    pvcoeff=list(resul.pvalues)
+    return pvcoeff 
+    
     
     
     
