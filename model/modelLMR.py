@@ -7,6 +7,18 @@ class ModelLMR:
     NAME_VD = 'nameVD'
     NUMBER_MEAS = 'number_meas'
     GL_RESIDUAL = 'glresidual'
+    GL_MODEL ='glmodel'
+    AIC = 'aic'
+    BIC = 'bic'
+    LOG_LIKELI_HEAD = 'loglilkelihead'
+    RCUAD = 'rcuad'
+    RCUAD_ADJUST = 'rcuadadjust'
+    FSTADISTIC = 'fstadistic'
+    PVALUE = 'pvalue'
+    MSE_MODEL = 'msemodel'
+    MSE_RESIDUAL = 'mseresidual'
+    MSE_TOTAL = 'msetotal'
+    RMSE_MODEL = 'rmsemodel' 
     
     def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(),_dataFrameModel=pd.DataFrame(),_isSelect=False, *args, **kwargs):
         super(ModelLMR, self).__init__(*args, **kwargs)
@@ -101,9 +113,6 @@ class ModelLMR:
     def numberMeasurement(self):
         return len(self.dataFrameVD[self.nameVariableD])
     
-    def glResidual(self):
-        return regress_tes.glResidual(self)
-    
     def setIsSelect(self, _select):
         self.isSelectModel = _select    
         
@@ -122,6 +131,46 @@ class ModelLMR:
         
         detailsStr=detailsStr +"<p><b>Variable Independientes:</b>"+strNamesVariableI+"</p>"
         return detailsStr
+    
+    def glResidual(self):
+        return regress_tes.glResidual(self)
+    
+    def glModel(self):
+        return regress_tes.glResidual(self)
+    
+    def aic(self):
+        return regress_tes.aic(self)
+    
+    def bic(self):
+        return regress_tes.bic(self)
+    
+    def logLikeliHead(self):
+        return regress_tes.logLikeliHead(self)
+    
+    def RCuad(self):
+        return regress_tes.RCuad(self)
+    
+    def RCuadAdjust(self):
+        return regress_tes.RCuadAdjust(self)
+    
+    def FStadistic(self):
+        return regress_tes.FStadistic(self)
+    
+    def PValue(self):
+        return regress_tes.PValue(self)
+    
+    def MSEModel(self):
+        return regress_tes.MSEModel(self)
+    
+    def MSEResidual(self):
+        return regress_tes.MSEResidual(self)
+    
+    def MSETotal(self):
+        return regress_tes.MSETotal(self)
+    
+    def RMSEModel(self):
+        return regress_tes.RMSEModel(self)
+    
         
     
     

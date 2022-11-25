@@ -23,5 +23,26 @@ class WidgetRegressModelResult(QWidget,Ui_WidgetRegressModelResult):
     def createWorkSpace(self):
         self.lOVariableDependent.setText(AnalysisData().getDataModel(self.keyModel,ModelLMR.NAME_VD))
         self.lONumberObservations.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.NUMBER_MEAS)))
-        self.lOGLResidual.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.GL_RESIDUAL)) )
+        self.lOGLResidual.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.GL_RESIDUAL)))
+        self.lOGLModelo.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.GL_MODEL)))
+        
+        self.lOAIC.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.AIC)))
+        self.lOBIC.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.BIC)))
+        self.lOLagLikeHead.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.LOG_LIKELI_HEAD)))
+        
+        self.lORcuad.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RCUAD)))
+        self.lORcuadAdjust.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RCUAD_ADJUST)))
+        self.lOFStadistic.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.FSTADISTIC)))
+        self.lOPValue.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.PVALUE)))
+        
+        self.lOMSEModel.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_MODEL)))
+        self.lOMSEResidual.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_RESIDUAL)))
+        self.lOMSETotal.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_TOTAL)))
+        self.lORMSEModel.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL)))
+        
+        
+        
+        
+        
+        
         

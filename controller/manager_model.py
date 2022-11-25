@@ -37,7 +37,6 @@ class ManagerModel:
     def getDataModel(self,_keyModel, _attr):
         data = ''
         if _keyModel in self.dictModel.keys():
-            print(_attr,'line40')
             if _attr == ModelLMR.NAME:
                 data = self.dictModel[_keyModel].getNameModel()
             elif _attr == ModelLMR.NAME_VD:
@@ -45,5 +44,29 @@ class ManagerModel:
             elif _attr == ModelLMR.NUMBER_MEAS:
                 data = self.dictModel[_keyModel].numberMeasurement()
             elif _attr == ModelLMR.GL_RESIDUAL:
-                data = self.dictModel[_keyModel].glResidual()    
+                data = self.dictModel[_keyModel].glResidual()
+            elif _attr == ModelLMR.GL_MODEL:
+                data = self.dictModel[_keyModel].glModel()
+            elif _attr == ModelLMR.AIC:
+                data = self.dictModel[_keyModel].aic()
+            elif _attr == ModelLMR.BIC:
+                data = self.dictModel[_keyModel].bic()
+            elif _attr == ModelLMR.LOG_LIKELI_HEAD:
+                data = self.dictModel[_keyModel].logLikeliHead()
+            elif _attr == ModelLMR.RCUAD:
+                data = self.dictModel[_keyModel].RCuad()
+            elif _attr == ModelLMR.RCUAD_ADJUST:
+                data = self.dictModel[_keyModel].RCuadAdjust()
+            elif _attr == ModelLMR.FSTADISTIC:
+                data = self.dictModel[_keyModel].FStadistic()
+            elif _attr == ModelLMR.PVALUE:
+                data = self.dictModel[_keyModel].PValue()
+            elif _attr == ModelLMR.MSE_MODEL:
+                data = self.dictModel[_keyModel].MSEModel()
+            elif _attr == ModelLMR.MSE_RESIDUAL:
+                data = self.dictModel[_keyModel].MSEResidual()
+            elif _attr == ModelLMR.MSE_TOTAL:
+                data = self.dictModel[_keyModel].MSETotal()
+            elif _attr == ModelLMR.RMSE_MODEL:
+                data = self.dictModel[_keyModel].RMSEModel()   
         return data
