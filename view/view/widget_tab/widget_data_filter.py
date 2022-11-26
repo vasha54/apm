@@ -72,6 +72,7 @@ class WidgetDataFilter(WidgetTab):
         self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.label.setText("Datos Iniciales")
         self.label_2.setText("Selecciones las variables del modelaje")
+        self.tableViewDataFrame.verticalHeader().hide()
         
     def createWorkspace(self):
         self.model = QtGui.QStandardItemModel(self.listViewVariable)

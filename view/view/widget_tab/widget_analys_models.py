@@ -13,6 +13,7 @@ class WidgetAnalysModels(WidgetTab):
     
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
+        self.relationsPosWidgetKeyModel={}
         self.setupUi(self)
         self.createUI()
         self.createWorkspace()
@@ -27,19 +28,28 @@ class WidgetAnalysModels(WidgetTab):
     
     def createWorkspace(self):
         allKeysModels = AnalysisData().getKeysModels()
+        self.relationsPosWidgetKeyModel = {}
+        pos =0
+        isFirst = True
         for key in allKeysModels:
+            if isFirst == True:
+                isFirst = False
+                AnalysisData().setSelectModel(key)
             widget = WidgetRegressModelResult(key,self)
+            self.relationsPosWidgetKeyModel[pos]=key
             self.toolBoxModel.addItem(widget,AnalysisData().getDataModel(key,ModelLMR.NAME))
+            pos = pos + 1
             
     
     def createConnect(self):
+        self.toolBoxModel.currentChanged.connect(self.changeTab)
         super().createConnect()
         
     def update(self):
         while self.toolBoxModel.count() >0:
             self.toolBoxModel.removeItem(0)
-            
-        allKeysModels = AnalysisData().getKeysModels()
-        for key in allKeysModels:
-            widget = WidgetRegressModelResult(key,self)
-            self.toolBoxModel.addItem(widget,AnalysisData().getDataModel(key,ModelLMR.NAME))
+        self.createWorkspace() 
+        
+    def changeTab(self,index):
+        AnalysisData().setSelectModel(self.relationsPosWidgetKeyModel[index])    
+        

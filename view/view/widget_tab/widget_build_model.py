@@ -89,11 +89,12 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout_2.addWidget(self.label)
 
         self.lineEditNameModel = QLineEdit(self.groupBox)
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.lineEditNameModel.sizePolicy().hasHeightForWidth())
         self.lineEditNameModel.setSizePolicy(sizePolicy)
+        self.label.setSizePolicy(sizePolicy)
 
         self.verticalLayout_2.addWidget(self.lineEditNameModel)
 
@@ -106,11 +107,12 @@ class WidgetBuildModel(WidgetTab):
 
         self.verticalLayout_5 = QVBoxLayout()
         self.label_8 = QLabel(self.groupBox)
-
+        self.label_8.setSizePolicy(sizePolicy)
+        self.label_8.setText("Intervalo de confianza")
         self.verticalLayout_5.addWidget(self.label_8)
 
         self.doubleSBIntervalConfidence = QDoubleSpinBox(self.groupBox)
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.doubleSBIntervalConfidence.sizePolicy().hasHeightForWidth())
@@ -231,6 +233,8 @@ class WidgetBuildModel(WidgetTab):
                              "influye de forma significativa en este.")
         self.label.setText("Nombre del modelo")
         self.label_3.setText("Variable dependiente")
+        self.label_3.setSizePolicy(sizePolicy)
+        self.label_4.setSizePolicy(sizePolicy)
         self.label_4.setText("Variables independientes")
         self.pBAddModel.setText("Registrar modelo")
         self.label_2.setText( "Modelos definidos")
@@ -299,13 +303,14 @@ class WidgetBuildModel(WidgetTab):
     def clickPBAddModel(self):
         nameModel = self.lineEditNameModel.text().strip()
         nameVariableD = self.lineEditVariableDependent.text().strip()
+        intervalConfidence = self.doubleSBIntervalConfidence.value()
         namesVariableI = self.modelVariablesIndepent.getElements()
         
         [isModelOK ,error] =self.validModel(nameModel,nameVariableD,namesVariableI)        
         
         if isModelOK == True:
             uidModel = str( uuid.uuid4())
-            model = ModelLMR(uidModel,nameModel,nameVariableD,namesVariableI)
+            model = ModelLMR(uidModel,nameModel,nameVariableD,namesVariableI,intervalConfidence)
             self.modelModelLMR.addElement(model)
             self.clearForm()
             self.enableButtoNext()
@@ -387,6 +392,8 @@ class WidgetBuildModel(WidgetTab):
         for i in range(0,rowsVCD):
             index = self.modelCandidateVD.index(i,0)
             self.modelCandidateVD.setData(index,False,QtCore.Qt.CheckStateRole)
+            
+        self.doubleSBIntervalConfidence.setValue(0.05)
     
     def addVariableD(self,_index):
         nameVariable = _index.data(QtCore.Qt.ItemDataRole.DisplayRole)
@@ -419,6 +426,7 @@ class WidgetBuildModel(WidgetTab):
     def updateFormRegister(self,_model):
         self.lineEditNameModel.setText(_model.getNameModel())
         self.lineEditVariableDependent.setText(_model.getNameVariableD())
+        self.doubleSBIntervalConfidence.setValue(_model.getIntervalConfidence())
         
         self.modelVariablesIndepent.clear()
         for var in _model.getNamesVariableI():
