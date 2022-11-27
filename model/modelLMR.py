@@ -62,16 +62,16 @@ class ModelLMR:
     CHI_SQUARE_PVALUE_RE = 'chisquarepvaluere'
     BREUSH_PAGAN = 'breushpagan'
     BREUSH_PAGAN_PVALUE = 'breushpaganpvalue'
-    GoldfeldQuandt = 'goldfeldquandt'
-    GoldfeldQuandtPValue = 'goldfeldquandtpvalue'
-    White_LH = 'whitelh'
-    White_LH_PVALUE = 'whitelhpvalue'
-    White_FW = 'whitefh'
-    White_FW_PVALUE = 'whitefwpvalue'
+    GOLDFELD_QUANDT = 'goldfeldquandt'
+    GOLDFELD_QUANDT_PVALUE = 'goldfeldquandtpvalue'
+    WHITE_LH = 'whitelh'
+    WHITE_LH_PVALUE = 'whitelhpvalue'
+    WHITE_FW = 'whitefh'
+    WHITE_FW_PVALUE = 'whitefwpvalue'
     DURBIN_WATSON = 'durbinwatson'
     BREUSH_GGODFREY = 'breushggodfrey'
     BREUSH_GGODFREY_PVALUE = 'breushggodfreypvalue'
-    analysis_MultiColinialidad = 'analysismulticolinialidad'
+    ANALYSIS_MULTICOLINIALIDAD = 'analysismulticolinialidad'
     
     def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _intervalConfidence=0.05, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(),_dataFrameModel=pd.DataFrame(),_isSelect=False, *args, **kwargs):
         super(ModelLMR, self).__init__(*args, **kwargs)

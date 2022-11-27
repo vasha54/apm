@@ -4,8 +4,12 @@ from PyQt5.QtWidgets import (
 
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 
+from controller.analysis_data import AnalysisData
+
 from view.view.widget_tab.widget_tab import WidgetTab
 from view.components.widget_details_model_select import WidgetDetailsModelSelect
+
+from view.widget.widget_test_normal_residual_not_scale import WidgetTestNormalResidualNotScale
 
 class WidgetDetailsModelSelect(WidgetTab):
     
@@ -20,8 +24,11 @@ class WidgetDetailsModelSelect(WidgetTab):
         self.gridLayout = QtWidgets.QGridLayout(self.widgetCentral)
         self.tabWidgetDetailsModelSelect = QtWidgets.QTabWidget(self.widgetCentral)
         
+        keyModelSelect = AnalysisData().getKeyModelSelect()
+        
+        self.tabTestNormalResidualNotScale = WidgetTestNormalResidualNotScale(keyModelSelect)
+        
         self.tabTestNormalResidual = QtWidgets.QWidget()
-        self.tabTestNormalResidualNotScale = QtWidgets.QWidget()
         self.tabChartNormalResidualNotScale = QtWidgets.QWidget()
         self.tabChartNormalResidual = QtWidgets.QWidget()
         self.tabTestHomecedasticidadResidual = QtWidgets.QWidget()
@@ -30,8 +37,9 @@ class WidgetDetailsModelSelect(WidgetTab):
         self.tabTestIndependenceResidual = QtWidgets.QWidget()
         self.tabChartIndependenceResidual = QtWidgets.QWidget()
         
-        self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidual,"Analisis de normalidad (Residuales no escalados)")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualNotScale,"Analisis de normalidad (Residuales estudertizados")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualNotScale,"Analisis de normalidad (Residuales no escalados)")
+        
+        self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidual,"Analisis de normalidad (Residuales estudertizados)")
         self.tabWidgetDetailsModelSelect.addTab(self.tabChartNormalResidualNotScale,"Gráficos de normalidad residuales no escalados")
         self.tabWidgetDetailsModelSelect.addTab(self.tabChartNormalResidual,"Graficos de normalidad residuales estudertizados")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestHomecedasticidadResidual,"Pruebas de homecedasticidad de los residuales")

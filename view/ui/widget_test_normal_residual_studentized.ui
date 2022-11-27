@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetTestNormalResidualNotScale</class>
- <widget class="QWidget" name="WidgetTestNormalResidualNotScale">
+ <class>WidgetTestNormalResidualStudentized</class>
+ <widget class="QWidget" name="WidgetTestNormalResidualStudentized">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="labelCOEFF_CURTOSIS_RWS">
+    <widget class="QLabel" name="labelCOEFF_CURTOSIS_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLabel" name="lOCOEFF_CURTOSIS_RWS">
+    <widget class="QLabel" name="lOCOEFF_CURTOSIS_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -63,7 +63,7 @@
     </spacer>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="labelCOEFF_ASYMETRY_RWS">
+    <widget class="QLabel" name="labelCOEFF_ASYMETRY_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -82,7 +82,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLabel" name="lOCOEFF_ASYMETRY_RWS">
+    <widget class="QLabel" name="lOCOEFF_ASYMETRY_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -111,7 +111,7 @@
     </spacer>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="labelLILLIEFORS_RWS">
+    <widget class="QLabel" name="labelLILLIEFORS_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -130,7 +130,7 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLabel" name="lOLILLIEFORS_RWS">
+    <widget class="QLabel" name="lOLILLIEFORS_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -159,7 +159,7 @@
     </spacer>
    </item>
    <item row="2" column="3">
-    <widget class="QLabel" name="labelLILLIEFORS_PVALUE_RWS">
+    <widget class="QLabel" name="labelLILLIEFORS_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -178,7 +178,7 @@
     </widget>
    </item>
    <item row="2" column="4">
-    <widget class="QLabel" name="lOLILLIEFORS_PVALUE_RWS">
+    <widget class="QLabel" name="lOLILLIEFORS_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -191,7 +191,7 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="labelSHAPIRO_WILK_RWS">
+    <widget class="QLabel" name="labelSHAPIRO_WILK_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -210,7 +210,7 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLabel" name="lOSHAPIRO_WILK_RWS">
+    <widget class="QLabel" name="lOSHAPIRO_WILK_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -239,7 +239,7 @@
     </spacer>
    </item>
    <item row="3" column="3">
-    <widget class="QLabel" name="labelSHAPIRO_WILK_PVALUE_RWS">
+    <widget class="QLabel" name="labelSHAPIRO_WILK_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -258,7 +258,7 @@
     </widget>
    </item>
    <item row="3" column="4">
-    <widget class="QLabel" name="lOSHAPIRO_WILK_PVALUE_RWS">
+    <widget class="QLabel" name="lOSHAPIRO_WILK_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -271,7 +271,7 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="labelKOLMOGOROV_SMIRNOV_RWS">
+    <widget class="QLabel" name="labelKOLMOGOROV_SMIRNOV_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -290,7 +290,7 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QLabel" name="lOKOLMOGOROV_SMIRNOV_RWS">
+    <widget class="QLabel" name="lOKOLMOGOROV_SMIRNOV_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -319,7 +319,7 @@
     </spacer>
    </item>
    <item row="4" column="3">
-    <widget class="QLabel" name="labelKOLMOGOROV_SMIRNOV_PVALUE_RWS">
+    <widget class="QLabel" name="labelKOLMOGOROV_SMIRNOV_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -338,7 +338,7 @@
     </widget>
    </item>
    <item row="4" column="4">
-    <widget class="QLabel" name="lOKOLMOGOROV_SMIRNOV_PVALUE_RWS">
+    <widget class="QLabel" name="lOKOLMOGOROV_SMIRNOV_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -351,7 +351,7 @@
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="labelJARQUE_BERA_RWS">
+    <widget class="QLabel" name="labelJARQUE_BERA_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -370,7 +370,7 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QLabel" name="lOJARQUE_BERA_RWS">
+    <widget class="QLabel" name="lOJARQUE_BERA_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -399,7 +399,7 @@
     </spacer>
    </item>
    <item row="5" column="3">
-    <widget class="QLabel" name="labelJARQUE_BERA_PVALUE_RWS">
+    <widget class="QLabel" name="labelJARQUE_BERA_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -418,7 +418,7 @@
     </widget>
    </item>
    <item row="5" column="4">
-    <widget class="QLabel" name="lOJARQUE_BERA_PVALUE_RWS">
+    <widget class="QLabel" name="lOJARQUE_BERA_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -431,7 +431,7 @@
     </widget>
    </item>
    <item row="6" column="0">
-    <widget class="QLabel" name="labelK_CUAD_DANGOSTINO_RWS">
+    <widget class="QLabel" name="labelK_CUAD_DANGOSTINO_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -450,7 +450,7 @@
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="QLabel" name="lOK_CUAD_DANGOSTINO_RWS">
+    <widget class="QLabel" name="lOK_CUAD_DANGOSTINO_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -479,7 +479,7 @@
     </spacer>
    </item>
    <item row="6" column="3">
-    <widget class="QLabel" name="labelK_CUAD_DANGOSTINO_PVALUE_RWS">
+    <widget class="QLabel" name="labelK_CUAD_DANGOSTINO_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -498,7 +498,7 @@
     </widget>
    </item>
    <item row="6" column="4">
-    <widget class="QLabel" name="lOK_CUAD_DANGOSTINO_PVALUE_RWS">
+    <widget class="QLabel" name="lOK_CUAD_DANGOSTINO_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -511,7 +511,7 @@
     </widget>
    </item>
    <item row="7" column="0">
-    <widget class="QLabel" name="labelCHI_SQUARE_RWS">
+    <widget class="QLabel" name="labelCHI_SQUARE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -530,7 +530,7 @@
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="QLabel" name="lOCHI_SQUARE_RWS">
+    <widget class="QLabel" name="lOCHI_SQUARE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -559,7 +559,7 @@
     </spacer>
    </item>
    <item row="7" column="3">
-    <widget class="QLabel" name="labelCHI_SQUARE_PVALUE_RWS">
+    <widget class="QLabel" name="labelCHI_SQUARE_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -578,7 +578,7 @@
     </widget>
    </item>
    <item row="7" column="4">
-    <widget class="QLabel" name="lOCHI_SQUARE_PVALUE_RWS">
+    <widget class="QLabel" name="lOCHI_SQUARE_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -591,7 +591,7 @@
     </widget>
    </item>
    <item row="8" column="0">
-    <widget class="QLabel" name="labelANDERSON_DARLING_RWS">
+    <widget class="QLabel" name="labelANDERSON_DARLING_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -610,7 +610,7 @@
     </widget>
    </item>
    <item row="8" column="1">
-    <widget class="QLabel" name="lOANDERSON_DARLING_RWS">
+    <widget class="QLabel" name="lOANDERSON_DARLING_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -639,7 +639,7 @@
     </spacer>
    </item>
    <item row="8" column="3">
-    <widget class="QLabel" name="labelANDERSON_DARLING_PVALUE_RWS">
+    <widget class="QLabel" name="labelANDERSON_DARLING_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -658,7 +658,7 @@
     </widget>
    </item>
    <item row="8" column="4">
-    <widget class="QLabel" name="lOANDERSON_DARLING_PVALUE_RWS">
+    <widget class="QLabel" name="lOANDERSON_DARLING_PVALUE_RE">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
