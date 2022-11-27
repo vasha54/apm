@@ -18,28 +18,31 @@ class WidgetDetailsModelSelect(WidgetTab):
     
     def createUI(self):
         self.gridLayout = QtWidgets.QGridLayout(self.widgetCentral)
-        self.gridLayout.setObjectName("gridLayout")
         self.tabWidgetDetailsModelSelect = QtWidgets.QTabWidget(self.widgetCentral)
-        self.tabWidgetDetailsModelSelect.setObjectName("tabWidgetDetailsModelSelect")
+        
         self.tabTestNormalResidual = QtWidgets.QWidget()
-        self.tabTestNormalResidual.setObjectName("tabTestNormalResidual")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidual, "")
-        self.tabTestNormalResidualNot = QtWidgets.QWidget()
-        self.tabTestNormalResidualNot.setObjectName("tabTestNormalResidualNot")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualNot, "")
-        self.tabChartNormalResidualNot = QtWidgets.QWidget()
-        self.tabChartNormalResidualNot.setObjectName("tabChartNormalResidualNot")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabChartNormalResidualNot, "")
+        self.tabTestNormalResidualNotScale = QtWidgets.QWidget()
+        self.tabChartNormalResidualNotScale = QtWidgets.QWidget()
         self.tabChartNormalResidual = QtWidgets.QWidget()
-        self.tabChartNormalResidual.setObjectName("tabChartNormalResidual")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabChartNormalResidual, "")
+        self.tabTestHomecedasticidadResidual = QtWidgets.QWidget()
+        self.tabChartHomecedasticidadResidual = QtWidgets.QWidget()
+        self.tabAnalysMultiColinualidad = QtWidgets.QWidget()
+        self.tabTestIndependenceResidual = QtWidgets.QWidget()
+        self.tabChartIndependenceResidual = QtWidgets.QWidget()
+        
+        self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidual,"Analisis de normalidad (Residuales no escalados)")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualNotScale,"Analisis de normalidad (Residuales estudertizados")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabChartNormalResidualNotScale,"Gráficos de normalidad residuales no escalados")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabChartNormalResidual,"Graficos de normalidad residuales estudertizados")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabTestHomecedasticidadResidual,"Pruebas de homecedasticidad de los residuales")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabChartHomecedasticidadResidual,"Graficos de homecedasticidad de los residuales")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabAnalysMultiColinualidad,"Analisis de multicolinualidad")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabTestIndependenceResidual,"Pruebas de indepencia de residuales")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabChartIndependenceResidual,"Graficos de indepencia de residuales")
+        
+        
         self.gridLayout.addWidget(self.tabWidgetDetailsModelSelect, 0, 0, 1, 1)
-        
-        self.tabWidgetDetailsModelSelect.setTabText(self.tabWidgetDetailsModelSelect.indexOf(self.tabTestNormalResidual),  "Prueba de normalidad (Residuales no escalados)")
-        self.tabWidgetDetailsModelSelect.setTabText(self.tabWidgetDetailsModelSelect.indexOf(self.tabTestNormalResidualNot), "Pruebas de normalidad (Residuales estudertizados")
-        self.tabWidgetDetailsModelSelect.setTabText(self.tabWidgetDetailsModelSelect.indexOf(self.tabChartNormalResidualNot), "Gráficos de normalidad residuales no escalados")
-        self.tabWidgetDetailsModelSelect.setTabText(self.tabWidgetDetailsModelSelect.indexOf(self.tabChartNormalResidual), "Graficos de normalidad residuales estudertizados")
-        
+
     
     def createWorkspace(self):
         pass

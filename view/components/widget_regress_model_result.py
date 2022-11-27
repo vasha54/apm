@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (
-    QWidget
+    QWidget, QHeaderView
 )
 
 from controller.analysis_data import AnalysisData
@@ -9,6 +9,8 @@ from model.modelLMR import ModelLMR
 from PyQt5 import QtCore, QtWidgets, QtGui
 
 from view.ui.widget_regress_model_result_ui import Ui_WidgetRegressModelResult
+from view.model.modelResultRegress_model import ModelResultRegressModel
+from view.model.modelIntervalCoeffRegress_model import ModelIntervalCoeffRegressModel
 
 class WidgetRegressModelResult(QWidget,Ui_WidgetRegressModelResult):
     
@@ -39,6 +41,26 @@ class WidgetRegressModelResult(QWidget,Ui_WidgetRegressModelResult):
         self.lOMSEResidual.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_RESIDUAL)))
         self.lOMSETotal.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_TOTAL)))
         self.lORMSEModel.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL)))
+        
+        self.modelResultRegress = ModelResultRegressModel(self.keyModel,self.tableViewResultRegress)
+        self.modelIntervalCoeffRegress = ModelIntervalCoeffRegressModel(self.keyModel,self.tableViewIntervalEstimateCoeRegress)
+        
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tableViewResultRegress.sizePolicy().hasHeightForWidth())
+        
+        self.tableViewResultRegress.setSizePolicy(sizePolicy)
+        self.tableViewResultRegress.setMinimumSize(QtCore.QSize(0, 0))
+        self.tableViewResultRegress.verticalHeader().hide()
+        self.tableViewResultRegress.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableViewResultRegress.setModel(self.modelResultRegress)
+        
+        self.tableViewIntervalEstimateCoeRegress.setSizePolicy(sizePolicy)
+        self.tableViewIntervalEstimateCoeRegress.setMinimumSize(QtCore.QSize(0, 0))
+        self.tableViewIntervalEstimateCoeRegress.verticalHeader().hide()
+        self.tableViewIntervalEstimateCoeRegress.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableViewIntervalEstimateCoeRegress.setModel(self.modelIntervalCoeffRegress)
         
         
         

@@ -34,6 +34,20 @@ class ManagerModel:
     def getKeysModels(self):
         return self.dictModel.keys()
     
+    def setSelectModel(self,_key):
+        for key in self.dictModel.keys():
+            if key != _key:
+                self.dictModel[key].setIsSelect(False)
+            else:
+                self.dictModel[key].setIsSelect(True)
+                
+    def getKeyModelSelect(self):
+        key =''
+        for k in self.dictModel.keys():
+            if self.dictModel[k].isSelect() == True:
+                key = k
+        return key
+    
     def getDataModel(self,_keyModel, _attr):
         data = ''
         if _keyModel in self.dictModel.keys():
@@ -68,5 +82,23 @@ class ManagerModel:
             elif _attr == ModelLMR.MSE_TOTAL:
                 data = self.dictModel[_keyModel].MSETotal()
             elif _attr == ModelLMR.RMSE_MODEL:
-                data = self.dictModel[_keyModel].RMSEModel()   
+                data = self.dictModel[_keyModel].RMSEModel()
+            elif _attr == ModelLMR.NUMBER_VAR:
+                data = self.dictModel[_keyModel].numberVariablesModel() 
+            elif _attr == ModelLMR.ALL_NAME_VAR:
+                data = self.dictModel[_keyModel].getNamesAllVariables()
+            elif _attr == ModelLMR.COEFF_VAR:
+                data = self.dictModel[_keyModel].coefficientVariablesModel()
+            elif _attr == ModelLMR.STD_ERR:
+                data = self.dictModel[_keyModel].sterrVariablesModel()
+            elif _attr == ModelLMR.TC:
+                data = self.dictModel[_keyModel].tcVariablesModel()
+            elif _attr == ModelLMR.PV_COEFF:
+                data = self.dictModel[_keyModel].pvCoefficientVariablesModel()
+            elif _attr == ModelLMR.LOWER_LIMIT_VAR:
+                data = self.dictModel[_keyModel].lowerLimitVariablesModel()
+            elif _attr == ModelLMR.UPPER_LIMIT_VAR:
+                data = self.dictModel[_keyModel].upperLimitVariablesModel()
+            elif _attr == ModelLMR.ALL_NAME_VARI:
+                data = self.dictModel[_keyModel].getNamesVariableI()    
         return data
