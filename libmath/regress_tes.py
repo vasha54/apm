@@ -423,12 +423,9 @@ def testBreushGGodfreyPValue(_model):
 
 
 def analysisMultiColinialidad(_model):
-    print (_model.getDataFrameModel())
-    X=_model.getDataFrameModel().transpose()
-    X_constant=sm.add_constant(X)
+    X_constant=sm.add_constant(_model.getDataFrameModel())
     vif = [variance_inflation_factor(X_constant.values, i) for i in range(X_constant.shape[1])]
-    Viftable=pd.DataFrame({'vif': vif[1:]}, index=X.columns).T
-    print(Viftable)
-     
+    return vif
+      
 
 # ---- Fin analisis de multicolinialidad ---- 
