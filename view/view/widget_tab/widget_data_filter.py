@@ -86,6 +86,8 @@ class WidgetDataFilter(WidgetTab):
         self.listViewVariable.setModel(self.model)
         modelData =DataFrameModel(AnalysisData().getDataFrame(),self.tableViewDataFrame)
         self.tableViewDataFrame.setModel(modelData)
+        self.tableViewDataFrame.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.tableViewDataFrame.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
         self.createConnect()
         
         

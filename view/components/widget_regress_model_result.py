@@ -55,12 +55,16 @@ class WidgetRegressModelResult(QWidget,Ui_WidgetRegressModelResult):
         self.tableViewResultRegress.verticalHeader().hide()
         self.tableViewResultRegress.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableViewResultRegress.setModel(self.modelResultRegress)
+        self.tableViewResultRegress.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.tableViewResultRegress.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
         
         self.tableViewIntervalEstimateCoeRegress.setSizePolicy(sizePolicy)
         self.tableViewIntervalEstimateCoeRegress.setMinimumSize(QtCore.QSize(0, 0))
         self.tableViewIntervalEstimateCoeRegress.verticalHeader().hide()
         self.tableViewIntervalEstimateCoeRegress.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableViewIntervalEstimateCoeRegress.setModel(self.modelIntervalCoeffRegress)
+        self.tableViewIntervalEstimateCoeRegress.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.tableViewIntervalEstimateCoeRegress.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
         
         
         

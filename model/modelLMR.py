@@ -69,6 +69,7 @@ class ModelLMR:
     WHITE_FW = 'whitefh'
     WHITE_FW_PVALUE = 'whitefwpvalue'
     DURBIN_WATSON = 'durbinwatson'
+    DURBIN_WATSON_PVALUE = 'durbinwatsonvalue'
     BREUSH_GGODFREY = 'breushggodfrey'
     BREUSH_GGODFREY_PVALUE = 'breushggodfreypvalue'
     ANALYSIS_MULTICOLINIALIDAD = 'analysismulticolinialidad'

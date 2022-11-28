@@ -8,10 +8,12 @@ from scipy import stats as st
 from scipy.stats import chisquare, kurtosis, skew, shapiro, kstest, stats, anderson, normaltest
 
 from statsmodels.stats.diagnostic import lilliefors, het_white
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.formula.api import ols
 from statsmodels.stats.stattools import durbin_watson
-from statsmodels import api as sm
-from statsmodels.formula import api as smf
+
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
 import statsmodels.stats.diagnostic as dg
 import statsmodels.stats.api as sms
 
@@ -259,13 +261,13 @@ def testLillieforsPValueRE(_model):
 
 def testShapiroWilkRE(_model):
     residualesST=residualSTModel(_model)
-    shapST= stats.shapiro(residualesST)
+    shapST= shapiro(residualesST)
     WST=round(shapST[0],4)
     return WST
     
 def testShapiroWilkPValueRE(_model):
     residualesST=residualSTModel(_model)
-    shapST= stats.shapiro(residualesST)
+    shapST= shapiro(residualesST)
     PvalorWST=round(shapST[1],4)
     return PvalorWST
 
@@ -402,6 +404,7 @@ def testDurbinWatson(_model):
     DW=round(durbinwat,4)
     return DW
 
+
 def testBreushGGodfrey(_model):
     resul = fitModel(_model)
     bregod=dg.acorr_breusch_godfrey(resul, nlags=3, store=False)
@@ -420,7 +423,12 @@ def testBreushGGodfreyPValue(_model):
 
 
 def analysisMultiColinialidad(_model):
-    pass
-    # TODO queda la duda general de los parametros 
+    print (_model.getDataFrameModel())
+    X=_model.getDataFrameModel().transpose()
+    X_constant=sm.add_constant(X)
+    vif = [variance_inflation_factor(X_constant.values, i) for i in range(X_constant.shape[1])]
+    Viftable=pd.DataFrame({'vif': vif[1:]}, index=X.columns).T
+    print(Viftable)
+     
 
 # ---- Fin analisis de multicolinialidad ---- 

@@ -8,7 +8,15 @@
         <file alias="informacion.png">img/informacion.png</file>
         <file alias="Confirmacion.png">img/Confirmacion.png</file>
         <file alias="Salir.png">img/Salir.png</file>
+        <file alias="left-02.png">img/left-02.png</file>
+        <file alias="left-01.png">img/left-01.png</file>
+        <file alias="right-02.png">img/right-01.png</file>
+        <file alias="right-01.png">img/right-01.png</file>
         <file alias="folder-open.png">img/folder-open.png</file>
+        <file alias="up-02.png">img/up-02.png</file>
+        <file alias="up-01.png">img/up-01.png</file>
+        <file alias="down-02.png">img/down-01.png</file>
+        <file alias="down-01.png">img/down-01.png</file>
     </qresource>
     <qresource prefix="/css">
         <file alias="style.css" >css/style.css</file>
