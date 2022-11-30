@@ -429,3 +429,89 @@ def analysisMultiColinialidad(_model):
       
 
 # ---- Fin analisis de multicolinialidad ---- 
+
+def sumsNeighbors(_model):
+    sums = 0
+    
+    # residcua=pow(residuales, 2) #Valores cuadrados de cada residual
+    # sumresidcua=sum(residcua)  #Suma de cuadrados de los residuales (con y sin replicas)
+    # k=df.Landa-df.Temp-df.polJP
+    # datos14=pd.DataFrame([k,residcua])
+    # datos15=datos14.transpose() 
+    
+    # listaColA=list(datos15[0])
+    # listaColB=list(datos15[1])
+    # sumaVecinos = 0
+    # cCount = len(listaColA)
+    
+    # for i in range(0,cCount):
+    #     if listaColA.count(listaColA[i]) > 1:
+    #         sumaVecinos = sumaVecinos+listaColB[i]
+    return sums
+
+def relationRangeValuesAndErrorSTDMean(_model):
+    resul = fitModel(_model)
+    predicted_value=resul.fittedvalues
+    rang=max(predicted_value)-min(predicted_value)
+    p=_model.numberVariablesModel() 
+    sumaVecinos = sumsNeighbors(_model)
+    n = _model.numberMeasurement()
+    espg=np.sqrt(p*sumaVecinos/n)
+    espgr=round(espg,4)
+    rel=rang/espg
+    relr=round(rel,4)
+    return relr
+
+def ssfa(_model,*args):
+    pass
+    
+def sspe(_model,*args):
+    pass
+    
+def countLevelVarInd(_model,*args):
+    pass
+    
+def estadigrafoFisherCalFO(_model,*args):
+    pass
+    
+def estadigrafoFisherTabFT(_model,*args):
+    pass
+    
+def relationFOFT(_model,*args):
+    pass
+
+def mediaNegRMSETVKFOLD(_model,*args):
+        pass
+    
+def cvNegRMSETVKFOLD(_model,*args):
+    pass
+
+def mediaNegRMSETEKFOLD(_model,*args):
+    pass
+    
+def cvNegRMSETEKFOLD(_model,*args):
+    pass
+    
+def mediaRSquareTVKFOLD(_model,*args):
+    pass
+    
+def cvRSquareTVKFOLD(_model,*args):
+    pass
+    
+def mediaRSquareTEKFOLD(_model,*args):
+    pass
+    
+def cvRSquareTEKFOLD(_model,*args):
+    pass
+
+def mediaRSEMBootStropping(_model,*args):
+    pass
+    
+def cvRSEMBootStropping(_model,*args):
+    pass
+    
+def mediaRSquareBootStropping(_model,*args):
+    pass
+    
+def cvRSquareBootStropping(_model,*args):
+    pass

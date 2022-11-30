@@ -3,39 +3,39 @@ import pandas as pd
 from libmath import regress_tes as RGSST
 class ModelLMR:
     
-    NAME = 'nameModel'
-    NAME_VD = 'nameVD'
-    ALL_NAME_VARI = 'allnameVI'
-    NUMBER_MEAS = 'number_meas'
-    GL_RESIDUAL = 'glresidual'
-    GL_MODEL ='glmodel'
-    AIC = 'aic'
+    
+    
+    ALL_NAME_VARI = 'getNamesVariableI'
+    
+    
+    
+    
     BIC = 'bic'
-    LOG_LIKELI_HEAD = 'loglilkelihead'
-    RCUAD = 'rcuad'
-    RCUAD_ADJUST = 'rcuadadjust'
-    FSTADISTIC = 'fstadistic'
-    PVALUE = 'pvalue'
-    MSE_MODEL = 'msemodel'
-    MSE_RESIDUAL = 'mseresidual'
-    MSE_TOTAL = 'msetotal'
-    RMSE_MODEL = 'rmsemodel'
-    NUMBER_VAR = 'number_var'
-    ALL_NAME_VAR= 'all_name_var'
-    COEFF_VAR = 'coeffvar'
-    STD_ERR ='stderr'
-    TC = 'tc'
-    PV_COEFF = 'pvcoeff'
-    LOWER_LIMIT_VAR = 'lowerlimitvar'
-    UPPER_LIMIT_VAR = 'upperlimitvar' 
-    COEFF_CURTOSIS_RWS = 'coeffcurtosisrws'
-    COEFF_ASYMETRY_RWS = 'coeffasymetryrws'
-    LILLIEFORS_RWS = 'lillieforsrws'
-    LILLIEFORS_PVALUE_RWS = 'lillieforspvaluerws'
-    SHAPIRO_WILK_RWS = 'shapirowilkrws'
-    SHAPIRO_WILK_PVALUE_RWS = 'shapirowilkpvaluerws'
-    KOLMOGOROV_SMIRNOV_RWS = 'kolmogorovsmirnovrws'
-    KOLMOGOROV_SMIRNOV_PVALUE_RWS = 'kolmogorovsmirnovpvaluerws'
+    
+    RCUAD = 'RCuad'
+    
+    FSTADISTIC = 'FStadistic'
+    
+    MSE_MODEL = 'MSEModel'
+    MSE_RESIDUAL = 'MSEResidual'
+    MSE_TOTAL = 'MSETotal'
+    RMSE_MODEL = 'RMSEModel'
+    NUMBER_VAR = 'numberVariablesModel'
+    ALL_NAME_VAR= 'getNamesAllVariables'
+    COEFF_VAR = 'coefficientVariablesModel'
+    STD_ERR ='sterrVariablesModel'
+    TC = 'tcVariablesModel'
+    PV_COEFF = 'pvCoefficientVariablesModel'
+    LOWER_LIMIT_VAR = 'lowerLimitVariablesModel'
+    UPPER_LIMIT_VAR = 'upperLimitVariablesModel' 
+    COEFF_CURTOSIS_RWS = 'coefficientCurtosisRWS'
+    COEFF_ASYMETRY_RWS = 'coefficientAsymetryRWS'
+    LILLIEFORS_RWS = 'testLillieforsRWS'
+    LILLIEFORS_PVALUE_RWS = 'testLillieforsPValueRWS'
+    SHAPIRO_WILK_RWS = 'testShapiroWilkRWS'
+    SHAPIRO_WILK_PVALUE_RWS = 'testShapiroWilkPValueRWS'
+    KOLMOGOROV_SMIRNOV_RWS = 'testKolmogorovSmirnovRWS'
+    KOLMOGOROV_SMIRNOV_PVALUE_RWS = 'testKolmogorovSmirnovPValueRWS'
     JARQUE_BERA_RWS = 'jarqueberarws'
     JARQUE_BERA_PVALUE_RWS = 'jarqueberapvaluerws'
     ANDERSON_DARLING_RWS = 'andersondarlingrws'
@@ -73,6 +73,7 @@ class ModelLMR:
     BREUSH_GGODFREY = 'breushggodfrey'
     BREUSH_GGODFREY_PVALUE = 'breushggodfreypvalue'
     ANALYSIS_MULTICOLINIALIDAD = 'analysismulticolinialidad'
+    
     
     def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _intervalConfidence=0.05, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(),_dataFrameModel=pd.DataFrame(),_isSelect=False, *args, **kwargs):
         super(ModelLMR, self).__init__(*args, **kwargs)
@@ -123,13 +124,15 @@ class ModelLMR:
         union=union.join(self.namesVariableI)
         eval = eval + union
         return eval
-        
+    
+    NAME = 'getNameModel'    
     def getNameModel(self):
         return self.nameModel
     
     def getIDModel(self):
         return self.idModel
     
+    NAME_VD = 'getNameVariableD'
     def getNameVariableD(self):
         return self.nameVariableD
     
@@ -176,7 +179,8 @@ class ModelLMR:
         
     def setDataFrameModel(self, _dataFrameModel):
         self.dataFrameModel= _dataFrameModel
-        
+    
+    NUMBER_MEAS = 'numberMeasurement' 
     def numberMeasurement(self):
         return len(self.dataFrameVD[self.nameVariableD])
     
@@ -202,30 +206,36 @@ class ModelLMR:
         detailsStr=detailsStr +"<p><b>Variable Independientes:</b>"+strNamesVariableI+"</p>"
         return detailsStr
     
+    GL_RESIDUAL = 'glResidual'
     def glResidual(self):
         return RGSST.glResidual(self)
     
+    GL_MODEL ='glModel'
     def glModel(self):
         return RGSST.glResidual(self)
     
+    AIC = 'aic'
     def aic(self):
         return RGSST.aic(self)
     
     def bic(self):
         return RGSST.bic(self)
     
+    LOG_LIKELI_HEAD = 'logLikeliHead'
     def logLikeliHead(self):
         return RGSST.logLikeliHead(self)
     
     def RCuad(self):
         return RGSST.RCuad(self)
     
+    RCUAD_ADJUST = 'RCuadAdjust'
     def RCuadAdjust(self):
         return RGSST.RCuadAdjust(self)
     
     def FStadistic(self):
         return RGSST.FStadistic(self)
     
+    PVALUE = 'PValue'
     def PValue(self):
         return RGSST.PValue(self)
     
@@ -393,6 +403,73 @@ class ModelLMR:
     
     def analysisMultiColinialidad(self):
         return RGSST.analysisMultiColinialidad(self)
+    
+    RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN = 'relationRangeValuesAndErrorSTDMean'
+    def relationRangeValuesAndErrorSTDMean(self):
+        return RGSST.relationRangeValuesAndErrorSTDMean(self)
+    
+    SUMS_NEIGHBORS = 'sumsNeighbors'
+    def sumsNeighbors(_model):
+        return RGSST.sumsNeighbors(_model)
+    
+    SSfa = 'ssfa'
+    def ssfa(self,**kwargs):
+        pass
+    
+    SSpe = 'sspe'
+    def sspe(self,**kwargs):
+        pass
+    
+    COUNT_LEVEL_VAR_IND = 'countLevelVarInd'
+    def countLevelVarInd(self,**kwargs):
+        pass
+    
+    ESTADIGRAFO_FISHER_CAL_FO = 'estadigrafoFisherCalFO'
+    def estadigrafoFisherCalFO(self,**kwargs):
+        pass
+    
+    ESTADIGRAFO_FISHER_TAB_FT = 'estadigrafoFisherTabFT'
+    def estadigrafoFisherTabFT(self,**kwargs):
+        pass
+    
+    def relationFOFT(self,**kwargs):
+        pass
+    
+    def mediaNegRMSETVKFOLD(self,**kwargs):
+        pass
+    
+    def cvNegRMSETVKFOLD(self,**kwargs):
+        pass
+    
+    def mediaNegRMSETEKFOLD(self,**kwargs):
+        pass
+    
+    def cvNegRMSETEKFOLD(self,**kwargs):
+        pass
+    
+    def mediaRSquareTVKFOLD(self,**kwargs):
+        pass
+    
+    def cvRSquareTVKFOLD(self,**kwargs):
+        pass
+    
+    def mediaRSquareTEKFOLD(self,**kwargs):
+        pass
+    
+    def cvRSquareTEKFOLD(self,**kwargs):
+        pass
+    
+    def mediaRSEMBootStropping(self,**kwargs):
+        pass
+    
+    def cvRSEMBootStropping(self,**kwargs):
+        pass
+    
+    def mediaRSquareBootStropping(self,**kwargs):
+        pass
+    
+    def cvRSquareBootStropping(self,**kwargs):
+        pass
     
     
         
