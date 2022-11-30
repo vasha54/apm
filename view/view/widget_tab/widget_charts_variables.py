@@ -58,7 +58,7 @@ class WidgetChartVariables(WidgetTab):
         
         for i in range(0,len(correlations)):
             item = WidgetChartItem(correlations[i])
-            self.tableWidgetChart.setCellWidget(i/3,i%3,item)
+            self.tableWidgetChart.setCellWidget(i//3,i%3,item)
                 
       
         
