@@ -4,8 +4,11 @@ import pandas as pd
 
 import numpy as np
 
+
 from scipy import stats as st
 from scipy.stats import chisquare, kurtosis, skew, shapiro, kstest, stats, anderson, normaltest
+
+import scipy.stasts
 
 from statsmodels.stats.diagnostic import lilliefors, het_white
 from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -17,23 +20,55 @@ import statsmodels.formula.api as smf
 import statsmodels.stats.diagnostic as dg
 import statsmodels.stats.api as sms
 
+from sklearn.model_selection import cross_validate
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from sklearn import metrics
+from sklearn.model_selection import cross_val_score, cross_val_predict
+
 # --- Inicio de metodos comunes y utilizados en otros ---
 
-def fitModel(_model):
+cvar = lambda x: np. std (x, ddof = 1 ) / np. mean (x) * 100
+
+def fitModel(_model,**kwargs):
     reg=smf.ols(_model.eval(),_model.getDataFrameModel())
     resul=reg.fit()
     return resul
 
-def residualModel(_model):
+def residualModel(_model,**kwargs):
     resul=fitModel(_model)
     residual=(resul.resid)
     return residual
 
-def residualSTModel(_model):
+def residualSTModel(_model,**kwargs):
     resul = fitModel(_model)
     rst=resul.outlier_test()
     residualesST=rst.student_resid
     return residualesST
+
+def residualCuaModel(_model,**kwargs):
+    residuales = residualModel(_model,**kwargs)
+    residcua=pow(residuales, 2)
+    return residcua
+
+def sslofModel(_model,**kwargs):
+    residcua=residualCuaModel(_model,**kwargs)
+    sumaVecinos = sumsNeighbors(_model,**kwargs)
+    sumresidcua=sum(residcua) 
+    SSlof=sumresidcua-sumaVecinos
+    return SSlof
+
+def scoreModel(_model,**kwargs):
+    if 'k' in kwargs.keys():
+        k = int(kwargs['k'])
+        X = _model.getDataFrameVI()
+        y = _model.getDataFrameVD
+        clf = LinearRegression()
+        model=clf.fit(X, y)
+        scores = cross_validate(model, X, y, cv=k,scoring=('r2', 'neg_mean_squared_error'), return_train_score=True)
+        return scores
+    else:
+        raise Exception("No existe parametro k")
 
 # --- Fin de metodos comunes y utilizados en otros ---
 
@@ -386,7 +421,7 @@ def testWhiteFW(_model):
     Fw=round(white[2],4)
     return Fw
 
-def testWhiteFWPValue(_model):
+def testWhiteFWPValue(_model,**kwargs):
     resul = fitModel(_model)
     residuales = residualModel(_model)
     white=het_white(residuales,resul.model.exog)
@@ -398,20 +433,20 @@ def testWhiteFWPValue(_model):
 
 # ---- Inicio  pruebas  de indepencias de residuales ---- 
 
-def testDurbinWatson(_model):
+def testDurbinWatson(_model,**kwargs):
     residuales = residualModel(_model)
     durbinwat=durbin_watson(residuales)
     DW=round(durbinwat,4)
     return DW
 
 
-def testBreushGGodfrey(_model):
+def testBreushGGodfrey(_model,**kwargs):
     resul = fitModel(_model)
     bregod=dg.acorr_breusch_godfrey(resul, nlags=3, store=False)
     BG=round(bregod[0],4)
     return BG 
 
-def testBreushGGodfreyPValue(_model):
+def testBreushGGodfreyPValue(_model,**kwargs):
     resul = fitModel(_model)
     bregod=dg.acorr_breusch_godfrey(resul, nlags=3, store=False)
     PvalorBG=round(bregod[1],4)
@@ -422,7 +457,7 @@ def testBreushGGodfreyPValue(_model):
 # ---- Inicio analisis de multicolinialidad ----
 
 
-def analysisMultiColinialidad(_model):
+def analysisMultiColinialidad(_model,**kwargs):
     X_constant=sm.add_constant(_model.getDataFrameModel())
     vif = [variance_inflation_factor(X_constant.values, i) for i in range(X_constant.shape[1])]
     return vif
@@ -430,26 +465,25 @@ def analysisMultiColinialidad(_model):
 
 # ---- Fin analisis de multicolinialidad ---- 
 
-def sumsNeighbors(_model):
+def sumsNeighbors(_model,**kwargs):
     sums = 0
-    
-    # residcua=pow(residuales, 2) #Valores cuadrados de cada residual
-    # sumresidcua=sum(residcua)  #Suma de cuadrados de los residuales (con y sin replicas)
-    # k=df.Landa-df.Temp-df.polJP
-    # datos14=pd.DataFrame([k,residcua])
-    # datos15=datos14.transpose() 
-    
-    # listaColA=list(datos15[0])
-    # listaColB=list(datos15[1])
-    # sumaVecinos = 0
-    # cCount = len(listaColA)
-    
-    # for i in range(0,cCount):
-    #     if listaColA.count(listaColA[i]) > 1:
-    #         sumaVecinos = sumaVecinos+listaColB[i]
+    residcua = residualCuaModel(_model)
+    namesVarInd= _model.getNamesVariableI()
+    dataFrameVI = _model.getDataFrameVI()
+    k= dataFrameVI[namesVarInd[0]]
+    for i in range(1,len(namesVarInd)):
+        k = k - dataFrameVI[namesVarInd[i]]
+    datos14=pd.DataFrame([k,residcua])
+    datos15=datos14.transpose() 
+    listaColA=list(datos15[0])
+    listaColB=list(datos15[1])
+    cCount = len(listaColA)
+    for i in range(0,cCount):
+        if listaColA.count(listaColA[i]) > 1:
+            sums = sums+listaColB[i]
     return sums
 
-def relationRangeValuesAndErrorSTDMean(_model):
+def relationRangeValuesAndErrorSTDMean(_model,**kwargs):
     resul = fitModel(_model)
     predicted_value=resul.fittedvalues
     rang=max(predicted_value)-min(predicted_value)
@@ -462,56 +496,207 @@ def relationRangeValuesAndErrorSTDMean(_model):
     relr=round(rel,4)
     return relr
 
-def ssfa(_model,*args):
-    pass
+def ssfa(_model,**kwargs):
+    SSlof=sslofModel(_model)
+    SSLAF=round(SSlof,4)
+    return SSLAF
     
-def sspe(_model,*args):
-    pass
+def sspe(_model,**kwargs):
+    sumaVecinos = sumsNeighbors(_model,**kwargs)
+    SSPE=round(sumaVecinos,4)
+    return SSPE
     
-def countLevelVarInd(_model,*args):
-    pass
+def countLevelVarInd(_model,**kwargs):
+    dfVI = _model.getDataFrameVI()
+    u=dfVI.drop_duplicates()  
+    m=len(u)
+    return m
     
-def estadigrafoFisherCalFO(_model,*args):
-    pass
+def estadigrafoFisherCalFO(_model,**kwargs):
+    m = countLevelVarInd(_model,**kwargs)
+    n = _model.numberMeasurement()
+    sumaVecinos = sumsNeighbors(_model)
+    SSlof = sslofModel(_model,**kwargs)
+    Fo=(SSlof/(m-2))/(sumaVecinos/(n-m))
+    Forr=round(Fo,4)
+    return Forr
     
-def estadigrafoFisherTabFT(_model,*args):
-    pass
+def estadigrafoFisherTabFT(_model,**kwargs):
     
-def relationFOFT(_model,*args):
-    pass
+    if 'alpha' in kwargs.keys():
+        alpha = float(kwargs['alpha'])
+        m = countLevelVarInd(_model,**kwargs)
+        n = _model.numberMeasurement()
+        a1=m-2
+        a2=n-m
+        Ft=scipy.stats.f.ppf(q=1-alpha,dfn=a1,dfd=a2)
+        Ftr=round(Ft,4)
+        return Ftr
+    else :
+        raise Exception("Falta parametro nivel de significacion")
+    
+def relationFOFT(_model,**kwargs):
+    if 'alpha' in kwargs.keys():
+        alpha = float(kwargs['alpha'])
+        m = countLevelVarInd(_model,**kwargs)
+        n = _model.numberMeasurement()
+        SSlof = sslofModel(_model,**kwargs)
+        sumaVecinos = sumsNeighbors(_model)
+        Fo=(SSlof/(m-2))/(sumaVecinos/(n-m))
+        a1=m-2
+        a2=n-m
+        Ft=scipy.stats.f.ppf(q=1-alpha,dfn=a1,dfd=a2)
+        relafisher=Ft/Fo
+        Relar=round(relafisher,4)
+        return Relar
+    else :
+        raise Exception("Falta parametro nivel de significacion") 
 
-def mediaNegRMSETVKFOLD(_model,*args):
-    pass
+def mediaNegRMSETVKFOLD(_model,**kwargs):
+    score = scoreModel(_model,**kwargs)
+    a = score['test_neg_mean_squared_error']
+    amenan=np.mean(a) 
+    return amenan
     
-def cvNegRMSETVKFOLD(_model,*args):
-    pass
+def cvNegRMSETVKFOLD(_model,**kwargs):
+    score = scoreModel(_model,**kwargs)
+    a = score['test_neg_mean_squared_error']
+    acv=cvar(a) 
+    return acv
 
-def mediaNegRMSETEKFOLD(_model,*args):
-    pass
-    
-def cvNegRMSETEKFOLD(_model,*args):
-    pass
-    
-def mediaRSquareTVKFOLD(_model,*args):
-    pass
-    
-def cvRSquareTVKFOLD(_model,*args):
-    pass
-    
-def mediaRSquareTEKFOLD(_model,*args):
-    pass
-    
-def cvRSquareTEKFOLD(_model,*args):
-    pass
+def mediaNegRMSETEKFOLD(_model,**kwargs):
+    score = scoreModel(_model,**kwargs)
+    b=score['train_neg_mean_squared_error']
+    bmenan=np.mean(b)
+    return bmenan
 
-def mediaRSEMBootStropping(_model,*args):
-    pass
     
-def cvRSEMBootStropping(_model,*args):
-    pass
+def cvNegRMSETEKFOLD(_model,**kwargs):
+    score = scoreModel(_model,**kwargs)
+    b=score['train_neg_mean_squared_error']
+    bcv=cvar(b)
+    return bcv
     
-def mediaRSquareBootStropping(_model,*args):
-    pass
+def mediaRSquareTVKFOLD(_model,**kwargs):
+    score = scoreModel(_model,**kwargs)
+    c=score['test_r2']
+    cmenan=np.mean(c)
+    return cmenan
     
-def cvRSquareBootStropping(_model,*args):
-    pass
+def cvRSquareTVKFOLD(_model,**kwargs):
+    score = scoreModel(_model,**kwargs)
+    c=score['test_r2']
+    ccv=cvar(c)
+    return ccv
+    
+def mediaRSquareTEKFOLD(_model,**kwargs):
+    score = scoreModel(_model,**kwargs)
+    d=score['train_r2']
+    dmenan=np.mean(d)
+    return dmenan
+    
+def cvRSquareTEKFOLD(_model,**kwargs):
+    score = scoreModel(_model,**kwargs)
+    d=score['train_r2']
+    dcv=cvar(d)
+    return dcv
+
+def mediaRSEMBootStropping(_model,**kwargs):
+    boot_RMSE = []
+    RMSEbtmean = None
+    if 'boots' in kwargs.keys():
+        boots = int(kwargs)
+        k= _model.numberMeasurement()
+        for _ in range(boots):
+            data_df = _model.getDataFrameModel()
+            sample_df = data_df.sample(n=k, replace=True)
+            regbst=smf.ols(_model.eva(),sample_df)
+            resulbst=regbst.fit() 
+            RMSEbst=np.sqrt(resulbst.mse_total)
+            boot_RMSE.append(RMSEbst)
+        RMSEbtmean=np.mean(boot_RMSE)
+    else :
+        raise Exception("Falta parametro boots") 
+    return RMSEbtmean
+    
+def cvRSEMBootStropping(_model,**kwargs):
+    boot_RMSE = []
+    RMSEcv = None
+    if 'boots' in kwargs.keys():
+        boots = int(kwargs)
+        k= _model.numberMeasurement()
+        for _ in range(boots):
+            data_df = _model.getDataFrameModel()
+            sample_df = data_df.sample(n=k, replace=True)
+            regbst=smf.ols(_model.eva(),sample_df)
+            resulbst=regbst.fit() 
+            RMSEbst=np.sqrt(resulbst.mse_total)
+            boot_RMSE.append(RMSEbst)
+        RMSEcv=cvar(boot_RMSE)
+    else :
+        raise Exception("Falta parametro boots") 
+    return RMSEcv
+    
+def mediaRSquareBootStropping(_model,**kwargs):
+    boot_rcuadj = []
+    Rcuadjbtmean =None
+    if 'boots' in kwargs.keys():
+        boots = int(kwargs)
+        k= _model.numberMeasurement()
+        for _ in range(boots):
+            data_df = _model.getDataFrameModel()
+            sample_df = data_df.sample(n=k, replace=True)
+            regbst=smf.ols(_model.eva(),sample_df)
+            resulbst=regbst.fit() 
+            boot_rcuadj.append(resulbst)
+        Rcuadjbtmean=np.mean(boot_rcuadj)
+    else :
+        raise Exception("Falta parametro boots") 
+    return Rcuadjbtmean
+    
+def cvRSquareBootStropping(_model,**kwargs):
+    boot_rcuadj = []
+    Rcuacv = None
+    if 'boots' in kwargs.keys():
+        boots = int(kwargs)
+        k= _model.numberMeasurement()
+        for _ in range(boots):
+            data_df = _model.getDataFrameModel()
+            sample_df = data_df.sample(n=k, replace=True)
+            regbst=smf.ols(_model.eva(),sample_df)
+            resulbst=regbst.fit() 
+            boot_rcuadj.append(resulbst)
+        Rcuacv=cvar(boot_rcuadj)
+    else :
+        raise Exception("Falta parametro boots")
+    return Rcuacv
+    
+    
+def testRMSETestKFOLD(_model,**kwargs):
+    e = None
+    
+    if 'k' in kwargs.keys():
+        k = int(kwargs['k'])
+        y = _model.getDataFrameVD()
+        X = _model.getDataFrameVI()
+        clf = LinearRegression()
+        predictions=cross_val_predict(clf,X,y,cv=k)
+        e=metrics.r2_score(y,predictions)
+    else:
+        raise Exception("No se encuentra el parametro k")
+    return e
+
+def testSquareTwoTestKFOLD(_model,**kwargs):
+    g = None
+    if 'k' in kwargs.keys():
+        k = int(kwargs['k'])
+        y = _model.getDataFrameVD()
+        X = _model.getDataFrameVI()
+        clf = LinearRegression()
+        predictions=cross_val_predict(clf,X,y,cv=k)
+        f=metrics.mean_squared_error(y,predictions)
+        g=np.sqrt(f)
+    else:
+        raise Exception("No se encuentra el parametro k")
+    return g
+    

@@ -2,8 +2,7 @@ import pandas as pd
 
 from libmath import regress_tes as RGSST
 class ModelLMR:
-    
-    DURBIN_WATSON_PVALUE = 'durbinwatsonvalue'
+
     
     def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _intervalConfidence=0.05, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(),_dataFrameModel=pd.DataFrame(),_isSelect=False, *args, **kwargs):
         super(ModelLMR, self).__init__(*args, **kwargs)
@@ -469,6 +468,12 @@ class ModelLMR:
         pass
     
     def cvRSquareBootStropping(self,**kwargs):
+        pass
+    
+    def testRMSETestKFOLD(self,**kwargs):
+        pass
+    
+    def testSquareTwoTestKFOLD(self,**kwargs):
         pass
     
     
