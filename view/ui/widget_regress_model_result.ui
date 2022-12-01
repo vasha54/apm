@@ -191,7 +191,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>R-cuad:</string>
+             <string>R-cua:</string>
             </property>
            </widget>
           </item>
@@ -217,7 +217,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>R-cuad ajustada:</string>
+             <string>R-cua ajustada:</string>
             </property>
            </widget>
           </item>
@@ -243,7 +243,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>F estadístico:</string>
+             <string>Estadígrafo de F</string>
             </property>
            </widget>
           </item>
@@ -466,7 +466,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Lag-likelihead:</string>
+             <string>Log-likelihood:</string>
             </property>
            </widget>
           </item>

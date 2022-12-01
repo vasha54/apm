@@ -99,5 +99,5 @@ class WidgetInformationExtrapolacion(WidgetTab):
     def createConnect(self):
         super().createConnect()
         
-    def update(self):
+    def updateTab(self):
         pass

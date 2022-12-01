@@ -66,7 +66,7 @@ class WidgetChartVariables(WidgetTab):
         super().createConnect()
         self.tableWidgetChart.doubleClicked.connect(self.showCorrelations)
         
-    def update(self):
+    def updateTab(self):
         self.createWorkspace()
         
     def showCorrelations(self,_index):

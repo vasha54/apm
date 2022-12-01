@@ -204,12 +204,12 @@ class WidgetQualityAdjustModel(WidgetTab):
         
         self.label.setText(( "RMSE:"))
         self.lORMSE.setText("NA")
-        self.label_3.setText("Relacion entre el rango de los\n"
-"valores ajustados y el error estandar\n"
+        self.label_3.setText("Relación entre el rango de los\n"
+"valores ajustados y el error estándar\n"
 "promedio estimado")
         self.lORelationRangeValuesERRSTD.setText("NA")
         self.groupBox.setTitle("Prueba de bondad de ajuste de Fisher")
-        self.label_5.setText("NIvel de significacion:")
+        self.label_5.setText("Nivel de significación:")
         self.pBCalculate.setText("Calcular")
         self.label_6.setText("Resultado de la Prueba de bondad\n"
 "de Ajuste de Fisher")
@@ -239,7 +239,7 @@ class WidgetQualityAdjustModel(WidgetTab):
         self.pBCalculate.clicked.connect(self.calculate)
         super().createConnect()
         
-    def update(self):
+    def updateTab(self):
         pass
     
     def calculate(self):

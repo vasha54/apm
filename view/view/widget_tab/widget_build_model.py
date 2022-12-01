@@ -241,6 +241,7 @@ class WidgetBuildModel(WidgetTab):
         self.pBEditModel.setText("Editar")
         self.pBDetailsModel.setText("Detalles")
         self.pBRemoveModel.setText( "Eliminar")
+        self.label_7.setVisible(False)
         self.pushButtonNext.setText("Siguiente paso")
         
         if self.modelModelLMR.rowCount() == 0:
@@ -450,7 +451,7 @@ class WidgetBuildModel(WidgetTab):
                 
         
     
-    def update(self):
+    def updateTab(self):
         self.modelCandidateVD = QtGui.QStandardItemModel(self.listViewCandidateVD)
         self.modelCandidateVI = QtGui.QStandardItemModel(self.listViewCandidateVI)
         variablesSelect = AnalysisData().getVariablesSelect()
@@ -466,6 +467,8 @@ class WidgetBuildModel(WidgetTab):
 
         self.listViewCandidateVD.setModel(self.modelCandidateVD)
         self.listViewCandidateVI.setModel(self.modelCandidateVI)
+        
+        
         
         
     

@@ -25,6 +25,7 @@ from view.view.widget_tab.widget_details_model_select import WidgetDetailsModelS
 from view.view.widget_tab.widget_information_extrapolacion import WidgetInformationExtrapolacion
 from view.view.widget_tab.widget_quality_adjust_model import WidgetQualityAdjustModel
 from view.view.widget_tab.widget_validate import WidgetValidate
+from view.view.widget_tab.widget_tab import WidgetTab
 
 from view.resource import resource
 
@@ -70,8 +71,8 @@ class App(QMainWindow, Ui_MainWindow):
         self.m_tabWidget.addTab(self.widgetBuildModel,"Conformación de los modelos");
         self.m_tabWidget.addTab(self.widgetAnalysModels,"Análisis de los modelos");
         self.m_tabWidget.addTab(self.widgetDetailsModelSelect,"Detalles del modelo seleccionado");
-        self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste al modelo");
-        self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Información de Extrapolación");
+        self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste");
+        self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Análisis de extrapolación oculta");
         self.m_tabWidget.addTab(self.widgetValidate,"Validación");
         
         self.m_tabWidget.setTabEnabled(1,False)
@@ -87,10 +88,10 @@ class App(QMainWindow, Ui_MainWindow):
         self.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
 
         self.m_frameMenuBar=QFrame (self);
-        self.m_frameMenuBar.setStyleSheet ("background-color:#cecece")
+        self.m_frameMenuBar.setStyleSheet ("background-color:#e0e0e0")
 
         self.m_frameUserMenuBar=QFrame(self.m_frameMenuBar)
-        self.m_frameUserMenuBar.setStyleSheet ("background-color:#cecece")
+        self.m_frameUserMenuBar.setStyleSheet ("background-color:#e0e0e0")
 
         self.m_layoutMenuBar=QHBoxLayout()
         self.m_layoutFrameUser= QHBoxLayout()
@@ -154,6 +155,7 @@ class App(QMainWindow, Ui_MainWindow):
     def createConnects(self):
         self.m_closeAction.triggered.connect(self.close)
         self.m_openFileExcelAction.triggered.connect(self.selectFileData)
+        self.m_tabWidget.currentChanged.connect(self.changeTabActive)
         
     def selectFileData(self):
         options = QFileDialog.Options()
@@ -176,7 +178,7 @@ class App(QMainWindow, Ui_MainWindow):
             index=self.m_tabWidget.addTab(self.widgetDataFilter,"Datos filtrados")
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetDataFilter.update()
+        self.widgetDataFilter.updateTab()
         
     def addOrUpdateTabChartVariables(self):
         if self.widgetChartsVariables == None:
@@ -189,7 +191,7 @@ class App(QMainWindow, Ui_MainWindow):
             index=self.m_tabWidget.addTab(self.widgetChartsVariables,"Gráficas de correlación de la variables");
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetChartsVariables.update()
+        self.widgetChartsVariables.updateTab()
         
     def addOrUpdateTabBuildModels(self):
         if self.widgetBuildModel == None:
@@ -202,7 +204,7 @@ class App(QMainWindow, Ui_MainWindow):
             index=self.m_tabWidget.addTab(self.widgetBuildModel,"Conformación de los modelos");
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetBuildModel.update()
+        self.widgetBuildModel.updateTab()
         
     def addOrUpdateAnalysModels(self):
         if self.widgetAnalysModels == None:
@@ -215,7 +217,7 @@ class App(QMainWindow, Ui_MainWindow):
             index=self.m_tabWidget.addTab(self.widgetAnalysModels,"Análisis de los modelos");
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetAnalysModels.update()
+        self.widgetAnalysModels.updateTab()
         
     def addOrUpdateDetailsModelSelect(self):
         if self.widgetDetailsModelSelect == None:
@@ -228,7 +230,7 @@ class App(QMainWindow, Ui_MainWindow):
             index=self.m_tabWidget.addTab(self.widgetDetailsModelSelect,"Detalles del modelo seleccionado");
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetDetailsModelSelect.update()
+        self.widgetDetailsModelSelect.updateTab()
     
     def addOrUpdateQualityAdjustModel(self):
         if self.widgetQualityAdjustModel == None:
@@ -241,7 +243,7 @@ class App(QMainWindow, Ui_MainWindow):
             index=self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste al modelo");
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetQualityAdjustModel.update()
+        self.widgetQualityAdjustModel.updateTab()
     
     def addOrUpdateInformationExtrapolacion(self):
         if self.widgetInformationExtrapolacion == None:
@@ -254,7 +256,7 @@ class App(QMainWindow, Ui_MainWindow):
             index=self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Información de Extrapolación");
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetInformationExtrapolacion.update()
+        self.widgetInformationExtrapolacion.updateTab()
     
     def addOrUpdateValidate(self):
         if self.widgetValidate == None:
@@ -266,7 +268,13 @@ class App(QMainWindow, Ui_MainWindow):
             index=self.m_tabWidget.addTab(self.widgetValidate,"Validación");
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetValidate.update()
+        self.widgetValidate.updateTab()
+        
+    def changeTabActive(self,_index):
+        widget = self.m_tabWidget.currentWidget()
+        if hasattr(widget, 'updateTab'):
+            widget.updateTab()
+        
         
     def nextVersion(self):
         QMessageBox.about(self,"About Sample Editor",

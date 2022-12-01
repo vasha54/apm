@@ -17,6 +17,7 @@
         <file alias="up-01.png">img/up-01.png</file>
         <file alias="down-02.png">img/down-01.png</file>
         <file alias="down-01.png">img/down-01.png</file>
+        <file alias="patternUM">img/patternUM.png</file>
     </qresource>
     <qresource prefix="/css">
         <file alias="style.css" >css/style.css</file>

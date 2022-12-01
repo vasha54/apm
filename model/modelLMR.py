@@ -3,77 +3,7 @@ import pandas as pd
 from libmath import regress_tes as RGSST
 class ModelLMR:
     
-    
-    
-    ALL_NAME_VARI = 'getNamesVariableI'
-    
-    
-    
-    
-    BIC = 'bic'
-    
-    RCUAD = 'RCuad'
-    
-    FSTADISTIC = 'FStadistic'
-    
-    MSE_MODEL = 'MSEModel'
-    MSE_RESIDUAL = 'MSEResidual'
-    MSE_TOTAL = 'MSETotal'
-    RMSE_MODEL = 'RMSEModel'
-    NUMBER_VAR = 'numberVariablesModel'
-    ALL_NAME_VAR= 'getNamesAllVariables'
-    COEFF_VAR = 'coefficientVariablesModel'
-    STD_ERR ='sterrVariablesModel'
-    TC = 'tcVariablesModel'
-    PV_COEFF = 'pvCoefficientVariablesModel'
-    LOWER_LIMIT_VAR = 'lowerLimitVariablesModel'
-    UPPER_LIMIT_VAR = 'upperLimitVariablesModel' 
-    COEFF_CURTOSIS_RWS = 'coefficientCurtosisRWS'
-    COEFF_ASYMETRY_RWS = 'coefficientAsymetryRWS'
-    LILLIEFORS_RWS = 'testLillieforsRWS'
-    LILLIEFORS_PVALUE_RWS = 'testLillieforsPValueRWS'
-    SHAPIRO_WILK_RWS = 'testShapiroWilkRWS'
-    SHAPIRO_WILK_PVALUE_RWS = 'testShapiroWilkPValueRWS'
-    KOLMOGOROV_SMIRNOV_RWS = 'testKolmogorovSmirnovRWS'
-    KOLMOGOROV_SMIRNOV_PVALUE_RWS = 'testKolmogorovSmirnovPValueRWS'
-    JARQUE_BERA_RWS = 'jarqueberarws'
-    JARQUE_BERA_PVALUE_RWS = 'jarqueberapvaluerws'
-    ANDERSON_DARLING_RWS = 'andersondarlingrws'
-    ANDERSON_DARLING_PVALUE_RWS = 'andersondarlingpvaluerws'
-    K_CUAD_DANGOSTINO_RWS = 'kcuaddangostinorws'
-    K_CUAD_DANGOSTINO_PVALUE_RWS = 'kcuaddangostinopvaluerws'
-    CHI_SQUARE_RWS = 'chisquarerws'
-    CHI_SQUARE_PVALUE_RWS = 'chisquarepvaluerws'
-    COEFF_CURTOSIS_RE = 'coeffcurtosisre'
-    COEFF_ASYMETRY_RE = 'coeffasymetryre'
-    LILLIEFORS_RE = 'lillieforsre'
-    LILLIEFORS_PVALUE_RE = 'lillieforspvaluere'
-    SHAPIRO_WILK_RE = 'shapirowilkre'
-    SHAPIRO_WILK_PVALUE_RE = 'shapirowilkpvaluere'
-    KOLMOGOROV_SMIRNOV_RE = 'kolmogorovsmirnovre'
-    KOLMOGOROV_SMIRNOV_PVALUE_RE = 'kolmogorovsmirnovpvaluere'
-    JARQUE_BERA_RE = 'jarqueberare'
-    JARQUE_BERA_PVALUE_RE = 'jarqueberapvaluere'
-    ANDERSON_DARLING_RE = 'andersondarlingre'
-    ANDERSON_DARLING_PVALUE_RE = 'andersondarlingpvaluere'
-    K_CUAD_DANGOSTINO_RE = 'kcuaddangostinore'
-    K_CUAD_DANGOSTINO_PVALUE_RE = 'kcuaddangostinopvaluere'
-    CHI_SQUARE_RE = 'chisquarere'
-    CHI_SQUARE_PVALUE_RE = 'chisquarepvaluere'
-    BREUSH_PAGAN = 'breushpagan'
-    BREUSH_PAGAN_PVALUE = 'breushpaganpvalue'
-    GOLDFELD_QUANDT = 'goldfeldquandt'
-    GOLDFELD_QUANDT_PVALUE = 'goldfeldquandtpvalue'
-    WHITE_LH = 'whitelh'
-    WHITE_LH_PVALUE = 'whitelhpvalue'
-    WHITE_FW = 'whitefh'
-    WHITE_FW_PVALUE = 'whitefwpvalue'
-    DURBIN_WATSON = 'durbinwatson'
     DURBIN_WATSON_PVALUE = 'durbinwatsonvalue'
-    BREUSH_GGODFREY = 'breushggodfrey'
-    BREUSH_GGODFREY_PVALUE = 'breushggodfreypvalue'
-    ANALYSIS_MULTICOLINIALIDAD = 'analysismulticolinialidad'
-    
     
     def __init__(self,_idModel,_nameModel,_nameVariableD,_namesVariablesI, _intervalConfidence=0.05, _dataFrameVI=pd.DataFrame(), _dataFrameVD=pd.DataFrame(),_dataFrameModel=pd.DataFrame(),_isSelect=False, *args, **kwargs):
         super(ModelLMR, self).__init__(*args, **kwargs)
@@ -111,11 +41,21 @@ class ModelLMR:
         if len(self.namesVariableI) != len(_otherModel.getNamesVariableI()):
             isEqual =False
         else:
-            otherVI = _otherModel.getNamesVariableI()
+            otherVI =[]
+            selfVI = []
             cCount = len(self.namesVariableI)
-            for i in range(0, cCount):
-                if self.namesVariableI[i] != otherVI[i]:
-                    isEqual = False        
+            
+            for i in range(0,cCount):
+                otherVI.append(_otherModel.getNamesVariableI()[i])
+                selfVI.append(self.namesVariableI[i])
+                
+            otherVI.sort()
+            selfVI.sort()
+            
+            for i in range (0,cCount):
+                if otherVI[i] != selfVI[i]:
+                    isEqual = False
+                     
         return isEqual
     
     def eval(self):
@@ -136,6 +76,7 @@ class ModelLMR:
     def getNameVariableD(self):
         return self.nameVariableD
     
+    ALL_NAME_VARI = 'getNamesVariableI'
     def getNamesVariableI(self):
         return self.namesVariableI
     
@@ -154,6 +95,7 @@ class ModelLMR:
     def getIntervalConfidence(self):
         return self.intervalConfidence
     
+    ALL_NAME_VAR= 'getNamesAllVariables'
     def getNamesAllVariables(self):
         return self.namesAllVariables
     
@@ -207,209 +149,267 @@ class ModelLMR:
         return detailsStr
     
     GL_RESIDUAL = 'glResidual'
-    def glResidual(self):
-        return RGSST.glResidual(self)
+    def glResidual(self,**kwargs):
+        return RGSST.glResidual(self,**kwargs)
     
     GL_MODEL ='glModel'
-    def glModel(self):
-        return RGSST.glResidual(self)
+    def glModel(self,**kwargs):
+        return RGSST.glResidual(self,**kwargs)
     
     AIC = 'aic'
-    def aic(self):
-        return RGSST.aic(self)
+    def aic(self,**kwargs):
+        return RGSST.aic(self,**kwargs)
     
-    def bic(self):
-        return RGSST.bic(self)
+    BIC = 'bic'
+    def bic(self,**kwargs):
+        return RGSST.bic(self,**kwargs)
     
     LOG_LIKELI_HEAD = 'logLikeliHead'
-    def logLikeliHead(self):
-        return RGSST.logLikeliHead(self)
+    def logLikeliHead(self,**kwargs):
+        return RGSST.logLikeliHead(self,**kwargs)
     
-    def RCuad(self):
-        return RGSST.RCuad(self)
+    RCUAD = 'RCuad'
+    def RCuad(self,**kwargs):
+        return RGSST.RCuad(self,**kwargs)
     
     RCUAD_ADJUST = 'RCuadAdjust'
-    def RCuadAdjust(self):
-        return RGSST.RCuadAdjust(self)
+    def RCuadAdjust(self,**kwargs):
+        return RGSST.RCuadAdjust(self,**kwargs)
     
-    def FStadistic(self):
-        return RGSST.FStadistic(self)
+    FSTADISTIC = 'FStadistic'
+    def FStadistic(self,**kwargs):
+        return RGSST.FStadistic(self,**kwargs)
     
     PVALUE = 'PValue'
-    def PValue(self):
-        return RGSST.PValue(self)
+    def PValue(self,**kwargs):
+        return RGSST.PValue(self,**kwargs)
     
-    def MSEModel(self):
-        return RGSST.MSEModel(self)
+    MSE_MODEL = 'MSEModel'
+    def MSEModel(self,**kwargs):
+        return RGSST.MSEModel(self,**kwargs)
     
-    def MSEResidual(self):
-        return RGSST.MSEResidual(self)
+    MSE_RESIDUAL = 'MSEResidual'
+    def MSEResidual(self,**kwargs):
+        return RGSST.MSEResidual(self,**kwargs)
     
-    def MSETotal(self):
-        return RGSST.MSETotal(self)
+    MSE_TOTAL = 'MSETotal'
+    def MSETotal(self,**kwargs):
+        return RGSST.MSETotal(self,**kwargs)
     
-    def RMSEModel(self):
-        return RGSST.RMSEModel(self)
+    RMSE_MODEL = 'RMSEModel'
+    def RMSEModel(self,**kwargs):
+        return RGSST.RMSEModel(self,**kwargs)
     
-    def numberVariablesModel(self):
-        return 1 + len(self.namesVariableI) 
+    NUMBER_VAR = 'numberVariablesModel'
+    def numberVariablesModel(self,**kwargs):
+        return 1 + len(self.namesVariableI,**kwargs) 
     
-    def coefficientVariablesModel(self):
-        return RGSST.coefficientVariablesModel(self)
+    COEFF_VAR = 'coefficientVariablesModel'
+    def coefficientVariablesModel(self,**kwargs):
+        return RGSST.coefficientVariablesModel(self,**kwargs)
     
-    def sterrVariablesModel(self):
-        return RGSST.sterrVariablesModel(self)
+    STD_ERR ='sterrVariablesModel'
+    def sterrVariablesModel(self,**kwargs):
+        return RGSST.sterrVariablesModel(self,**kwargs)
     
-    def tcVariablesModel(self):
-        return RGSST.tcVariablesModel(self)
+    TC = 'tcVariablesModel'
+    def tcVariablesModel(self,**kwargs):
+        return RGSST.tcVariablesModel(self,**kwargs)
     
-    def pvCoefficientVariablesModel(self):
-        return RGSST.pvCoefficientVariablesModel(self)
+    PV_COEFF = 'pvCoefficientVariablesModel'
+    def pvCoefficientVariablesModel(self,**kwargs):
+        return RGSST.pvCoefficientVariablesModel(self,**kwargs)
     
-    def lowerLimitVariablesModel(self):
-        return RGSST.lowerLimitVariablesModel(self)
+    LOWER_LIMIT_VAR = 'lowerLimitVariablesModel'
+    def lowerLimitVariablesModel(self,**kwargs):
+        return RGSST.lowerLimitVariablesModel(self,**kwargs)
     
-    def upperLimitVariablesModel(self):
-        return RGSST.upperLimitVariablesModel(self)
+    UPPER_LIMIT_VAR = 'upperLimitVariablesModel' 
+    def upperLimitVariablesModel(self,**kwargs):
+        return RGSST.upperLimitVariablesModel(self,**kwargs)
     
-    def coefficientCurtosisRWS(self):
-        return RGSST.coefficientCurtosisRWS(self)
+    COEFF_CURTOSIS_RWS = 'coefficientCurtosisRWS'
+    def coefficientCurtosisRWS(self,**kwargs):
+        return RGSST.coefficientCurtosisRWS(self,**kwargs)
     
-    def coefficientAsymetryRWS(self):
-        return RGSST.coefficientAsymetryRWS(self)
+    COEFF_ASYMETRY_RWS = 'coefficientAsymetryRWS'
+    def coefficientAsymetryRWS(self,**kwargs):
+        return RGSST.coefficientAsymetryRWS(self,**kwargs)
     
-    def testLillieforsRWS(self):
-        return RGSST.testLillieforsRWS(self)
+    LILLIEFORS_RWS = 'testLillieforsRWS'
+    def testLillieforsRWS(self,**kwargs):
+        return RGSST.testLillieforsRWS(self,**kwargs)
     
-    def testLillieforsPValueRWS(self):
-        return RGSST.testLillieforsPValueRWS(self)
+    LILLIEFORS_PVALUE_RWS = 'testLillieforsPValueRWS'
+    def testLillieforsPValueRWS(self,**kwargs):
+        return RGSST.testLillieforsPValueRWS(self,**kwargs)
     
-    def testShapiroWilkRWS(self):
-        return RGSST.testShapiroWilkRWS(self)
+    SHAPIRO_WILK_RWS = 'testShapiroWilkRWS'
+    def testShapiroWilkRWS(self,**kwargs):
+        return RGSST.testShapiroWilkRWS(self,**kwargs)
     
-    def testShapiroWilkPValueRWS(self):
-        return RGSST.testShapiroWilkPValueRWS(self)
+    SHAPIRO_WILK_PVALUE_RWS = 'testShapiroWilkPValueRWS'
+    def testShapiroWilkPValueRWS(self,**kwargs):
+        return RGSST.testShapiroWilkPValueRWS(self,**kwargs)
     
-    def testKolmogorovSmirnovRWS(self):
-        return RGSST.testKolmogorovSmirnovRWS(self)
+    KOLMOGOROV_SMIRNOV_RWS = 'testKolmogorovSmirnovRWS'
+    def testKolmogorovSmirnovRWS(self,**kwargs):
+        return RGSST.testKolmogorovSmirnovRWS(self,**kwargs)
     
-    def testKolmogorovSmirnovPValueRWS(self):
-        return RGSST.testKolmogorovSmirnovPValueRWS(self)
+    KOLMOGOROV_SMIRNOV_PVALUE_RWS = 'testKolmogorovSmirnovPValueRWS'
+    def testKolmogorovSmirnovPValueRWS(self,**kwargs):
+        return RGSST.testKolmogorovSmirnovPValueRWS(self,**kwargs)
     
-    def testJarqueBeraRWS(self):
-        return RGSST.testJarqueBeraRWS(self)
+    JARQUE_BERA_RWS = 'testJarqueBeraRWS'
+    def testJarqueBeraRWS(self,**kwargs):
+        return RGSST.testJarqueBeraRWS(self,**kwargs)
     
-    def testJarqueBeraPValueRWS(self):
-        return RGSST.testJarqueBeraPValueRWS(self)
+    JARQUE_BERA_PVALUE_RWS = 'testJarqueBeraPValueRWS'
+    def testJarqueBeraPValueRWS(self,**kwargs):
+        return RGSST.testJarqueBeraPValueRWS(self,**kwargs)
     
-    def testAndersonDarlingRWS(self):
-        return RGSST.testAndersonDarlingRWS(self)
+    ANDERSON_DARLING_RWS = 'testAndersonDarlingRWS'
+    def testAndersonDarlingRWS(self,**kwargs):
+        return RGSST.testAndersonDarlingRWS(self,**kwargs)
     
-    def testAndersonDarlingPValueRWS(self):
-        return RGSST.testAndersonDarlingPValueRWS(self)
+    ANDERSON_DARLING_PVALUE_RWS = 'testAndersonDarlingPValueRWS'
+    def testAndersonDarlingPValueRWS(self,**kwargs):
+        return RGSST.testAndersonDarlingPValueRWS(self,**kwargs)
     
-    def testKCuadDAngostinoRWS(self):
-        return RGSST.testKCuadDAngostinoRWS(self)
+    K_CUAD_DANGOSTINO_RWS = 'testKCuadDAngostinoRWS'
+    def testKCuadDAngostinoRWS(self,**kwargs):
+        return RGSST.testKCuadDAngostinoRWS(self,**kwargs)
     
-    def testKCuadDAngostinoPValueRWS(self):
-        return RGSST.testKCuadDAngostinoPValueRWS(self)
+    K_CUAD_DANGOSTINO_PVALUE_RWS = 'testKCuadDAngostinoPValueRWS'
+    def testKCuadDAngostinoPValueRWS(self,**kwargs):
+        return RGSST.testKCuadDAngostinoPValueRWS(self,**kwargs)
     
-    def testChiSquareRWS(self):
-        return RGSST.testChiSquareRWS(self)
+    CHI_SQUARE_RWS = 'testChiSquareRWS'
+    def testChiSquareRWS(self,**kwargs):
+        return RGSST.testChiSquareRWS(self,**kwargs)
     
-    def testChiSquarePValueRWS(self):
-        return RGSST.testChiSquarePValueRWS(self)
+    CHI_SQUARE_PVALUE_RWS = 'testChiSquarePValueRWS'
+    def testChiSquarePValueRWS(self,**kwargs):
+        return RGSST.testChiSquarePValueRWS(self,**kwargs)
     
-    def coefficientCurtosisRE(self):
-        return RGSST.coefficientCurtosisRE(self)
+    COEFF_CURTOSIS_RE = 'coefficientCurtosisRE'
+    def coefficientCurtosisRE(self,**kwargs):
+        return RGSST.coefficientCurtosisRE(self,**kwargs)
     
-    def coefficientAsymetryRE(self):
-        return RGSST.coefficientAsymetryRE(self)
+    COEFF_ASYMETRY_RE = 'coefficientAsymetryRE'
+    def coefficientAsymetryRE(self,**kwargs):
+        return RGSST.coefficientAsymetryRE(self,**kwargs)
     
-    def testLillieforsRE(self):
-        return RGSST.testLillieforsRE(self)
+    LILLIEFORS_RE = 'testLillieforsRE'
+    def testLillieforsRE(self,**kwargs):
+        return RGSST.testLillieforsRE(self,**kwargs)
     
-    def testLillieforsPValueRE(self):
-        return RGSST.testLillieforsPValueRE(self)
+    LILLIEFORS_PVALUE_RE = 'testLillieforsPValueRE'
+    def testLillieforsPValueRE(self,**kwargs):
+        return RGSST.testLillieforsPValueRE(self,**kwargs)
     
-    def testShapiroWilkRE(self):
-        return RGSST.testShapiroWilkRE(self)
+    SHAPIRO_WILK_RE = 'testShapiroWilkRE'
+    def testShapiroWilkRE(self,**kwargs):
+        return RGSST.testShapiroWilkRE(self,**kwargs)
     
-    def testShapiroWilkPValueRE(self):
-        return RGSST.testShapiroWilkPValueRE(self)
+    SHAPIRO_WILK_PVALUE_RE = 'testShapiroWilkPValueRE'
+    def testShapiroWilkPValueRE(self,**kwargs):
+        return RGSST.testShapiroWilkPValueRE(self,**kwargs)
     
-    def testKolmogorovSmirnovRE(self):
-        return RGSST.testKolmogorovSmirnovRE(self)
+    KOLMOGOROV_SMIRNOV_RE = 'testKolmogorovSmirnovRE'
+    def testKolmogorovSmirnovRE(self,**kwargs):
+        return RGSST.testKolmogorovSmirnovRE(self,**kwargs)
     
-    def testKolmogorovSmirnovPValueRE(self):
-        return RGSST.testKolmogorovSmirnovPValueRE(self)
+    KOLMOGOROV_SMIRNOV_PVALUE_RE = 'testKolmogorovSmirnovPValueRE'
+    def testKolmogorovSmirnovPValueRE(self,**kwargs):
+        return RGSST.testKolmogorovSmirnovPValueRE(self,**kwargs)
     
-    def testJarqueBeraRE(self):
-        return RGSST.testJarqueBeraRE(self)
+    JARQUE_BERA_RE = 'testJarqueBeraRE'
+    def testJarqueBeraRE(self,**kwargs):
+        return RGSST.testJarqueBeraRE(self,**kwargs)
     
-    def testJarqueBeraPValueRE(self):
-        return RGSST.testJarqueBeraPValueRE(self)
+    JARQUE_BERA_PVALUE_RE = 'testJarqueBeraPValueRE'
+    def testJarqueBeraPValueRE(self,**kwargs):
+        return RGSST.testJarqueBeraPValueRE(self,**kwargs)
     
-    def testAndersonDarlingRE(self):
-        return RGSST.testAndersonDarlingRE(self)
+    ANDERSON_DARLING_RE = 'testAndersonDarlingRE'
+    def testAndersonDarlingRE(self,**kwargs):
+        return RGSST.testAndersonDarlingRE(self,**kwargs)
     
-    def testAndersonDarlingPValueRE(self):
-        return RGSST.testAndersonDarlingPValueRE(self)
+    ANDERSON_DARLING_PVALUE_RE = 'testAndersonDarlingPValueRE'
+    def testAndersonDarlingPValueRE(self,**kwargs):
+        return RGSST.testAndersonDarlingPValueRE(self,**kwargs)
     
-    def testKCuadDAngostinoRE(self):
-        return RGSST.testKCuadDAngostinoRE(self)
+    K_CUAD_DANGOSTINO_RE = 'testKCuadDAngostinoRE'
+    def testKCuadDAngostinoRE(self,**kwargs):
+        return RGSST.testKCuadDAngostinoRE(self,**kwargs)
     
-    def testKCuadDAngostinoPValueRE(self):
-        return RGSST.testKCuadDAngostinoPValueRE(self)
+    K_CUAD_DANGOSTINO_PVALUE_RE = 'testKCuadDAngostinoPValueRE'
+    def testKCuadDAngostinoPValueRE(self,**kwargs):
+        return RGSST.testKCuadDAngostinoPValueRE(self,**kwargs)
     
-    def testChiSquareRE(self):
-        return RGSST.testChiSquareRE(self)
+    CHI_SQUARE_RE = 'testChiSquareRE'
+    def testChiSquareRE(self,**kwargs):
+        return RGSST.testChiSquareRE(self,**kwargs)
     
-    def testChiSquarePValueRE(self):
-        return RGSST.testChiSquarePValueRE(self)
+    CHI_SQUARE_PVALUE_RE = 'testChiSquarePValueRE'
+    def testChiSquarePValueRE(self,**kwargs):
+        return RGSST.testChiSquarePValueRE(self,**kwargs)
     
-    def testBreushPagan(self):
-        return RGSST.testBreushPagan(self)
+    BREUSH_PAGAN = 'testBreushPagan'
+    def testBreushPagan(self,**kwargs):
+        return RGSST.testBreushPagan(self,**kwargs)
     
-    def testBreushPaganPValue(self):
-        return RGSST.testBreushPaganPValue(self)
+    BREUSH_PAGAN_PVALUE = 'testBreushPaganPValue'
+    def testBreushPaganPValue(self,**kwargs):
+        return RGSST.testBreushPaganPValue(self,**kwargs)
     
-    def testGoldfeldQuandt(self):
-        return RGSST.testGoldfeldQuandt(self)
+    GOLDFELD_QUANDT = 'testGoldfeldQuandt'
+    def testGoldfeldQuandt(self,**kwargs):
+        return RGSST.testGoldfeldQuandt(self,**kwargs)
     
-    def testGoldfeldQuandtPValue(self):
-        return RGSST.testGoldfeldQuandtPValue(self)
+    GOLDFELD_QUANDT_PVALUE = 'testGoldfeldQuandtPValue'
+    def testGoldfeldQuandtPValue(self,**kwargs):
+        return RGSST.testGoldfeldQuandtPValue(self,**kwargs)
     
-    def testWhiteLH(self):
-        return RGSST.testWhiteLH(self)
+    WHITE_LH = 'testWhiteLH'
+    def testWhiteLH(self,**kwargs):
+        return RGSST.testWhiteLH(self,**kwargs)
     
-    def testWhiteLHPValue(self):
-        return RGSST.testWhiteLHPValue(self)
+    WHITE_LH_PVALUE = 'testWhiteLHPValue'
+    def testWhiteLHPValue(self,**kwargs):
+        return RGSST.testWhiteLHPValue(self,**kwargs)
     
-    def testWhiteFW(self):
-        return RGSST.testWhiteFW(self)
+    WHITE_FW = 'testWhiteFW'
+    def testWhiteFW(self,**kwargs):
+        return RGSST.testWhiteFW(self,**kwargs)
     
-    def testWhiteFWPValue(self):
-        return RGSST.testWhiteFWPValue(self)
+    WHITE_FW_PVALUE = 'testWhiteFWPValue'
+    def testWhiteFWPValue(self,**kwargs):
+        return RGSST.testWhiteFWPValue(self,**kwargs)
     
-    def testDurbinWatson(self):
-        return RGSST.testDurbinWatson(self)
+    DURBIN_WATSON = 'testDurbinWatson'
+    def testDurbinWatson(self,**kwargs):
+        return RGSST.testDurbinWatson(self,**kwargs)
     
-    def testBreushGGodfrey(self):
-        return RGSST.testBreushGGodfrey(self)
+    BREUSH_GGODFREY = 'testBreushGGodfrey'
+    def testBreushGGodfrey(self,**kwargs):
+        return RGSST.testBreushGGodfrey(self,**kwargs)
     
-    def testBreushGGodfreyPValue(self):
-        return RGSST.testBreushGGodfreyPValue(self)
+    BREUSH_GGODFREY_PVALUE = 'testBreushGGodfreyPValue'
+    def testBreushGGodfreyPValue(self,**kwargs):
+        return RGSST.testBreushGGodfreyPValue(self,**kwargs)
     
-    def analysisMultiColinialidad(self):
-        return RGSST.analysisMultiColinialidad(self)
+    ANALYSIS_MULTICOLINIALIDAD = 'analysisMultiColinialidad'
+    def analysisMultiColinialidad(self,**kwargs):
+        return RGSST.analysisMultiColinialidad(self,**kwargs)
     
     RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN = 'relationRangeValuesAndErrorSTDMean'
-    def relationRangeValuesAndErrorSTDMean(self):
+    def relationRangeValuesAndErrorSTDMean(self,**kwargs):
         return RGSST.relationRangeValuesAndErrorSTDMean(self)
     
     SUMS_NEIGHBORS = 'sumsNeighbors'
-    def sumsNeighbors(_model):
+    def sumsNeighbors(_model,**kwargs):
         return RGSST.sumsNeighbors(_model)
     
     SSfa = 'ssfa'

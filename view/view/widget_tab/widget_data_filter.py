@@ -71,7 +71,7 @@ class WidgetDataFilter(WidgetTab):
         self.verticalLayout_3.addItem(spacerItem)
         self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.label.setText("Datos Iniciales")
-        self.label_2.setText("Selecciones las variables del modelaje")
+        self.label_2.setText("Selecciones las variables del modelo")
         self.tableViewDataFrame.verticalHeader().hide()
         
     def createWorkspace(self):
@@ -88,6 +88,7 @@ class WidgetDataFilter(WidgetTab):
         self.tableViewDataFrame.setModel(modelData)
         self.tableViewDataFrame.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.tableViewDataFrame.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
+        self.pushButtonNext.setEnabled(False)
         self.createConnect()
         
         
@@ -107,7 +108,8 @@ class WidgetDataFilter(WidgetTab):
         self.listViewVariable.checked.connect(self.onChecked)
         
     
-    def update(self):
+    def updateTab(self):
+        print('112')
         self.model = QtGui.QStandardItemModel(self.listViewVariable)
         namesVariable = AnalysisData().getNamesVariables()
         for line in namesVariable:
@@ -119,3 +121,4 @@ class WidgetDataFilter(WidgetTab):
         self.listViewVariable.setModel(self.model)
         modelData =DataFrameModel(AnalysisData().getDataFrame(),self.tableViewDataFrame)
         self.tableViewDataFrame.setModel(modelData)
+        self.pushButtonNext.setEnabled(False)

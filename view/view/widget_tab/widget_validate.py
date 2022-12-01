@@ -45,7 +45,7 @@ class WidgetValidate(WidgetTab):
         self.rbBootStro.clicked.connect(self.changeMethodValidation)
         super().createConnect()
         
-    def update(self):
+    def updateTab(self):
         pass
     
     def changeMethodValidation(self):

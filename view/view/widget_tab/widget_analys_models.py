@@ -45,7 +45,7 @@ class WidgetAnalysModels(WidgetTab):
         self.toolBoxModel.currentChanged.connect(self.changeTab)
         super().createConnect()
         
-    def update(self):
+    def updateTab(self):
         while self.toolBoxModel.count() >0:
             self.toolBoxModel.removeItem(0)
         self.createWorkspace() 
