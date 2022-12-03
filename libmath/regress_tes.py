@@ -8,7 +8,7 @@ import numpy as np
 from scipy import stats as st
 from scipy.stats import chisquare, kurtosis, skew, shapiro, kstest, stats, anderson, normaltest
 
-import scipy.stasts
+import scipy.stats
 
 from statsmodels.stats.diagnostic import lilliefors, het_white
 from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -26,9 +26,14 @@ from sklearn.metrics import mean_squared_error
 from sklearn import metrics
 from sklearn.model_selection import cross_val_score, cross_val_predict
 
+from exceptions.exceptions import NotFoundParameterExtraException, EstadigrafoFisherCalFOException, RelationFOFTException
+
 # --- Inicio de metodos comunes y utilizados en otros ---
 
 cvar = lambda x: np. std (x, ddof = 1 ) / np. mean (x) * 100
+
+def CVAR(_x):
+    return np.std(_x,ddof = 1) / np.mean(_x)*100
 
 def fitModel(_model,**kwargs):
     reg=smf.ols(_model.eval(),_model.getDataFrameModel())
@@ -68,7 +73,7 @@ def scoreModel(_model,**kwargs):
         scores = cross_validate(model, X, y, cv=k,scoring=('r2', 'neg_mean_squared_error'), return_train_score=True)
         return scores
     else:
-        raise Exception("No existe parametro k")
+        raise NotFoundParameterExtraException('k','scoreModel')
 
 # --- Fin de metodos comunes y utilizados en otros ---
 
@@ -515,11 +520,14 @@ def countLevelVarInd(_model,**kwargs):
 def estadigrafoFisherCalFO(_model,**kwargs):
     m = countLevelVarInd(_model,**kwargs)
     n = _model.numberMeasurement()
-    sumaVecinos = sumsNeighbors(_model)
+    sumaVecinos = sumsNeighbors(_model,**kwargs)
     SSlof = sslofModel(_model,**kwargs)
-    Fo=(SSlof/(m-2))/(sumaVecinos/(n-m))
-    Forr=round(Fo,4)
-    return Forr
+    if m-2 != 0 and sumaVecinos != 0 and n != m : 
+        Fo=(SSlof/(m-2))/(sumaVecinos/(n-m))
+        Forr=round(Fo,4)
+        return Forr
+    else:
+        raise  EstadigrafoFisherCalFOException()
     
 def estadigrafoFisherTabFT(_model,**kwargs):
     
@@ -533,7 +541,7 @@ def estadigrafoFisherTabFT(_model,**kwargs):
         Ftr=round(Ft,4)
         return Ftr
     else :
-        raise Exception("Falta parametro nivel de significacion")
+        raise NotFoundParameterExtraException('alpha','estadigrafoFisherTabFT')
     
 def relationFOFT(_model,**kwargs):
     if 'alpha' in kwargs.keys():
@@ -542,15 +550,18 @@ def relationFOFT(_model,**kwargs):
         n = _model.numberMeasurement()
         SSlof = sslofModel(_model,**kwargs)
         sumaVecinos = sumsNeighbors(_model)
-        Fo=(SSlof/(m-2))/(sumaVecinos/(n-m))
-        a1=m-2
-        a2=n-m
-        Ft=scipy.stats.f.ppf(q=1-alpha,dfn=a1,dfd=a2)
-        relafisher=Ft/Fo
-        Relar=round(relafisher,4)
-        return Relar
+        if m-2 != 0 and sumaVecinos != 0 and n != m :
+            Fo=(SSlof/(m-2))/(sumaVecinos/(n-m))
+            a1=m-2
+            a2=n-m
+            Ft=scipy.stats.f.ppf(q=1-alpha,dfn=a1,dfd=a2)
+            relafisher=Ft/Fo
+            Relar=round(relafisher,4)
+            return Relar
+        else:
+            raise RelationFOFTException()
     else :
-        raise Exception("Falta parametro nivel de significacion") 
+        raise NotFoundParameterExtraException('alpha','relationFOFT') 
 
 def mediaNegRMSETVKFOLD(_model,**kwargs):
     score = scoreModel(_model,**kwargs)
@@ -605,70 +616,71 @@ def mediaRSEMBootStropping(_model,**kwargs):
     boot_RMSE = []
     RMSEbtmean = None
     if 'boots' in kwargs.keys():
-        boots = int(kwargs)
+        boots = int(kwargs['boots'])
         k= _model.numberMeasurement()
         for _ in range(boots):
             data_df = _model.getDataFrameModel()
             sample_df = data_df.sample(n=k, replace=True)
-            regbst=smf.ols(_model.eva(),sample_df)
+            regbst=smf.ols(_model.eval(),sample_df)
             resulbst=regbst.fit() 
             RMSEbst=np.sqrt(resulbst.mse_total)
             boot_RMSE.append(RMSEbst)
         RMSEbtmean=np.mean(boot_RMSE)
     else :
-        raise Exception("Falta parametro boots") 
+        raise NotFoundParameterExtraException('boots','mediaRSEMBootStropping')  
     return RMSEbtmean
     
 def cvRSEMBootStropping(_model,**kwargs):
     boot_RMSE = []
     RMSEcv = None
     if 'boots' in kwargs.keys():
-        boots = int(kwargs)
+        boots = int(kwargs['boots'])
         k= _model.numberMeasurement()
         for _ in range(boots):
             data_df = _model.getDataFrameModel()
             sample_df = data_df.sample(n=k, replace=True)
-            regbst=smf.ols(_model.eva(),sample_df)
+            regbst=smf.ols(_model.eval(),sample_df)
             resulbst=regbst.fit() 
             RMSEbst=np.sqrt(resulbst.mse_total)
             boot_RMSE.append(RMSEbst)
-        RMSEcv=cvar(boot_RMSE)
+        RMSEcv=CVAR(boot_RMSE)
     else :
-        raise Exception("Falta parametro boots") 
+        raise NotFoundParameterExtraException('boots','cvRSEMBootStropping') 
     return RMSEcv
     
 def mediaRSquareBootStropping(_model,**kwargs):
     boot_rcuadj = []
     Rcuadjbtmean =None
     if 'boots' in kwargs.keys():
-        boots = int(kwargs)
+        boots = int(kwargs['boots'])
         k= _model.numberMeasurement()
         for _ in range(boots):
             data_df = _model.getDataFrameModel()
             sample_df = data_df.sample(n=k, replace=True)
-            regbst=smf.ols(_model.eva(),sample_df)
+            regbst=smf.ols(_model.eval(),sample_df)
             resulbst=regbst.fit() 
             boot_rcuadj.append(resulbst)
         Rcuadjbtmean=np.mean(boot_rcuadj)
     else :
-        raise Exception("Falta parametro boots") 
+        raise NotFoundParameterExtraException('boots','mediaRSquareBootStropping') 
     return Rcuadjbtmean
     
 def cvRSquareBootStropping(_model,**kwargs):
     boot_rcuadj = []
     Rcuacv = None
     if 'boots' in kwargs.keys():
-        boots = int(kwargs)
+        boots = int(kwargs['boots'])
         k= _model.numberMeasurement()
         for _ in range(boots):
             data_df = _model.getDataFrameModel()
             sample_df = data_df.sample(n=k, replace=True)
-            regbst=smf.ols(_model.eva(),sample_df)
+            regbst=smf.ols(_model.eval(),sample_df)
             resulbst=regbst.fit() 
             boot_rcuadj.append(resulbst)
-        Rcuacv=cvar(boot_rcuadj)
+        print(boot_rcuadj)
+        Rcuacv=CVAR(boot_rcuadj)
     else :
-        raise Exception("Falta parametro boots")
+        raise NotFoundParameterExtraException('boots','cvRSquareBootStropping')
     return Rcuacv
     
     
@@ -683,7 +695,7 @@ def testRMSETestKFOLD(_model,**kwargs):
         predictions=cross_val_predict(clf,X,y,cv=k)
         e=metrics.r2_score(y,predictions)
     else:
-        raise Exception("No se encuentra el parametro k")
+        raise NotFoundParameterExtraException('k','testRMSETestKFOLD')
     return e
 
 def testSquareTwoTestKFOLD(_model,**kwargs):
@@ -697,6 +709,6 @@ def testSquareTwoTestKFOLD(_model,**kwargs):
         f=metrics.mean_squared_error(y,predictions)
         g=np.sqrt(f)
     else:
-        raise Exception("No se encuentra el parametro k")
+        raise NotFoundParameterExtraException('k','testSquareTwoTestKFOLD')
     return g
     

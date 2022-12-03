@@ -1,5 +1,7 @@
 from view.view.widget_tab.widget_tab import WidgetTab
 
+from controller.analysis_data import AnalysisData
+
 from view.components.widget_validation_boot_stropping import  WidgetValidationBootStropping
 from view.components.widget_validation_kold import WidgetValidationKold
 
@@ -37,8 +39,9 @@ class WidgetValidate(WidgetTab):
         self.rbBootStro.setText("Validación por bootsstropping")
     
     def createWorkspace(self):
-        self.widgetValidationKold = WidgetValidationKold()
-        self.widgetValidationBootStropping = WidgetValidationBootStropping()
+        self.keyModel = AnalysisData().getKeyModelSelect()
+        self.widgetValidationKold = WidgetValidationKold(self.keyModel)
+        self.widgetValidationBootStropping = WidgetValidationBootStropping(self.keyModel)
     
     def createConnect(self):
         self.rBKFold.clicked.connect(self.changeMethodValidation)
@@ -46,11 +49,11 @@ class WidgetValidate(WidgetTab):
         super().createConnect()
         
     def updateTab(self):
-        pass
+        self.keyModel = AnalysisData().getKeyModelSelect()
+        self.widgetValidationBootStropping.setKeyModel(self.keyModel)
+        self.widgetValidationKold.setKeyModel(self.keyModel)
     
     def changeMethodValidation(self):
-        print('self.rBKFold.isChecked()',self.rBKFold.isChecked())
-        print('self.rbBootStro.isChecked()',self.rbBootStro.isChecked())
         if self.rBKFold.isChecked() == True and self.rbBootStro.isChecked() == False:
             self.gridLayout.replaceWidget(self.widgetValidationBootStropping,self.subWidget)
             self.gridLayout.replaceWidget(self.subWidget,self.widgetValidationKold)

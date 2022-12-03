@@ -3,6 +3,9 @@ from view.view.widget_tab.widget_tab import WidgetTab
 
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
+from exceptions.exceptions import EstadigrafoFisherCalFOException, RelationFOFTException
+
+from view.components import message_box as MB
 
 class WidgetQualityAdjustModel(WidgetTab):
     
@@ -234,18 +237,56 @@ class WidgetQualityAdjustModel(WidgetTab):
         self.lORMSE.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL) ) )
         self.lORelationRangeValuesERRSTD.setText(str( AnalysisData().getDataModel(self.keyModel, ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN) ))
         self.hideShowComponentWidgetResult(False)
+        self.lORMSE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL)) )
+        self.lORelationRangeValuesERRSTD.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN) ))
     
     def createConnect(self):
         self.pBCalculate.clicked.connect(self.calculate)
         super().createConnect()
         
     def updateTab(self):
-        pass
+        self.keyModel = AnalysisData().getKeyModelSelect()
+        self.lORMSE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL)) )
+        self.lORelationRangeValuesERRSTD.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN) ))
     
     def calculate(self):
         levelSig = self.dSBLevelSignification.value()
-        
         self.hideShowComponentWidgetResult(False)
+        
+        
+        sumVecinos = AnalysisData().getDataModel(self.keyModel, ModelLMR.SUMS_NEIGHBORS,alpha=float(levelSig))
+        
+        errorMessage=""
+        
+        if sumVecinos > 0 :
+           self.lOSSfa.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SSFA,alpha=float(levelSig)) ) )
+           self.lOSSpe.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SSPE,alpha=float(levelSig)) ) )
+           self.lOCountObsv.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.NUMBER_MEAS,alpha=float(levelSig)) ) )
+           self.lOCountLevelVarInde.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.COUNT_LEVEL_VAR_IND,alpha=float(levelSig)) ) )
+           try:
+               self.lOEstFisCalFO.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.ESTADIGRAFO_FISHER_CAL_FO,alpha=float(levelSig)) ) )
+           except EstadigrafoFisherCalFOException as e:
+               errorMessage = errorMessage+str(e)
+               self.lOEstFisCalFO.setText("NA")
+           self.lOEstFisTabFO.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.ESTADIGRAFO_FISHER_TAB_FT,alpha=float(levelSig)) ) )
+           try:
+               self.lORelationFOFt.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_FOFT,alpha=float(levelSig)) ) )   
+           except RelationFOFTException as f:
+               errorMessage = errorMessage+str(f)
+               self.lORelationFOFt.setText("NA")
+           self.hideShowComponentWidgetResult(True)
+        else:
+            messageBox=MB.showGenericMessage(self.parent(),MB.MESSAG_CRITICAL,
+                                                       "Error",
+                                                       "Error, debe contar con observaciones replicadas")
+            messageBox.exec()
+            
+        if len(errorMessage)!=0:
+            messageBox=MB.showGenericMessage(self.parent(),MB.MESSAG_CRITICAL,
+                                                       "Error",
+                                                       errorMessage)
+            messageBox.exec()
+        
         
     def hideShowComponentWidgetResult(self,_visible):
         self.label_6.setVisible(_visible)

@@ -26,6 +26,7 @@ if __name__ == "__main__":
     
     app = QApplication(sys.argv)
     win = App()
+    #win.showMaximized()
     win.showFullScreen()
     win.setWindowIcon(QIcon(":/img/falta.png"))
     win.setWindowTitle("SugarLM-Regress")

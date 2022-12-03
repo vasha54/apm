@@ -22,6 +22,8 @@ from view.model.modelLMR_model import ModelLMRModel
 from view.components.list_view import ListViewCheckBox,ListViewRadioButton
 from view.components import message_box as MB
 
+from view.dialog.dialog_details_model import DialogDetailsModel
+
 from controller.analysis_data import AnalysisData
 
 from model.modelLMR import ModelLMR
@@ -273,7 +275,7 @@ class WidgetBuildModel(WidgetTab):
         self.listViewCandidateVD.radioButton.connect(self.addVariableD)
         self.listViewCandidateVI.checked.connect(self.selectVariableI)
              
-    def validModel(self,_nameModel,_nameVD,_namesVI):
+    def validModel(self,_nameModel,_nameVD,_namesVI,_intervalConfidence):
         isModelOK = True
         error = ""
         
@@ -293,11 +295,11 @@ class WidgetBuildModel(WidgetTab):
             isModelOK = False
             error = error +"- La variable dependiente no puede formar parte de las variables independientes del modelo\n"
             
-        modelTes =ModelLMR('test',_nameModel,_nameVD,_namesVI)
+        modelTes =ModelLMR('test',_nameModel,_nameVD,_namesVI,_intervalConfidence)
         
-        if self.modelModelLMR.existThisModel(modelTes) == True:
+        if self.modelModelLMR.canAddThisModel(modelTes) == False:
             isModelOK = False
-            error = error +"- El modelo conformado quiza su nombre no sea igual pero su estructura (Variable Dependiente y las Variables Inpendientes en su orden) es identica a otro ya definido\n"    
+            error = error +"- El modelo conformado quiza su nombre no sea igual pero su estructura (Variable Dependiente, las Variables Inpendientes sin importar su orden y su intervalo de confianza) es identica a otro ya definido\n"    
             
         return [isModelOK,error]          
     
@@ -307,7 +309,7 @@ class WidgetBuildModel(WidgetTab):
         intervalConfidence = self.doubleSBIntervalConfidence.value()
         namesVariableI = self.modelVariablesIndepent.getElements()
         
-        [isModelOK ,error] =self.validModel(nameModel,nameVariableD,namesVariableI)        
+        [isModelOK ,error] =self.validModel(nameModel,nameVariableD,namesVariableI,intervalConfidence)        
         
         if isModelOK == True:
             uidModel = str( uuid.uuid4())
@@ -356,9 +358,8 @@ class WidgetBuildModel(WidgetTab):
             index=indexes[0]
             model = self.modelModelLMR.getThisModel(index)
             if model != None:
-                messageBox=MB.showGenericMessage(self.parent(),MB.MESSAG_INFORMATION,
-                                                       "Información - Detalles del modelo",
-                                                       model.detailsModelForMessageBox())
+                dialogDetails = DialogDetailsModel(model,self)
+                dialogDetails.exec()
             else:
                 messageBox=MB.showGenericMessage(self.parent(),MB.MESSAG_CRITICAL,
                                                        "Error",
@@ -415,11 +416,11 @@ class WidgetBuildModel(WidgetTab):
         self.modelVariablesIndepent.addElement(nameVariable)
         
     def clickNextStage(self):
-        tModelCreate = self.modelModelLMR.getElements()
-        for k,v in tModelCreate.items():
-            AnalysisData().addModel(v)
-        self.modelModelLMR.clear()
-        self.modelModelLMR.clearElements()  
+        # tModelCreate = self.modelModelLMR.getElements()
+        # for k,v in tModelCreate.items():
+        #     AnalysisData().addModel(v)
+        # self.modelModelLMR.clear()
+        # self.modelModelLMR.clearElements()  
         super().clickNextStage()
         
         

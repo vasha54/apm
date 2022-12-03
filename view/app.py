@@ -85,7 +85,7 @@ class App(QMainWindow, Ui_MainWindow):
         self.m_tabWidget.setTabEnabled(8,False)
             
     def createMenuBar(self):
-        self.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
+        #self.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
 
         self.m_frameMenuBar=QFrame (self);
         self.m_frameMenuBar.setStyleSheet ("background-color:#e0e0e0")

@@ -33,12 +33,21 @@ class ModelLMR:
     
     def __eq__(self, _otherModel):
         isEqual = True
+        equalVD = True
+        equalVI = True
+        equalIC = True
+        
+        if _otherModel == None:
+            return False
         
         if self.nameVariableD != _otherModel.getNameVariableD():
-            isEqual = False
+            equalVD= False
+           
+        if self.intervalConfidence != _otherModel.getIntervalConfidence():
+            equalIC = False
             
         if len(self.namesVariableI) != len(_otherModel.getNamesVariableI()):
-            isEqual =False
+            equalVI =False
         else:
             otherVI =[]
             selfVI = []
@@ -53,7 +62,9 @@ class ModelLMR:
             
             for i in range (0,cCount):
                 if otherVI[i] != selfVI[i]:
-                    isEqual = False
+                    equalVI = False
+        
+        isEqual = (equalVI and equalVD and equalIC)
                      
         return isEqual
     
@@ -65,18 +76,18 @@ class ModelLMR:
         return eval
     
     NAME = 'getNameModel'    
-    def getNameModel(self):
+    def getNameModel(self,**kwargs):
         return self.nameModel
     
     def getIDModel(self):
         return self.idModel
     
     NAME_VD = 'getNameVariableD'
-    def getNameVariableD(self):
+    def getNameVariableD(self,**kwargs):
         return self.nameVariableD
     
     ALL_NAME_VARI = 'getNamesVariableI'
-    def getNamesVariableI(self):
+    def getNamesVariableI(self,**kwargs):
         return self.namesVariableI
     
     def getDataFrameVI(self):
@@ -95,7 +106,7 @@ class ModelLMR:
         return self.intervalConfidence
     
     ALL_NAME_VAR= 'getNamesAllVariables'
-    def getNamesAllVariables(self):
+    def getNamesAllVariables(self,**kwargs):
         return self.namesAllVariables
     
     def setNameModel(self, _nameModel):
@@ -122,7 +133,7 @@ class ModelLMR:
         self.dataFrameModel= _dataFrameModel
     
     NUMBER_MEAS = 'numberMeasurement' 
-    def numberMeasurement(self):
+    def numberMeasurement(self,**kwargs):
         return len(self.dataFrameVD[self.nameVariableD])
     
     def setIsSelect(self, _select):
@@ -405,76 +416,91 @@ class ModelLMR:
     
     RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN = 'relationRangeValuesAndErrorSTDMean'
     def relationRangeValuesAndErrorSTDMean(self,**kwargs):
-        return RGSST.relationRangeValuesAndErrorSTDMean(self)
+        return RGSST.relationRangeValuesAndErrorSTDMean(self,**kwargs)
     
     SUMS_NEIGHBORS = 'sumsNeighbors'
     def sumsNeighbors(_model,**kwargs):
-        return RGSST.sumsNeighbors(_model)
+        return RGSST.sumsNeighbors(_model,**kwargs)
     
-    SSfa = 'ssfa'
+    SSFA = 'ssfa'
     def ssfa(self,**kwargs):
-        pass
+        return RGSST.ssfa(self,**kwargs)
     
-    SSpe = 'sspe'
+    SSPE = 'sspe'
     def sspe(self,**kwargs):
-        pass
+        return RGSST.sspe(self,**kwargs)
     
     COUNT_LEVEL_VAR_IND = 'countLevelVarInd'
     def countLevelVarInd(self,**kwargs):
-        pass
+        return RGSST.countLevelVarInd(self,**kwargs)
     
     ESTADIGRAFO_FISHER_CAL_FO = 'estadigrafoFisherCalFO'
     def estadigrafoFisherCalFO(self,**kwargs):
-        pass
+        return RGSST.estadigrafoFisherCalFO(self,**kwargs)
     
     ESTADIGRAFO_FISHER_TAB_FT = 'estadigrafoFisherTabFT'
     def estadigrafoFisherTabFT(self,**kwargs):
-        pass
+        return RGSST.estadigrafoFisherTabFT(self,**kwargs)
     
+    RELATION_FOFT = 'relationFOFT'
     def relationFOFT(self,**kwargs):
-        pass
+        return RGSST.relationFOFT(self,**kwargs)
     
+    MEDIA_NEG_RMSE_TV_KFOLD = 'mediaNegRMSETVKFOLD'
     def mediaNegRMSETVKFOLD(self,**kwargs):
-        pass
+        return RGSST.mediaNegRMSETVKFOLD(self,**kwargs)
     
+    CV_NEG_RMSE_TV_KFOLD = 'cvNegRMSETVKFOLD'
     def cvNegRMSETVKFOLD(self,**kwargs):
-        pass
+        return RGSST.cvNegRMSETVKFOLD(self,**kwargs)
     
+    MEDIA_NEG_RMSE_TE_KFOLD = 'mediaNegRMSETEKFOLD'
     def mediaNegRMSETEKFOLD(self,**kwargs):
-        pass
+        return RGSST.mediaNegRMSETEKFOLD(self,**kwargs)
     
+    CV_NEG_RMSE_TE_KFOLD = 'cvNegRMSETEKFOLD'
     def cvNegRMSETEKFOLD(self,**kwargs):
-        pass
+        return RGSST.cvNegRMSETEKFOLD(self,**kwargs)
     
+    MEDIA_RSQUARE_TV_KFOLD = 'mediaRSquareTVKFOLD'
     def mediaRSquareTVKFOLD(self,**kwargs):
-        pass
+        return RGSST.mediaRSquareTVKFOLD(self,**kwargs)
     
+    CV_RSQUARE_TV_KFOLD = 'cvRSquareTVKFOLD'
     def cvRSquareTVKFOLD(self,**kwargs):
-        pass
+        return RGSST.cvRSquareTVKFOLD(self,**kwargs)
     
+    MEDIA_RSQUARE_TE_KFOLD = 'mediaRSquareTEKFOLD'
     def mediaRSquareTEKFOLD(self,**kwargs):
-        pass
+        return RGSST.mediaRSquareTEKFOLD(self,**kwargs)
     
+    CV_RSQUARE_TE_KFOLD = 'cvRSquareTEKFOLD'
     def cvRSquareTEKFOLD(self,**kwargs):
-        pass
+        return RGSST.cvRSquareTEKFOLD(self,**kwargs)
     
+    MEDIA_RSEM_BOOT_STROPPING = 'mediaRSEMBootStropping'
     def mediaRSEMBootStropping(self,**kwargs):
-        pass
+        return RGSST.mediaRSEMBootStropping(self,**kwargs)
     
+    CV_RSEM_BOOT_STROPPING = 'cvRSEMBootStropping'
     def cvRSEMBootStropping(self,**kwargs):
-        pass
+        return RGSST.cvRSEMBootStropping(self,**kwargs)
     
+    MEDIA_RSQUARE_BOOT_STROPPING = 'mediaRSquareBootStropping'
     def mediaRSquareBootStropping(self,**kwargs):
-        pass
+        return RGSST.mediaRSquareBootStropping(self,**kwargs)
     
+    CV_RSQUARE_BOOT_STROPPING = 'cvRSquareBootStropping'
     def cvRSquareBootStropping(self,**kwargs):
-        pass
+        return RGSST.cvRSquareBootStropping(self,**kwargs)
     
+    TEST_RMSE_TEST_KFOLD = 'testRMSETestKFOLD'
     def testRMSETestKFOLD(self,**kwargs):
-        pass
+        return RGSST.testRMSETestKFOLD(self,**kwargs)
     
+    TEST_SQUARE_TWO_TEST_KFOLD = 'testSquareTwoTestKFOLD'
     def testSquareTwoTestKFOLD(self,**kwargs):
-        pass
+        return RGSST.testSquareTwoTestKFOLD(self,**kwargs)
     
     
         

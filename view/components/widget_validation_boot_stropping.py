@@ -19,6 +19,36 @@ class WidgetValidationBootStropping(QWidget,Ui_WidgetValidationBootStropping):
         self.setupUi(self)
         self.keyModel = _keyModel
         self.createWorkSpace()
+        self.createConnects()
         
     def createWorkSpace(self):
-        pass
+        self.gBResult.setVisible(False)
+        
+    def setKeyModel(self, _keyModel):
+        self.keyModel = _keyModel
+    
+    def createConnects(self):
+        self.pBAnalizar.clicked.connect(self.calculate)
+        #self.sBCountBoot.valueChanged.connect(self.changeValueBoost)
+    
+    def calculate(self):
+        bootsValue = int(self.sBCountBoot.value())
+        
+        
+        self.lOCVRSME.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.CV_RSEM_BOOT_STROPPING, boots=bootsValue)) )
+        # TODO chequear con Jonathan
+        #self.lOCVRSQUARE.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.CV_RSQUARE_BOOT_STROPPING, boots=bootsValue)) )
+        self.lOMediaRSME.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSEM_BOOT_STROPPING, boots=bootsValue)) )
+        # TODO chequear con Jonathan
+        #self.lOMediaRSQUARE.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSQUARE_BOOT_STROPPING, boots=bootsValue)) )
+        
+        self.gBResult.setVisible(True)
+        
+    def changeValueBoost(self,_value):
+        bootsValue = int(_value)
+        self.lOCVRSME.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.CV_RSEM_BOOT_STROPPING, boots=bootsValue)) )
+        self.lOCVRSQUARE.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.CV_RSQUARE_BOOT_STROPPING, boots=bootsValue)) )
+        self.lOMediaRSME.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSEM_BOOT_STROPPING, boots=bootsValue)) )
+        self.lOMediaRSQUARE.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSQUARE_BOOT_STROPPING, boots=bootsValue)) )
+        
+        

@@ -54,4 +54,9 @@ class ManagerModel:
             data = getattr(self.dictModel[_keyModel],_method)(**kwargs)
         return data
     
+    def getThisModel(self,_key):
+        model = None
+        if _key in self.dictModel.keys():
+            model = self.dictModel[_key]
+        return model
        

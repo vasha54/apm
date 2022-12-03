@@ -106,14 +106,19 @@ class AnalysisData(metaclass=SingletonMeta):
     def getKeysModels(self):
         return self.managerModels.getKeysModels()
     
-    def getDataModel(self,_keyModel, _attr):
-        return self.managerModels.getDataModel(_keyModel,_attr)
+    def getDataModel(self, _keyModel, _method, **kwargs):
+        return self.managerModels.getDataModel( _keyModel, _method, **kwargs)
     
     def setSelectModel(self,_key):
         self.managerModels.setSelectModel(_key)
         
     def getKeyModelSelect(self):
         return self.managerModels.getKeyModelSelect()
-     
+    
+    def canAddThisModel(self,model):
+        return self.managerModels.canAddThisModel(model)
+    
+    def getThisModel(self,_key):
+        return self.managerModels.getThisModel(_key)
             
         
