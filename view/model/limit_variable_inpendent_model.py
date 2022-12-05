@@ -53,7 +53,7 @@ class LimitVariableInpendentModel(QAbstractTableModel):
     def setData(self,_index,_value,_role):
         if _index.isValid():
             if _role == QtCore.Qt.EditRole:
-                if isinstance(_value, (int)):
+                if isinstance(_value, (int,float)):
                     value = float(_value)
                     varI = self.namesVarI[_index.row()]
                     if _index.column() == 1:

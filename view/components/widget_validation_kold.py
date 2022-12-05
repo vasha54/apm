@@ -33,7 +33,6 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
     
     def calculate(self):
         kValue = int(self.sBK.value())
-        print('keymodel',self.keyModel)
         self.lOCVNegRSMETE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TE_KFOLD,k = kValue)) )
         self.lOCVNegRSMETV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TV_KFOLD,k = kValue)) )
         self.lOCVRSquareTE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TE_KFOLD,k = kValue)) )

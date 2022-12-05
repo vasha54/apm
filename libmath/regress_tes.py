@@ -33,6 +33,8 @@ from exceptions.exceptions import NotFoundParameterExtraException, EstadigrafoFi
 cvar = lambda x: np. std (x, ddof = 1 ) / np. mean (x) * 100
 
 def CVAR(_x):
+    print(np.std(_x,ddof = 1))
+    print(np.mean(_x))
     return np.std(_x,ddof = 1) / np.mean(_x)*100
 
 def fitModel(_model,**kwargs):
@@ -67,7 +69,7 @@ def scoreModel(_model,**kwargs):
     if 'k' in kwargs.keys():
         k = int(kwargs['k'])
         X = _model.getDataFrameVI()
-        y = _model.getDataFrameVD
+        y = _model.getDataFrameVD()
         clf = LinearRegression()
         model=clf.fit(X, y)
         scores = cross_validate(model, X, y, cv=k,scoring=('r2', 'neg_mean_squared_error'), return_train_score=True)
@@ -643,7 +645,7 @@ def cvRSEMBootStropping(_model,**kwargs):
             resulbst=regbst.fit() 
             RMSEbst=np.sqrt(resulbst.mse_total)
             boot_RMSE.append(RMSEbst)
-        RMSEcv=CVAR(boot_RMSE)
+        RMSEcv=cvar(boot_RMSE)
     else :
         raise NotFoundParameterExtraException('boots','cvRSEMBootStropping') 
     return RMSEcv
@@ -658,8 +660,9 @@ def mediaRSquareBootStropping(_model,**kwargs):
             data_df = _model.getDataFrameModel()
             sample_df = data_df.sample(n=k, replace=True)
             regbst=smf.ols(_model.eval(),sample_df)
-            resulbst=regbst.fit() 
-            boot_rcuadj.append(resulbst)
+            resulbst=regbst.fit()
+            rcuadjbst=resulbst.rsquared_adj 
+            boot_rcuadj.append(rcuadjbst)
         Rcuadjbtmean=np.mean(boot_rcuadj)
     else :
         raise NotFoundParameterExtraException('boots','mediaRSquareBootStropping') 
@@ -675,10 +678,10 @@ def cvRSquareBootStropping(_model,**kwargs):
             data_df = _model.getDataFrameModel()
             sample_df = data_df.sample(n=k, replace=True)
             regbst=smf.ols(_model.eval(),sample_df)
-            resulbst=regbst.fit() 
-            boot_rcuadj.append(resulbst)
-        print(boot_rcuadj)
-        Rcuacv=CVAR(boot_rcuadj)
+            resulbst=regbst.fit()
+            rcuadjbst=resulbst.rsquared_adj 
+            boot_rcuadj.append(rcuadjbst)
+        Rcuacv=cvar(boot_rcuadj)
     else :
         raise NotFoundParameterExtraException('boots','cvRSquareBootStropping')
     return Rcuacv
@@ -723,14 +726,16 @@ def analysisExtrapolationHide(_model,**kwargs):
         lowerLimitVarI = _model.getLowerLimitAllVarIExtrapolationHide()
         upperLimitVarI = _model.getUpperLimitAllVarIExtrapolationHide()
         dataFrameVARI = _model.getDataFrameVI()
-        
+        y=_model.getDataFrameVD()
         
         dicLinSpace = {}
         dicMeshGrid = {}
         dicRavel = {}
         listLinSpace = []
+        pointsMatrixD ={}
+        matrixPointsL =[]
         
-        B=dataFrameVARI # dataFrameVARI.transpose()
+        B=dataFrameVARI 
         B_constant=sm.add_constant(B)   #Seria X en la formula de Montgomery
         B_constantTrans=B_constant.transpose()  #Seria X' en la formula de Montgomery
 
@@ -740,21 +745,29 @@ def analysisExtrapolationHide(_model,**kwargs):
         D = np.matmul(A,BC)
         Dinv=np.linalg.inv(D)
         
+        
+        linreg=sm.OLS(y,B_constant).fit()
+        influence = linreg.get_influence()
+        hatdiag = influence.hat_matrix_diag
+        hmxm=max(hatdiag)
+        
         for name in namesVarI:
             t = np.linspace(lowerLimitVarI[name],upperLimitVarI[name],esp)
             dicLinSpace[name] = t
             listLinSpace.append(t)
+            pointsMatrixD[name]=[]
             
-        P=np.meshgrid(listLinSpace)
+        P=np.meshgrid(*(v for _,v in dicLinSpace.items()))
         
-        X=np.meshgrid(listLinSpace)
+        X=np.meshgrid(*(v for _,v in dicLinSpace.items()))
+        
+        # Hasta aqui todo OK
         
         index =0 
         for name in namesVarI:
             dicMeshGrid[name] = X[index]
             index = index + 1
         
-        c=np.linspace(1,1,esp)
         
         for name in namesVarI:
             dicRavel[name]= np.ravel(dicMeshGrid[name])
@@ -766,7 +779,8 @@ def analysisExtrapolationHide(_model,**kwargs):
         end=int(dimfor) #convertir de float a int
         
         ho=list()
-        matrixPoints=[]
+        
+        
         for i in range(0,end):
             listDataFrame=[1]
             
@@ -778,6 +792,14 @@ def analysisExtrapolationHide(_model,**kwargs):
             hy=np.matmul(xit,Dinv)
             hooi=np.matmul(hy,xi)
             hooc= hooi[0][0]
+            
+            if hooc > hmxm:
+                ho.append(hooi)
+                for name in namesVarI:
+                    pointsMatrixD[name].append(dicRavel[name][i])
+                
+        for name in namesVarI:
+            matrixPointsL.append(pointsMatrixD[name])    
         
         jk=len(ho)
         if jk == 0:
@@ -786,7 +808,7 @@ def analysisExtrapolationHide(_model,**kwargs):
         else:
             answer['msg']='Hay evidencias de extrapolación oculta'
             answer['result'] = -1
-            pto=pd.DataFrame(matrixPoints)
+            pto=pd.DataFrame(matrixPointsL)
             ptos=pto.transpose()
             print(ptos)
             answer['points'] = ptos

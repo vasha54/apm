@@ -20,8 +20,8 @@ class ModelLMR:
         for name in _namesVariablesI:
             self.namesVariableI.append(name)
             self.namesAllVariables.append(name)
-            self.limitLowerVariablesIExtrapolationHide[name] = 0
-            self.limitUpperVariablesIExtrapolationHide[name] = 10
+            self.limitLowerVariablesIExtrapolationHide[name] = 0.00
+            self.limitUpperVariablesIExtrapolationHide[name] = 10.00
         
         self.dataFrameVI = _dataFrameVI
         self.dataFrameVD = _dataFrameVD

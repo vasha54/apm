@@ -36,11 +36,9 @@ class WidgetValidationBootStropping(QWidget,Ui_WidgetValidationBootStropping):
         
         
         self.lOCVRSME.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.CV_RSEM_BOOT_STROPPING, boots=bootsValue)) )
-        # TODO chequear con Jonathan
-        #self.lOCVRSQUARE.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.CV_RSQUARE_BOOT_STROPPING, boots=bootsValue)) )
+        self.lOCVRSQUARE.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.CV_RSQUARE_BOOT_STROPPING, boots=bootsValue)) )
         self.lOMediaRSME.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSEM_BOOT_STROPPING, boots=bootsValue)) )
-        # TODO chequear con Jonathan
-        #self.lOMediaRSQUARE.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSQUARE_BOOT_STROPPING, boots=bootsValue)) )
+        self.lOMediaRSQUARE.setText( str(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSQUARE_BOOT_STROPPING, boots=bootsValue)) )
         
         self.gBResult.setVisible(True)
         
