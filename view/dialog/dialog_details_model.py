@@ -16,6 +16,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from view.ui.dialog_details_model_ui import Ui_DialogDetailsModel
 
+from view.model.data_frame_model import DataFrameModel
+
 class DialogDetailsModel(QDialog,Ui_DialogDetailsModel):
     
     def __init__(self,_model,*args,**kwargs):
@@ -35,3 +37,7 @@ class DialogDetailsModel(QDialog,Ui_DialogDetailsModel):
             self.modelVI.appendRow(itemVI)
 
         self.listViewVI.setModel(self.modelVI)
+        
+        self.modelDataFrame = DataFrameModel(self.model.getDataFrameModel(),self.tableViewMeasVariables)
+        self.tableViewMeasVariables.setModel(self.modelDataFrame)
+        self.tableViewMeasVariables.verticalHeader().hide()

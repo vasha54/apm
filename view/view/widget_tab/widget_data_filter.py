@@ -109,7 +109,6 @@ class WidgetDataFilter(WidgetTab):
         
     
     def updateTab(self):
-        print('112')
         self.model = QtGui.QStandardItemModel(self.listViewVariable)
         namesVariable = AnalysisData().getNamesVariables()
         for line in namesVariable:

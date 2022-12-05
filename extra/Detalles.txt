@@ -1,3 +1,5 @@
 pyuic5 -o mainwindow_ui.py mainwindow.ui
 
 pyrcc5 resource.qrc -o resource.py
+
+pip list 

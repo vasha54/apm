@@ -1,6 +1,7 @@
 import pandas as pd
 
 from libmath import regress_tes as RGSST
+from exceptions.exceptions import NotFoundParameterExtraException
 class ModelLMR:
 
     
@@ -13,15 +14,23 @@ class ModelLMR:
         self.namesAllVariables = []
         self.namesAllVariables.append(_nameVariableD)
         
+        self.limitUpperVariablesIExtrapolationHide = {}
+        self.limitLowerVariablesIExtrapolationHide = {}
+        
         for name in _namesVariablesI:
             self.namesVariableI.append(name)
             self.namesAllVariables.append(name)
+            self.limitLowerVariablesIExtrapolationHide[name] = 0
+            self.limitUpperVariablesIExtrapolationHide[name] = 10
         
         self.dataFrameVI = _dataFrameVI
         self.dataFrameVD = _dataFrameVD
         self.dataFrameModel = _dataFrameModel
         self.isSelectModel = _isSelect
         self.intervalConfidence = _intervalConfidence
+        
+        
+        
         
     def __str__(self):
         modelStr = self.nameModel+"("+self.nameVariableD+"~"
@@ -141,30 +150,88 @@ class ModelLMR:
         
     def setIntervalConfidence(self,_intervalConfidence):
         self.intervalConfidence=_intervalConfidence    
-        
-    def detailsModelForMessageBox(self):
-        detailsStr="<p><b>Nombre:</b>"+str(self.nameModel)+"</p>"
-        detailsStr=detailsStr +"<p><b>ID:</b>"+str(self.idModel)+"</p>"
-        detailsStr=detailsStr +"<p><b>Variable Dependiente:</b>"+str(self.nameVariableD)+"</p>"
-        
-        strNamesVariableI="["
-        for c in range(0,len(self.namesVariableI)):
-            if c == 0:
-                strNamesVariableI = strNamesVariableI+str(self.namesVariableI[c])
-            else:
-                strNamesVariableI = strNamesVariableI+","+str(self.namesVariableI[c])
-        strNamesVariableI=strNamesVariableI+"]"
-        
-        detailsStr=detailsStr +"<p><b>Variable Independientes:</b>"+strNamesVariableI+"</p>"
-        return detailsStr
     
+    UPPER_LIMIT_THIS_VARI_EXTRAPOLATION_HIDE ='getUpperLimitThisVarIExtrapolationHide'
+    def getUpperLimitThisVarIExtrapolationHide(self,**kwargs):
+        value = 0
+        if 'nameVar' in  kwargs.keys():
+            nameVar = kwargs['nameVar']
+            if nameVar in self.limitUpperVariablesIExtrapolationHide.keys():
+                value = self.limitUpperVariablesIExtrapolationHide[nameVar]
+        else:
+            raise NotFoundParameterExtraException('nameVar','getUpperLimitThisVarIExtrapolationHide')
+        return value
+    
+    SET_UPPER_LIMIT_THIS_VARI_EXTRAPOLATION_HIDE ='setUpperLimitThisVarIExtrapolationHide'
+    def setUpperLimitThisVarIExtrapolationHide(self,**kwargs):
+        
+        nameVar = None
+        newValue = None
+        
+        if 'nameVar' not in kwargs.keys():
+            raise NotFoundParameterExtraException('nameVar','setUpperLimitThisVarIExtrapolationHide')
+        else:
+            nameVar = kwargs['nameVar']
+        
+        if 'newValue' not in kwargs.keys():
+            raise NotFoundParameterExtraException('newValue','setUpperLimitThisVarIExtrapolationHide')
+        else:
+            newValue = kwargs['newValue']
+            
+        if newValue != None and nameVar!= None:
+            if nameVar in self.limitUpperVariablesIExtrapolationHide.keys():
+                if newValue >= self.limitLowerVariablesIExtrapolationHide[nameVar]:
+                    self.limitUpperVariablesIExtrapolationHide[nameVar] = newValue
+        
+    
+    UPPER_LIMIT_ALL_VARI_EXTRAPOLATION_HIDE ='getUpperLimitAllVarIExtrapolationHide'
+    def getUpperLimitAllVarIExtrapolationHide(self,**kwargs):
+        return self.limitUpperVariablesIExtrapolationHide
+    
+    LOWER_LIMIT_THIS_VARI_EXTRAPOLATION_HIDE ='getLowerLimitThisVarIExtrapolationHide'
+    def getLowerLimitThisVarIExtrapolationHide(self,**kwargs):
+        value = 0
+        if 'nameVar' in kwargs.keys():
+            nameVar = kwargs['nameVar']
+            if nameVar in self.limitLowerVariablesIExtrapolationHide.keys():
+                value = self.limitLowerVariablesIExtrapolationHide[nameVar]
+        else:
+            raise NotFoundParameterExtraException('nameVar','getLowerLimitThisVarIExtrapolationHide')
+        return value
+    
+    SET_LOWER_LIMIT_THIS_VARI_EXTRAPOLATION_HIDE ='setLowerLimitThisVarIExtrapolationHide'
+    def setLowerLimitThisVarIExtrapolationHide(self,**kwargs):
+        
+        nameVar = None
+        newValue = None
+        
+        if 'nameVar' not in kwargs.keys():
+            raise NotFoundParameterExtraException('nameVar','setLowerLimitThisVarIExtrapolationHide')
+        else:
+            nameVar = kwargs['nameVar']
+        
+        if 'newValue' not in kwargs.keys():
+            raise NotFoundParameterExtraException('newValue','setLowerLimitThisVarIExtrapolationHide')
+        else:
+            newValue = kwargs['newValue']
+            
+        if newValue != None and nameVar != None :
+            if nameVar in self.limitLowerVariablesIExtrapolationHide.keys():
+                if newValue <= self.limitUpperVariablesIExtrapolationHide[nameVar]:
+                    self.limitLowerVariablesIExtrapolationHide[nameVar] = newValue
+    
+    LOWER_LIMIT_ALL_VARI_EXTRAPOLATION_HIDE ='getLowerLimitAllVarIExtrapolationHide'
+    def getLowerLimitAllVarIExtrapolationHide(self,):
+        return self.limitLowerVariablesIExtrapolationHide
+    
+
     GL_RESIDUAL = 'glResidual'
     def glResidual(self,**kwargs):
         return RGSST.glResidual(self,**kwargs)
     
     GL_MODEL ='glModel'
     def glModel(self,**kwargs):
-        return RGSST.glResidual(self,**kwargs)
+        return RGSST.glModel(self,**kwargs)
     
     AIC = 'aic'
     def aic(self,**kwargs):
@@ -501,6 +568,10 @@ class ModelLMR:
     TEST_SQUARE_TWO_TEST_KFOLD = 'testSquareTwoTestKFOLD'
     def testSquareTwoTestKFOLD(self,**kwargs):
         return RGSST.testSquareTwoTestKFOLD(self,**kwargs)
+    
+    ANALYSIS_EXTRAPOLATION_HIDE = 'analysisExtrapolationHide'
+    def analysisExtrapolationHide(self,**kwargs):
+        return RGSST.analysisExtrapolationHide(self,**kwargs)
     
     
         

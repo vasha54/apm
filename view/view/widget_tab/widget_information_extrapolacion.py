@@ -1,9 +1,21 @@
+from PyQt5.QtWidgets import (
+    QWidget,QHeaderView
+)
+
 from view.view.widget_tab.widget_tab import WidgetTab
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+from model.modelLMR import ModelLMR
+
+from controller.analysis_data import AnalysisData
+
+from view.model.limit_variable_inpendent_model import LimitVariableInpendentModel
+
 class WidgetInformationExtrapolacion(WidgetTab):
     
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
+        self.keyModel = AnalysisData().getKeyModelSelect()
         self.setupUi(self)
         self.createUI()
         self.createWorkspace()
@@ -24,19 +36,19 @@ class WidgetInformationExtrapolacion(WidgetTab):
         self.label.setFont(font)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.gridLayout.addWidget(self.label, 0, 0, 1, 2)
-        self.tableWidgetVarIND = QtWidgets.QTableWidget(self.widgetCentral)
+        self.tableViewVarIND = QtWidgets.QTableView(self.widgetCentral)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tableWidgetVarIND.sizePolicy().hasHeightForWidth())
-        self.tableWidgetVarIND.setSizePolicy(sizePolicy)
-        self.tableWidgetVarIND.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
-        self.tableWidgetVarIND.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
-        self.tableWidgetVarIND.setColumnCount(0)
-        self.tableWidgetVarIND.setRowCount(0)
-        self.tableWidgetVarIND.horizontalHeader().setStretchLastSection(True)
-        self.tableWidgetVarIND.verticalHeader().setStretchLastSection(True)
-        self.gridLayout.addWidget(self.tableWidgetVarIND, 1, 0, 1, 2)
+        sizePolicy.setHeightForWidth(self.tableViewVarIND.sizePolicy().hasHeightForWidth())
+        self.tableViewVarIND.setSizePolicy(sizePolicy)
+        self.tableViewVarIND.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
+        self.tableViewVarIND.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        # self.tableViewVarIND.setColumnCount(0)
+        # self.tableViewVarIND.setRowCount(0)
+        self.tableViewVarIND.horizontalHeader().setStretchLastSection(True)
+        self.tableViewVarIND.verticalHeader().setStretchLastSection(True)
+        self.gridLayout.addWidget(self.tableViewVarIND, 1, 0, 1, 2)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.label_2 = QtWidgets.QLabel(self.widgetCentral)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
@@ -94,10 +106,32 @@ class WidgetInformationExtrapolacion(WidgetTab):
         self.lOMessage.setText("No se detecta extrapolación oculta")
     
     def createWorkspace(self):
-        pass
+        self.modelLimitVARI = LimitVariableInpendentModel(self.keyModel,self.tableViewVarIND)
+        self.tableViewVarIND.setModel(self.modelLimitVARI)
+        self.tableViewVarIND.verticalHeader().hide()
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tableViewVarIND.sizePolicy().hasHeightForWidth())
+        self.tableViewVarIND.setSizePolicy(sizePolicy)
+        self.tableViewVarIND.setMinimumSize(QtCore.QSize(0, 0))
+        self.tableViewVarIND.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.hideShowComponentsResult(False)
     
     def createConnect(self):
+        self.pBAnalize.clicked.connect(self.analize)
         super().createConnect()
         
     def updateTab(self):
-        pass
+        self.keyModel = AnalysisData().getKeyModelSelect()
+        self.createWorkspace()
+        
+    def hideShowComponentsResult(self,_visible):
+        self.lOMessage.setVisible(_visible)
+        self.tableViewPointsExtrapolation.setVisible(_visible)
+        
+    def analize(self):
+        self.hideShowComponentsResult(False)
+        countLevelVar = self.spBCountLevelN.value()
+        answer = AnalysisData().getDataModel(self.keyModel,ModelLMR.ANALYSIS_EXTRAPOLATION_HIDE,res=int(countLevelVar))
+        self.hideShowComponentsResult(True)

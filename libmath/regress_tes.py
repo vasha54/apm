@@ -711,4 +711,86 @@ def testSquareTwoTestKFOLD(_model,**kwargs):
     else:
         raise NotFoundParameterExtraException('k','testSquareTwoTestKFOLD')
     return g
+
+def analysisExtrapolationHide(_model,**kwargs):
+    # result 0 si es desconocido, -1 si no hay evidencias , 1 si hay evidencia de extrapolacion
+    answer = {'result':0,'msg':'','points':None}
+    
+    if 'esp' in kwargs.keys():
+        esp = int(kwargs['esp'])
+        
+        namesVarI = _model.getNamesVariableI()
+        lowerLimitVarI = _model.getLowerLimitAllVarIExtrapolationHide()
+        upperLimitVarI = _model.getUpperLimitAllVarIExtrapolationHide()
+        dataFrameVARI = _model.getDataFrameVI()
+        
+        
+        dicLinSpace = {}
+        dicMeshGrid = {}
+        dicRavel = {}
+        listLinSpace = []
+        
+        B=dataFrameVARI # dataFrameVARI.transpose()
+        B_constant=sm.add_constant(B)   #Seria X en la formula de Montgomery
+        B_constantTrans=B_constant.transpose()  #Seria X' en la formula de Montgomery
+
+        A=B_constantTrans  
+        BC=B_constant
+        
+        D = np.matmul(A,BC)
+        Dinv=np.linalg.inv(D)
+        
+        for name in namesVarI:
+            t = np.linspace(lowerLimitVarI[name],upperLimitVarI[name],esp)
+            dicLinSpace[name] = t
+            listLinSpace.append(t)
+            
+        P=np.meshgrid(listLinSpace)
+        
+        X=np.meshgrid(listLinSpace)
+        
+        index =0 
+        for name in namesVarI:
+            dicMeshGrid[name] = X[index]
+            index = index + 1
+        
+        c=np.linspace(1,1,esp)
+        
+        for name in namesVarI:
+            dicRavel[name]= np.ravel(dicMeshGrid[name])
+            
+        n=len(namesVarI) #cantidad de variables barajadas en P (O sea cantidad de variables independientes)
+        dim=np.size(P)
+        dimf=dim/n
+        dimfor=dimf-1
+        end=int(dimfor) #convertir de float a int
+        
+        ho=list()
+        matrixPoints=[]
+        for i in range(0,end):
+            listDataFrame=[1]
+            
+            for name in namesVarI:
+                listDataFrame.append(dicRavel[name][i])
+            
+            xi=pd.DataFrame(listDataFrame) #Vendria siendo xi' por el dataframe
+            xit=xi.transpose()
+            hy=np.matmul(xit,Dinv)
+            hooi=np.matmul(hy,xi)
+            hooc= hooi[0][0]
+        
+        jk=len(ho)
+        if jk == 0:
+            answer['msg']='No hay evidencias de extrapolación oculta'
+            answer['result'] = -1
+        else:
+            answer['msg']='Hay evidencias de extrapolación oculta'
+            answer['result'] = -1
+            pto=pd.DataFrame(matrixPoints)
+            ptos=pto.transpose()
+            print(ptos)
+            answer['points'] = ptos
+    else:
+        raise NotFoundParameterExtraException('esp','analysisExtrapolationHide')
+    return answer
     

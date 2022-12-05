@@ -20,6 +20,8 @@ class DataFrameModel(QAbstractTableModel):
             if role == QtCore.Qt.DisplayRole:
                 return QVariant(str(
                     self._data.iloc[index.row()][index.column()]))
+            elif role == QtCore.Qt.TextAlignmentRole:
+                return int(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter | QtCore.Qt.AlignHCenter)
         return QVariant()
     
     def headerData (self, section, direction, role=QtCore.Qt.DisplayRole):
