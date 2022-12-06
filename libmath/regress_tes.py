@@ -807,10 +807,9 @@ def analysisExtrapolationHide(_model,**kwargs):
             answer['result'] = -1
         else:
             answer['msg']='Hay evidencias de extrapolación oculta'
-            answer['result'] = -1
+            answer['result'] = 1
             pto=pd.DataFrame(matrixPointsL)
             ptos=pto.transpose()
-            print(ptos)
             answer['points'] = ptos
     else:
         raise NotFoundParameterExtraException('esp','analysisExtrapolationHide')

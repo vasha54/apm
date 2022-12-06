@@ -10,6 +10,7 @@ from model.modelLMR import ModelLMR
 from controller.analysis_data import AnalysisData
 
 from view.model.limit_variable_inpendent_model import LimitVariableInpendentModel
+from view.model.points_extrapolation_model import PointsExtrapolationModel
 
 class WidgetInformationExtrapolacion(WidgetTab):
     
@@ -118,6 +119,8 @@ class WidgetInformationExtrapolacion(WidgetTab):
         self.tableViewVarIND.setMinimumSize(QtCore.QSize(0, 0))
         self.tableViewVarIND.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.hideShowComponentsResult(False)
+        self.tableViewPointsExtrapolation.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.tableViewPointsExtrapolation.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
     
     def createConnect(self):
         self.pBAnalize.clicked.connect(self.analize)
@@ -135,4 +138,26 @@ class WidgetInformationExtrapolacion(WidgetTab):
         self.hideShowComponentsResult(False)
         countLevelVar = self.spBCountLevelN.value()
         answer = AnalysisData().getDataModel(self.keyModel,ModelLMR.ANALYSIS_EXTRAPOLATION_HIDE,esp=int(countLevelVar))
-        self.hideShowComponentsResult(True)
+        
+        if 'result' in answer.keys():
+            result = int(answer['result'])
+            
+            if result == 1:
+                self.lOMessage.setText(str(answer['msg']))
+                self.lOMessage.setVisible(True)
+                self.modelPointsExtrapolation = PointsExtrapolationModel(self.keyModel,answer['points'])
+                self.tableViewPointsExtrapolation.setModel(self.modelPointsExtrapolation)
+                self.tableViewPointsExtrapolation.verticalHeader().hide()
+                sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Expanding)
+                sizePolicy.setHorizontalStretch(0)
+                sizePolicy.setVerticalStretch(0)
+                sizePolicy.setHeightForWidth(self.tableViewPointsExtrapolation.sizePolicy().hasHeightForWidth())
+                self.tableViewPointsExtrapolation.setSizePolicy(sizePolicy)
+                self.tableViewPointsExtrapolation.setMinimumSize(QtCore.QSize(0, 0))
+                self.tableViewPointsExtrapolation.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+                self.tableViewPointsExtrapolation.setVisible(True)
+            elif result == -1:
+                self.lOMessage.setText(str(answer['msg']))
+                self.lOMessage.setVisible(True) 
+                self.tableViewPointsExtrapolation.setVisible(False)
+            
