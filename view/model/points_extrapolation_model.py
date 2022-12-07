@@ -16,10 +16,10 @@ class PointsExtrapolationModel(QAbstractTableModel):
         self._data = _matrizPoints
         
     def rowCount(self, parent=None):
-        return len(self.headersName)
+        return self._data.shape[0]
 
     def columnCount(self, parent=None):
-        return self._data.columns.size
+        return len(self.headersName)
 
     def data(self, index, role=QtCore.Qt.DisplayRole):
         if index.isValid():
