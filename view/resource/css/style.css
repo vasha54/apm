@@ -18,12 +18,12 @@ QStatusBar {
     background-color:  qlineargradient(x1:0, y1:0, x2:0, y2:1,
                                       stop:0.0 rgb(255, 255, 255),
                                       stop:0.9 rgb(235, 235, 235),
-                                      stop:1.0 rgb(115, 30, 95));
+                                      stop:1.0 rgb(0,47,87));
 }
 
 /* Conf de los dockwidgets */
 QLineEdit {
-    border: 1px solid #731e5f;
+    border: 1px solid rgb(0,47,87);
     border-radius: 5px;
 }
 
@@ -34,7 +34,7 @@ QLineEdit {
 }
 
 QComboBox{
-    border: 1px solid #731e5f;
+    border: 1px solid rgb(0,47,87);
     border-radius: 5px;
 }
 
@@ -46,11 +46,11 @@ QMenuBar::item:hover {
 QPushButton:!hover {
 	color:    #fff;
     background-color:  qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                                      stop:0.0 rgb(190, 110, 170),
-                                      stop:0.3 rgb(150, 60, 120),
-                                      stop:1.0 rgb(100, 20, 80));
+                                      stop:0.0 rgb(171, 201, 233),
+                                      stop:0.3 rgb(65, 107,169),
+                                      stop:1.0 rgb(0,47,87));
     border-radius: 5px;
-    border: 1px solid #731e5f;
+    border: 1px solid rgb(0,47,87);
     padding: 4px 16px 4px 16px;
 }
 
@@ -58,22 +58,22 @@ QDialogButtonBox
 {
     color:    #fff;
     background-color:  qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                                      stop:0.0 rgb(190, 110, 170),
-                                      stop:0.3 rgb(150, 60, 120),
-                                      stop:1.0 rgb(100, 20, 80));
+                                      stop:0.0 rgb(171, 201, 233),
+                                      stop:0.3 rgb(65, 107,169),
+                                      stop:1.0 rgb(0,47,87));
     border-radius: 5px;
-    border: 1px solid #731e5f;
+    border: 1px solid rgb(0,47,87);
     padding: 4px 16px 4px 16px;
 }
 
 QPushButton:hover {
 	color:    #000;
     background-color:  qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                                      stop:0.0 rgb(235, 140, 210),
-                                      stop:0.3 rgb(185, 100, 150),
-                                      stop:1.0 rgb(135, 45, 115));
+                                      stop:0.0 rgb(171, 201, 233),
+                                      stop:0.3 rgb(65, 107,169),
+                                      stop:1.0 rgb(0, 47, 87));
     border-radius: 5px;
-    border: 1px solid #731e5f;
+    border: 1px solid rgb(0,47,87);
     padding: 4px 16px 4px 16px;
 }
 
@@ -107,14 +107,14 @@ QToolBox {
 }
 
 QToolBox::tab {
-	background-color: #e0e0e0;
-    color: white;
-    border-bottom: 1px dotted rgb(52, 42, 51);
+	background-color: transparent ;
+    color: rgb(0,47,87);
+    border-bottom: 1px dotted rgb(0,47,87);
     font: bold 12px;
 }
 
 QToolBox::tab:selected {
-    background: #731e5f;
+    background: rgb(0,47,87);
     color: white;
     border-bottom: none;
 }
@@ -154,16 +154,18 @@ QListView, QTableView {
     background-color: #e0e0e0;
 }
 QHeaderView::section {
-    background: #e1bedc;
+    background: rgb(147,168,205);
     border: 1px;
     padding: 2px;
+    color: black;
+    font-weight: bold;
 }
 
 /**************QTabWidget*****************/
 /* CUSTOMIZING QTabWidget and QTabBar */
 QTabWidget::pane {
 	background-color: #e0e0e0;
-    border: 1px solid #731e5f;
+    border: 1px solid rgb(0,47,87);
 }
 
 QTabBar::tab {
@@ -180,9 +182,9 @@ QTabBar::tab {
 
 QTabBar::tab:selected {
     background-color: #e0e0e0;
-    color: #731e5f;
+    color: rgb(0,47,87);
     border: 1px solid #a0a0a0;
-    border-bottom: 2px solid #731e5f;
+    border-bottom: 2px solid rgb(0,47,87);
 }
 
 QTabBar::tab:hover {
@@ -200,18 +202,18 @@ QScrollBar:vertical {
 
 QScrollBar:horizontal {
     border: none;
-    background: #9984b5;
+    background: rgb(171,201,233);
     height: 10px;
     margin: 0px 20px 0px 20px;
 }
 
 QScrollBar::handle:vertical {
-    background: #9984b5;
+    background: rgb(171,201,233);
     min-height: 5px;
 }
 
 QScrollBar::handle:horizontal {
-    background: #9984b5;
+    background: rgb(171,201,233);
     min-height: 5px;
 }
 

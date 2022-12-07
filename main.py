@@ -30,7 +30,7 @@ if __name__ == "__main__":
     win.showFullScreen()
     #win.show()
     win.setWindowIcon(QIcon(":/img/falta.png"))
-    win.setWindowTitle("SugarLM-Regress")
+    win.setWindowTitle("LinReg")
     win.setStyleSheet(stylesheet)
     win.setFixedSize(app.primaryScreen().size())
     app.installEventFilter(win)

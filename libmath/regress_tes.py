@@ -467,6 +467,7 @@ def testBreushGGodfreyPValue(_model,**kwargs):
 def analysisMultiColinialidad(_model,**kwargs):
     X_constant=sm.add_constant(_model.getDataFrameModel())
     vif = [variance_inflation_factor(X_constant.values, i) for i in range(X_constant.shape[1])]
+    vif = vif[1:]
     return vif
       
 
@@ -480,22 +481,44 @@ def sumsNeighbors(_model,**kwargs):
     k= dataFrameVI[namesVarInd[0]]
     for i in range(1,len(namesVarInd)):
         k = k - dataFrameVI[namesVarInd[i]]
-    datos14=pd.DataFrame([k,residcua])
-    datos15=datos14.transpose() 
-    listaColA=list(datos15[0])
-    listaColB=list(datos15[1])
+    datos14=pd.DataFrame([k,_model.getDataFrameVD()[_model.getNameVariableD()]])
+    datos15 = datos14.transpose()
+    listaColA=list(k)
     cCount = len(listaColA)
+    storage = []
     for i in range(0,cCount):
         if listaColA.count(listaColA[i]) > 1:
-            sums = sums+listaColB[i]
-    return sums
+            storage.append(listaColA[i])
+    
+    
+    storageDF = pd.DataFrame(storage)
+    valueUnique = storageDF[0].unique()
+    uniqueDataFrame = pd.DataFrame(valueUnique)
+    
+    r =  len(uniqueDataFrame)
+    
+    sumatoria = []
+    
+    for i in range(0,r):
+        clasS = uniqueDataFrame[0][i]
+        filter = datos15.loc[datos15['Unnamed 0'] == clasS]
+        dFFilter = pd.DataFrame(filter)
+        observer = dFFilter.iloc[:,1]
+        media = np.mean(observer)
+        nobs = len(observer)
+        for k in range(0,nobs):
+            er = pow(observer-media,2)
+            sumaER = sum(er)
+        sumatoria.append(sumaER)
+    
+    return sum(sumatoria)
 
 def relationRangeValuesAndErrorSTDMean(_model,**kwargs):
     resul = fitModel(_model)
     predicted_value=resul.fittedvalues
     rang=max(predicted_value)-min(predicted_value)
-    p=_model.numberVariablesModel() 
-    sumaVecinos = sumsNeighbors(_model)
+    p=len(_model.getNamesVariableI()) 
+    sumaVecinos = sumsNeighbors(_model,**kwargs)
     n = _model.numberMeasurement()
     espg=np.sqrt(p*sumaVecinos/n)
     espgr=round(espg,4)
@@ -696,7 +719,8 @@ def testRMSETestKFOLD(_model,**kwargs):
         X = _model.getDataFrameVI()
         clf = LinearRegression()
         predictions=cross_val_predict(clf,X,y,cv=k)
-        e=metrics.r2_score(y,predictions)
+        e = metrics.mean_squared_error(y,predictions)
+        e= np.sqrt(e)
     else:
         raise NotFoundParameterExtraException('k','testRMSETestKFOLD')
     return e
@@ -709,8 +733,7 @@ def testSquareTwoTestKFOLD(_model,**kwargs):
         X = _model.getDataFrameVI()
         clf = LinearRegression()
         predictions=cross_val_predict(clf,X,y,cv=k)
-        f=metrics.mean_squared_error(y,predictions)
-        g=np.sqrt(f)
+        g= metrics.r2_score(y,predictions) 
     else:
         raise NotFoundParameterExtraException('k','testSquareTwoTestKFOLD')
     return g
@@ -775,7 +798,7 @@ def analysisExtrapolationHide(_model,**kwargs):
         n=len(namesVarI) #cantidad de variables barajadas en P (O sea cantidad de variables independientes)
         dim=np.size(P)
         dimf=dim/n
-        dimfor=dimf-1
+        dimfor=dimf
         end=int(dimfor) #convertir de float a int
         
         ho=list()
