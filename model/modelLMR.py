@@ -45,9 +45,13 @@ class ModelLMR:
         equalVD = True
         equalVI = True
         equalIC = True
+        equalName = True
         
         if _otherModel == None:
             return False
+        
+        if self.nameModel != _otherModel.getNameModel():
+            equalName = False
         
         if self.nameVariableD != _otherModel.getNameVariableD():
             equalVD= False
@@ -73,7 +77,7 @@ class ModelLMR:
                 if otherVI[i] != selfVI[i]:
                     equalVI = False
         
-        isEqual = (equalVI and equalVD and equalIC)
+        isEqual = (equalVI and equalVD and equalIC and equalName)
                      
         return isEqual
     

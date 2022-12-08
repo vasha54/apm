@@ -3,7 +3,7 @@ from view.view.widget_tab.widget_tab import WidgetTab
 
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
-from exceptions.exceptions import EstadigrafoFisherCalFOException, RelationFOFTException
+from exceptions.exceptions import EstadigrafoFisherCalFOException, RelationFOFTException, SumsNeighborsException
 
 from view.components import message_box as MB
 
@@ -247,16 +247,29 @@ class WidgetQualityAdjustModel(WidgetTab):
     def updateTab(self):
         self.keyModel = AnalysisData().getKeyModelSelect()
         self.lORMSE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL)) )
-        self.lORelationRangeValuesERRSTD.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN) ))
-    
+        try:
+            self.lORelationRangeValuesERRSTD.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN) ))
+        except SumsNeighborsException as f:
+            self.lORelationRangeValuesERRSTD.setText("NA")
+            errorMessage = str(f)
+            messageBox=MB.showGenericMessage(self.parent(),MB.MESSAG_CRITICAL,
+                                                       "Error",
+                                                       errorMessage)
+            messageBox.exec()
+             
+            
     def calculate(self):
         levelSig = self.dSBLevelSignification.value()
         self.hideShowComponentWidgetResult(False)
         
-        
-        sumVecinos = AnalysisData().getDataModel(self.keyModel, ModelLMR.SUMS_NEIGHBORS,alpha=float(levelSig))
-        
+        sumVecinos =0
         errorMessage=""
+        
+          
+        try:
+            sumVecinos = AnalysisData().getDataModel(self.keyModel, ModelLMR.SUMS_NEIGHBORS,alpha=float(levelSig))
+        except SumsNeighborsException as f:
+            errorMessage = errorMessage+str(f)
         
         if sumVecinos > 0 :
            self.lOSSfa.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SSFA,alpha=float(levelSig)) ) )

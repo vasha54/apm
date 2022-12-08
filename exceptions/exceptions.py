@@ -2,7 +2,7 @@
 class SumsNeighborsException(Exception):
     
     def __init__(self, *args):
-        super().__init__("La suma de de vecinos da como resultado un valor igual o menor que cero.\
+        super().__init__("La suma de de vecinos da como resultado un valor igual que cero.\
                          Un posible motivo puede ser que no se cuenta con obervaciones replicadas")
 
 class NotFoundParameterExtraException(Exception):

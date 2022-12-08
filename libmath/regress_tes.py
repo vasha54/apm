@@ -26,7 +26,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn import metrics
 from sklearn.model_selection import cross_val_score, cross_val_predict
 
-from exceptions.exceptions import NotFoundParameterExtraException, EstadigrafoFisherCalFOException, RelationFOFTException
+from exceptions.exceptions import NotFoundParameterExtraException, EstadigrafoFisherCalFOException, RelationFOFTException, SumsNeighborsException
 
 # --- Inicio de metodos comunes y utilizados en otros ---
 
@@ -479,8 +479,13 @@ def sumsNeighbors(_model,**kwargs):
     namesVarInd= _model.getNamesVariableI()
     dataFrameVI = _model.getDataFrameVI()
     k= dataFrameVI[namesVarInd[0]]
+    nameColumn = namesVarInd[0]
+    
     for i in range(1,len(namesVarInd)):
         k = k - dataFrameVI[namesVarInd[i]]
+        nameColumn = 'Unnamed 0'
+    
+    
     datos14=pd.DataFrame([k,_model.getDataFrameVD()[_model.getNameVariableD()]])
     datos15 = datos14.transpose()
     listaColA=list(k)
@@ -490,28 +495,30 @@ def sumsNeighbors(_model,**kwargs):
         if listaColA.count(listaColA[i]) > 1:
             storage.append(listaColA[i])
     
-    
-    storageDF = pd.DataFrame(storage)
-    valueUnique = storageDF[0].unique()
-    uniqueDataFrame = pd.DataFrame(valueUnique)
-    
-    r =  len(uniqueDataFrame)
-    
-    sumatoria = []
-    
-    for i in range(0,r):
-        clasS = uniqueDataFrame[0][i]
-        filter = datos15.loc[datos15['Unnamed 0'] == clasS]
-        dFFilter = pd.DataFrame(filter)
-        observer = dFFilter.iloc[:,1]
-        media = np.mean(observer)
-        nobs = len(observer)
-        for k in range(0,nobs):
-            er = pow(observer-media,2)
-            sumaER = sum(er)
-        sumatoria.append(sumaER)
-    
-    return sum(sumatoria)
+    if  len(storage) > 0: 
+        storageDF = pd.DataFrame(storage)
+        valueUnique = storageDF[0].unique()
+        uniqueDataFrame = pd.DataFrame(valueUnique)
+        
+        r =  len(uniqueDataFrame)
+        
+        sumatoria = []
+        
+        for i in range(0,r):
+            clasS = uniqueDataFrame[0][i]
+            
+            filter = datos15.loc[datos15[nameColumn] == clasS]
+            dFFilter = pd.DataFrame(filter)
+            observer = dFFilter.iloc[:,1]
+            media = np.mean(observer)
+            nobs = len(observer)
+            for k in range(0,nobs):
+                er = pow(observer-media,2)
+                sumaER = sum(er)
+            sumatoria.append(sumaER)
+        return sum(sumatoria)
+    else:
+        raise SumsNeighborsException()
 
 def relationRangeValuesAndErrorSTDMean(_model,**kwargs):
     resul = fitModel(_model)
@@ -547,7 +554,7 @@ def estadigrafoFisherCalFO(_model,**kwargs):
     n = _model.numberMeasurement()
     sumaVecinos = sumsNeighbors(_model,**kwargs)
     SSlof = sslofModel(_model,**kwargs)
-    if m-2 != 0 and sumaVecinos != 0 and n != m : 
+    if m-2 > 0 and sumaVecinos != 0 and n != m : 
         Fo=(SSlof/(m-2))/(sumaVecinos/(n-m))
         Forr=round(Fo,4)
         return Forr
@@ -575,7 +582,7 @@ def relationFOFT(_model,**kwargs):
         n = _model.numberMeasurement()
         SSlof = sslofModel(_model,**kwargs)
         sumaVecinos = sumsNeighbors(_model)
-        if m-2 != 0 and sumaVecinos != 0 and n != m :
+        if m-2 > 0 and sumaVecinos != 0 and n != m :
             Fo=(SSlof/(m-2))/(sumaVecinos/(n-m))
             a1=m-2
             a2=n-m
