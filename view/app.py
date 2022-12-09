@@ -26,6 +26,7 @@ from view.view.widget_tab.widget_information_extrapolacion import WidgetInformat
 from view.view.widget_tab.widget_quality_adjust_model import WidgetQualityAdjustModel
 from view.view.widget_tab.widget_validate import WidgetValidate
 from view.view.widget_tab.widget_tab import WidgetTab
+from view.ui.presentation_ui import Ui_WidgetPresentacion
 
 from view.resource import resource
 
@@ -126,9 +127,8 @@ class App(QMainWindow, Ui_MainWindow):
     def createCentralWidget(self):
         self.m_tabWidget=QTabWidget(self)
         self.m_tabWidget.setTabsClosable(False)
-        tWidgetWelcome=QWidget(self.m_tabWidget);
-        tWidgetWelcome.setStyleSheet("border-image:url(':/themeBasic/images/fondo_bienvenida.png');");
-        index=self.m_tabWidget.addTab(tWidgetWelcome,"Bienvenido");
+        tWidgetWelcome=Ui_WidgetPresentacion(self.m_tabWidget)
+        index=self.m_tabWidget.addTab(tWidgetWelcome,"Bienvenido")
         #self.m_tabWidget.setTabIcon(index);
         self.setCentralWidget(self.m_tabWidget)
     

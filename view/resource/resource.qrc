@@ -19,6 +19,7 @@
         <file alias="down-01.png">img/down-01.png</file>
         <file alias="patternUM">img/patternUM.png</file>
         <file alias="config">img/config.png</file>
+        <file alias="logo_UM">img/logo_UM.png</file>
     </qresource>
     <qresource prefix="/css">
         <file alias="style.css" >css/style.css</file>
