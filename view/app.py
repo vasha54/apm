@@ -139,8 +139,10 @@ class App(QMainWindow, Ui_MainWindow):
     
     def createGeneralToolBar(self):
         self.m_openFileExcelAction = QAction(QIcon(":/img/folder-open.png"),"Cargar Archivo",self)
-        self.m_helpAction=QAction(QIcon(":/img/ayuda.png"),"Ayuda de SugarLM-Regress", self)
+        self.m_helpAction=QAction(QIcon(":/img/ayuda.png"),"Ayuda de LinReg", self)
         self.m_closeAction = QAction(QIcon(":/img/Salir.png"),"Cerrar", self)
+        self.m_preferenceAction = QAction(QIcon(":/img/config.png") ,"Preferencias", self)
+
         
         tSpacerWidget = QWidget(self.m_toolBarsGeneral)
         tSpacerWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -148,6 +150,7 @@ class App(QMainWindow, Ui_MainWindow):
         
         self.m_toolBarsGeneral.addAction(self.m_openFileExcelAction)
         self.m_toolBarsGeneral.addWidget(tSpacerWidget)
+        self.m_toolBarsGeneral.addAction(self.m_preferenceAction)
         self.m_toolBarsGeneral.addAction(self.m_helpAction)
         self.m_toolBarsGeneral.addAction(self.m_closeAction)
 
