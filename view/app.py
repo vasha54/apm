@@ -8,6 +8,7 @@ from PyQt5.QtGui import(
     QPixmap,QIcon
 )
 
+from PySide2.QtHelp import QHelpEngine
 
 from PyQt5.QtCore import QSize,QDir
 
@@ -121,6 +122,7 @@ class App(QMainWindow, Ui_MainWindow):
         self.m_toolBarsGeneral=QToolBar("General")
         self.m_toolBarsGeneral.setObjectName("generalToolBar")
         self.m_toolBarsGeneral.setIconSize(QSize(24,24))
+        self.m_toolBarsGeneral.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.addToolBar(self.m_toolBarsGeneral)
         self.createGeneralToolBar()
  
@@ -154,10 +156,10 @@ class App(QMainWindow, Ui_MainWindow):
         self.m_toolBarsGeneral.addAction(self.m_helpAction)
         self.m_toolBarsGeneral.addAction(self.m_closeAction)
 
-
     def createConnects(self):
         self.m_closeAction.triggered.connect(self.close)
         self.m_openFileExcelAction.triggered.connect(self.selectFileData)
+        self.m_helpAction.triggered.connect(self.showHelp)
         self.m_tabWidget.currentChanged.connect(self.changeTabActive)
         
     def selectFileData(self):
@@ -278,10 +280,12 @@ class App(QMainWindow, Ui_MainWindow):
         if hasattr(widget, 'updateTab'):
             widget.updateTab()
         
-        
     def nextVersion(self):
         QMessageBox.about(self,"About Sample Editor",
                           "<p>A sample text editor app built with:</p>"
                           "<p>- PyQt</p>"
                           "<p>- Qt Designer</p>"
                           "<p>- Python</p>",)
+        
+    def showHelp(self):
+        #helpEngine = QHelpEngine('help/index.qch')

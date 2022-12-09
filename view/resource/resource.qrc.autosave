@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/img">
+    <qresource prefix="/help">
         <file alias="falta.png">img/falta.png</file>
         <file alias="Error.png">img/Error.png</file>
         <file alias="Barra_superior.png">img/Barra_superior.png</file>
@@ -22,6 +22,6 @@
         <file alias="logo_UM.png">img/logo_UM.png</file>
     </qresource>
     <qresource prefix="/css">
-        <file alias="style.css" >css/style.css</file>
+        <file alias="style.css">css/style.css</file>
     </qresource>
 </RCC>
