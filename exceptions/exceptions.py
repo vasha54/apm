@@ -25,3 +25,8 @@ class RelationFOFTException(Exception):
     
     def __init__(self, *args):
         super().__init__("Imposible determinar la relación entre el Estadígrafo de Fisher Calculado y el Estadígrafo de Fisher Tabulado por una de las siguientes posibles razones:\n- No se cuenta con con observaciones replicadas.\n\n")
+
+class VariableNotFoundDataFrame(Exception):
+    
+    def __init__(self, _nameVar,*args):
+        super().__init__("No se encontro una columna con nombre "+_nameVar+" en la tabla de datos")

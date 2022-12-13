@@ -1,6 +1,7 @@
 from pattern.singleton_meta import SingletonMeta
 
 from controller.manager_model import ManagerModel
+from controller.manager_variable import ManagerVariable
 
 from util.read_excel import ReadExcel
 import pandas as pd
@@ -14,11 +15,13 @@ class AnalysisData(metaclass=SingletonMeta):
         self.variablesSelect = []
         self.correlactions = []
         self.managerModels = ManagerModel()
+        self.managerVariable = ManagerVariable()
     
     def readFileExcel(self, _filename):
         self.handlerExcel.readData(_filename)
         self.handlerExcel.filterData()
         self.dataFrameClean = self.handlerExcel.getDataFrameFilter()
+        self.managerVariable.setDataFrameVariable(self.dataFrameClean)
         
     def getNamesVariables(self):
         return list(self.dataFrameClean.columns.values)
@@ -120,5 +123,8 @@ class AnalysisData(metaclass=SingletonMeta):
     
     def getThisModel(self,_key):
         return self.managerModels.getThisModel(_key)
+    
+    def getDataVariable(self,_nameVar, _method, **kwargs):
+        return self.managerVariable.getDataVariable(_nameVar,_method,**kwargs)
             
         

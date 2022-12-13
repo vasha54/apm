@@ -122,7 +122,7 @@ class App(QMainWindow, Ui_MainWindow):
         self.m_toolBarsGeneral=QToolBar("General")
         self.m_toolBarsGeneral.setObjectName("generalToolBar")
         self.m_toolBarsGeneral.setIconSize(QSize(24,24))
-        self.m_toolBarsGeneral.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        #self.m_toolBarsGeneral.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.addToolBar(self.m_toolBarsGeneral)
         self.createGeneralToolBar()
  
@@ -288,4 +288,5 @@ class App(QMainWindow, Ui_MainWindow):
                           "<p>- Python</p>",)
         
     def showHelp(self):
+        pass
         #helpEngine = QHelpEngine('help/index.qch')

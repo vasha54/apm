@@ -26,16 +26,13 @@ from sklearn.metrics import mean_squared_error
 from sklearn import metrics
 from sklearn.model_selection import cross_val_score, cross_val_predict
 
-from exceptions.exceptions import NotFoundParameterExtraException, EstadigrafoFisherCalFOException, RelationFOFTException, SumsNeighborsException
+from exceptions.exceptions import NotFoundParameterExtraException, EstadigrafoFisherCalFOException, RelationFOFTException, SumsNeighborsException, VariableNotFoundDataFrame
 
 # --- Inicio de metodos comunes y utilizados en otros ---
 
 cvar = lambda x: np. std (x, ddof = 1 ) / np. mean (x) * 100
 
-def CVAR(_x):
-    print(np.std(_x,ddof = 1))
-    print(np.mean(_x))
-    return np.std(_x,ddof = 1) / np.mean(_x)*100
+
 
 def fitModel(_model,**kwargs):
     reg=smf.ols(_model.eval(),_model.getDataFrameModel())
@@ -844,4 +841,72 @@ def analysisExtrapolationHide(_model,**kwargs):
     else:
         raise NotFoundParameterExtraException('esp','analysisExtrapolationHide')
     return answer
+
+
+
+#-----------------------------------------------------------------------
+
+def mean(nameVar, dataFrame):
+    if nameVar in dataFrame:
+        listValue = dataFrame[nameVar].tolist()
+        a=np.mean(listValue)
+        return a
+    else:
+        raise VariableNotFoundDataFrame(nameVar)
+    
+def maxVar(nameVar, dataFrame):
+    if nameVar in dataFrame:
+        listValue = dataFrame[nameVar].tolist()
+        b=max(listValue)
+        return b
+    else:
+        raise VariableNotFoundDataFrame(nameVar)
+    
+def minVar(nameVar, dataFrame):
+    if nameVar in dataFrame:
+        listValue = dataFrame[nameVar].tolist()
+        b=min(listValue)
+        return b
+    else:
+        raise VariableNotFoundDataFrame(nameVar)
+    
+def countMeas(nameVar, dataFrame):
+    if nameVar in dataFrame:
+        listValue = dataFrame[nameVar].tolist()
+        b=len(listValue)
+        return b
+    else:
+        raise VariableNotFoundDataFrame(nameVar)
+    
+def cv(nameVar, dataFrame):
+    if nameVar in dataFrame:
+        listValue = dataFrame[nameVar].tolist()
+        b = cvar(listValue)
+        return b
+    else:
+        raise VariableNotFoundDataFrame(nameVar)
+    
+def varianza(nameVar, dataFrame):
+    if nameVar in dataFrame:
+        listValue = dataFrame[nameVar].tolist()
+        e=np.var(listValue)
+        return e
+    else:
+        raise VariableNotFoundDataFrame(nameVar)
+    
+def std(nameVar, dataFrame):
+    if nameVar in dataFrame:
+        listValue = dataFrame[nameVar].tolist()
+        e=np.std(listValue)
+        return e
+    else:
+        raise VariableNotFoundDataFrame(nameVar)
+
+def median(nameVar, dataFrame):
+    if nameVar in dataFrame:
+        listValue = dataFrame[nameVar].tolist()
+        e=np.median(listValue)
+        return e
+    else:
+        raise VariableNotFoundDataFrame(nameVar)
     
