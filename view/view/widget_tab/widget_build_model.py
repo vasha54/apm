@@ -252,7 +252,7 @@ class WidgetBuildModel(WidgetTab):
     def createWorkspace(self):
         self.modelCandidateVD = QtGui.QStandardItemModel(self.listViewCandidateVD)
         self.modelCandidateVI = QtGui.QStandardItemModel(self.listViewCandidateVI)
-        variablesSelect = AnalysisData().getVariablesSelect()
+        variablesSelect = AnalysisData().getNamesVariables()
         for line in variablesSelect:
             itemVD = QtGui.QStandardItem(line)
             itemVI = QtGui.QStandardItem(line)
@@ -455,7 +455,7 @@ class WidgetBuildModel(WidgetTab):
     def updateTab(self):
         self.modelCandidateVD = QtGui.QStandardItemModel(self.listViewCandidateVD)
         self.modelCandidateVI = QtGui.QStandardItemModel(self.listViewCandidateVI)
-        variablesSelect = AnalysisData().getVariablesSelect()
+        variablesSelect = AnalysisData().getNamesVariables()
         for line in variablesSelect:
             itemVD = QtGui.QStandardItem(line)
             itemVI = QtGui.QStandardItem(line)

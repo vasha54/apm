@@ -31,6 +31,7 @@ class AnalysisData(metaclass=SingletonMeta):
     def getVariablesSelect(self):
         return self.variablesSelect
     
+    
     def addVariablesSelect(self,_variable):
         if _variable not in self.variablesSelect:
             self.variablesSelect.append(_variable)
