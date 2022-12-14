@@ -910,3 +910,12 @@ def median(nameVar, dataFrame):
     else:
         raise VariableNotFoundDataFrame(nameVar)
     
+
+def getValuesThisVariable(nameVar, dataFrame):
+    values = []
+    if nameVar in dataFrame:
+        values = dataFrame[nameVar]
+    else:
+        raise VariableNotFoundDataFrame(nameVar) 
+    return values
+    

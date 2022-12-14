@@ -11,7 +11,6 @@ class AnalysisData(metaclass=SingletonMeta):
     
     def __init__(self):
         self.handlerExcel = ReadExcel()
-        self.dataFrameClean = pd.DataFrame()
         self.variablesSelect = []
         self.correlactions = []
         self.managerModels = ManagerModel()
@@ -20,14 +19,14 @@ class AnalysisData(metaclass=SingletonMeta):
     def readFileExcel(self, _filename):
         self.handlerExcel.readData(_filename)
         self.handlerExcel.filterData()
-        self.dataFrameClean = self.handlerExcel.getDataFrameFilter()
-        self.managerVariable.setDataFrameVariable(self.dataFrameClean)
+        dataFrameClean = self.handlerExcel.getDataFrameFilter()
+        self.managerVariable.setDataFrameVariable(dataFrameClean)
         
     def getNamesVariables(self):
-        return list(self.dataFrameClean.columns.values)
+        return self.managerVariable.getNamesVariables()
     
     def getDataFrame(self):
-        return self.dataFrameClean
+        return self.managerVariable.getDataFrame()
     
     def getVariablesSelect(self):
         return self.variablesSelect
@@ -58,19 +57,19 @@ class AnalysisData(metaclass=SingletonMeta):
                 correlactionIJ = {
                     'label-x':self.variablesSelect[i],
                     'label-y':self.variablesSelect[j],
-                    'data-x':self.dataFrameClean[self.variablesSelect[i]],
-                    'data-y':self.dataFrameClean[self.variablesSelect[j]],
+                    'data-x':self.managerVariable.getDataVariable(self.variablesSelect[i],ManagerVariable.VALUES_VAR),
+                    'data-y':self.managerVariable.getDataVariable(self.variablesSelect[j],ManagerVariable.VALUES_VAR),
                 }
                 
-                correlactionJI = {
-                    'label-x':self.variablesSelect[j],
-                    'label-y':self.variablesSelect[i],
-                    'data-x':self.dataFrameClean[self.variablesSelect[j]],
-                    'data-y':self.dataFrameClean[self.variablesSelect[i]],
-                }
+                # correlactionJI = {
+                #     'label-x':self.variablesSelect[j],
+                #     'label-y':self.variablesSelect[i],
+                #     'data-x':self.dataFrameClean[self.variablesSelect[j]],
+                #     'data-y':self.dataFrameClean[self.variablesSelect[i]],
+                # }
                 
                 self.correlactions.append(correlactionIJ)
-                self.correlactions.append(correlactionJI)
+                # self.correlactions.append(correlactionJI)
         
         return self.correlactions
     
@@ -78,14 +77,14 @@ class AnalysisData(metaclass=SingletonMeta):
         nameVD = _model.getNameVariableD() 
         namesVI = _model.getNamesVariableI()
         
-        valueD ={ nameVD : self.dataFrameClean[nameVD]}
+        valueD ={ nameVD : self.getDataVariable(nameVD,ManagerVariable.VALUES_VAR)}
         valueI = {}
         valueM = {}
-        valueM[nameVD] = self.dataFrameClean[nameVD]
+        valueM[nameVD] = self.getDataVariable(nameVD,ManagerVariable.VALUES_VAR)
         
         for nVI in namesVI:
-            valueI[nVI] = self.dataFrameClean[nVI]
-            valueM[nVI] = self.dataFrameClean[nVI]
+            valueI[nVI] = self.getDataVariable(nVI, ManagerVariable.VALUES_VAR)
+            valueM[nVI] = self.getDataVariable(nVI, ManagerVariable.VALUES_VAR)
         
         dataFrameVD = pd.DataFrame(valueD)
         dataFrameVI = pd.DataFrame(valueI)
