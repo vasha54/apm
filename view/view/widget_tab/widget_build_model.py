@@ -110,7 +110,7 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout_5 = QVBoxLayout()
         self.label_8 = QLabel(self.groupBox)
         self.label_8.setSizePolicy(sizePolicy)
-        self.label_8.setText("Intervalo de confianza")
+        self.label_8.setText("Alfa para los coeficientes de regresion")
         self.verticalLayout_5.addWidget(self.label_8)
 
         self.doubleSBIntervalConfidence = QDoubleSpinBox(self.groupBox)
@@ -468,6 +468,12 @@ class WidgetBuildModel(WidgetTab):
 
         self.listViewCandidateVD.setModel(self.modelCandidateVD)
         self.listViewCandidateVI.setModel(self.modelCandidateVI)
+        
+        self.lineEditNameModel.clear()
+        self.lineEditVariableDependent.clear()
+        self.modelVariablesIndepent.clear()
+        self.listViewVariablesIndepent.setModel(self.modelVariablesIndepent)
+        self.listViewVariablesIndepent.repaint()
         
         
         

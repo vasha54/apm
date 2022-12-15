@@ -30,8 +30,7 @@ class AnalysisData(metaclass=SingletonMeta):
     
     def getVariablesSelect(self):
         return self.variablesSelect
-    
-    
+     
     def addVariablesSelect(self,_variable):
         if _variable not in self.variablesSelect:
             self.variablesSelect.append(_variable)
@@ -126,5 +125,8 @@ class AnalysisData(metaclass=SingletonMeta):
     
     def getDataVariable(self,_nameVar, _method, **kwargs):
         return self.managerVariable.getDataVariable(_nameVar,_method,**kwargs)
+    
+    def tableCorrelations(self):
+        return self.managerVariable.tableCorrelations(self.variablesSelect)
             
         

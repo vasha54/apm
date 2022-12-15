@@ -1,5 +1,6 @@
 
 import pandas as pd
+import numpy as np
 
 from libmath import regress_tes
 
@@ -32,3 +33,16 @@ class ManagerVariable:
     
     def getDataFrame(self):
         return self.dataFrameVariable
+    
+    def getDataFrameThisVar(self,_listNameVar):
+        dictVAR = {}
+        for var in _listNameVar:
+            if var in self.dataFrameVariable:
+                dictVAR[var]=self.dataFrameVariable[var] 
+        dataFrame = pd.DataFrame(dictVAR)
+        return dataFrame
+    
+    def tableCorrelations(self,_listNameVar):
+        dataFrame = self.getDataFrameThisVar(_listNameVar)
+        table = np.corrcoef(dataFrame)
+        return table

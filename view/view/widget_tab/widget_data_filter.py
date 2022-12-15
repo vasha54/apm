@@ -267,11 +267,20 @@ class WidgetDataFilter(WidgetTab):
     def createWorkspace(self):
         self.model = QtGui.QStandardItemModel(self.listViewVariable)
         namesVariable = AnalysisData().getNamesVariables()
+        variablesSelect = AnalysisData().getVariablesSelect()
         for line in namesVariable:
             self.item = QtGui.QStandardItem(line)
             self.item.setCheckable(True)
             self.item.setCheckState(QtCore.Qt.Unchecked)
             self.model.appendRow(self.item)
+            
+        rowsModel = self.model.rowCount()
+        for i in range(0,rowsModel):
+            index = self.model.index(i,0)
+            if self.model.data(index,QtCore.Qt.DisplayRole) in variablesSelect:
+                self.model.setData(index,QtCore.Qt.Checked,QtCore.Qt.CheckStateRole)
+            else:
+                self.model.setData(index,QtCore.Qt.Unchecked,QtCore.Qt.CheckStateRole)
 
         self.listViewVariable.setModel(self.model)
         modelData =DataFrameModel(AnalysisData().getDataFrame(),self.tableViewDataFrame)
@@ -287,6 +296,7 @@ class WidgetDataFilter(WidgetTab):
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def onChecked(self, index):
         item = self.model.itemFromIndex(index)
+        
         if item.checkState() == QtCore.Qt.Checked:
             AnalysisData().addVariablesSelect(item.text())
         else:
@@ -315,11 +325,21 @@ class WidgetDataFilter(WidgetTab):
     def updateTab(self):
         self.model = QtGui.QStandardItemModel(self.listViewVariable)
         namesVariable = AnalysisData().getNamesVariables()
+        variablesSelect = AnalysisData().getVariablesSelect()
         for line in namesVariable:
             self.item = QtGui.QStandardItem(line)
             self.item.setCheckable(True)
             self.item.setCheckState(QtCore.Qt.Unchecked)
             self.model.appendRow(self.item)
+            
+        rowsModel = self.model.rowCount()
+        for i in range(0,rowsModel):
+            index = self.model.index(i,0)
+            if self.model.data(index,QtCore.Qt.DisplayRole) in variablesSelect:
+                self.model.setData(index,QtCore.Qt.Checked,QtCore.Qt.CheckStateRole)
+            else:
+                self.model.setData(index,QtCore.Qt.Unchecked,QtCore.Qt.CheckStateRole)
+        
 
         self.listViewVariable.setModel(self.model)
         modelData =DataFrameModel(AnalysisData().getDataFrame(),self.tableViewDataFrame)
