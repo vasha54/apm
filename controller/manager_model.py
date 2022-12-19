@@ -49,7 +49,7 @@ class ManagerModel:
         return key
     
     def getDataModel(self,_keyModel, _method,**kwargs):
-        data = ''
+        data = None
         if _keyModel in self.dictModel.keys():
             data = getattr(self.dictModel[_keyModel],_method)(**kwargs)
         return data

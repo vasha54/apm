@@ -8,7 +8,9 @@ import numpy as np
 from scipy import stats as st
 from scipy.stats import chisquare, kurtosis, skew, shapiro, kstest, stats, anderson, normaltest
 
+
 import scipy.stats
+
 
 from statsmodels.stats.diagnostic import lilliefors, het_white
 from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -841,6 +843,17 @@ def analysisExtrapolationHide(_model,**kwargs):
     else:
         raise NotFoundParameterExtraException('esp','analysisExtrapolationHide')
     return answer
+
+
+def serieGraphQQTestNormalResidualNotScale(_model,**kwargs):
+    residuales = residualModel(_model,**kwargs)
+    [x,y]=st.probplot(residuales, sparams=(), dist='norm', fit=False, plot=None, rvalue=False)
+    [u3,u4]=st.probplot(residuales, sparams=(), dist='norm', fit=True, plot=None, rvalue=False)
+    m=u4[0]
+    n=u4[1]
+    maxX= max(x)
+    maxY = m*maxX+n
+    return [x,y,[0,maxX],[n,maxY]]
 
 
 

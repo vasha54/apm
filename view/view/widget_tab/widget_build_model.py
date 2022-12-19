@@ -39,25 +39,30 @@ class WidgetBuildModel(WidgetTab):
         self.createConnect()
         
     def createUi(self):
+        
+        fontNormal = QtGui.QFont()
+        fontNormal.setBold(False)
+    
+        
+        fontBold = QFont()
+        fontBold.setBold(True)
+        
+        
         self.horizontalLayout_5 = QHBoxLayout(self.widgetCentral)
-        
         self.groupBox = QGroupBox(self.widgetCentral)
-        
-        font = QtGui.QFont()
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        self.groupBox.setFont(font)
+        self.groupBox.setFont(fontNormal)
         self.gridLayout = QGridLayout(self.groupBox)
         
         self.verticalLayout_8 = QVBoxLayout()
-        
         self.verticalLayout_6 = QVBoxLayout()
         
-        self.label_5 = QLabel(self.groupBox)        
+        self.label_5 = QLabel(self.groupBox)
+        self.label_5.setFont(fontBold)        
+        
         self.verticalLayout_6.addWidget(self.label_5)
 
         self.listViewCandidateVD = ListViewRadioButton(self.groupBox)
+        self.listViewCandidateVD.setFont(fontNormal)
               
         self.verticalLayout_6.addWidget(self.listViewCandidateVD)    
         self.verticalLayout_8.addLayout(self.verticalLayout_6)
@@ -67,17 +72,12 @@ class WidgetBuildModel(WidgetTab):
         
         self.verticalLayout_7.addWidget(self.label_6)
         self.listViewCandidateVI = ListViewCheckBox(self.groupBox)
+        self.listViewCandidateVI.setFont(fontNormal)
         self.verticalLayout_7.addWidget(self.listViewCandidateVI)
 
         self.verticalLayout_8.addLayout(self.verticalLayout_7)
 
         self.label_7 = QLabel(self.groupBox)
-        font1 = QFont()
-        font1.setPointSize(8)
-        font1.setBold(True)
-        font1.setWeight(75)
-        font1.setKerning(True)
-        self.label_7.setFont(font1)
 
         self.verticalLayout_8.addWidget(self.label_7)
 
@@ -91,6 +91,7 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout_2.addWidget(self.label)
 
         self.lineEditNameModel = QLineEdit(self.groupBox)
+        self.lineEditNameModel.setFont(fontNormal)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -114,6 +115,7 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout_5.addWidget(self.label_8)
 
         self.doubleSBIntervalConfidence = QDoubleSpinBox(self.groupBox)
+        self.doubleSBIntervalConfidence.setFont(fontNormal)
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -138,6 +140,7 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout_3.addWidget(self.label_3)
 
         self.lineEditVariableDependent = QLineEdit(self.groupBox)
+        self.lineEditVariableDependent.setFont(fontNormal)
         sizePolicy.setHeightForWidth(self.lineEditVariableDependent.sizePolicy().hasHeightForWidth())
         self.lineEditVariableDependent.setSizePolicy(sizePolicy)
         self.lineEditVariableDependent.setReadOnly(True)
@@ -157,6 +160,7 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout_4.addWidget(self.label_4)
 
         self.listViewVariablesIndepent = QListView(self.groupBox)
+        self.listViewVariablesIndepent.setFont(fontNormal)
         sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
@@ -174,6 +178,7 @@ class WidgetBuildModel(WidgetTab):
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
         self.pBAddModel = QPushButton(self.groupBox)
+        self.pBAddModel.setFont(fontNormal)
         self.horizontalLayout_3.addWidget(self.pBAddModel)
 
 
@@ -196,6 +201,7 @@ class WidgetBuildModel(WidgetTab):
 
         self.listViewModel = QListView(self.widgetCentral)
         self.listViewModel.setMinimumSize(QSize(0, 350))
+        self.listViewModel.setFont(fontNormal)
 
         self.verticalLayout.addWidget(self.listViewModel)
 
@@ -228,18 +234,26 @@ class WidgetBuildModel(WidgetTab):
         self.modelModelLMR = ModelLMRModel()
         self.listViewModel.setModel(self.modelModelLMR)
         self.groupBox.setTitle("Conformación del modelo")
+        self.groupBox.setFont(fontBold)
         self.label_5.setText("Posibles variables  dependientes")
+        self.label_5.setFont(fontBold)
         self.label_6.setText("Posibles variables  independientes")
+        self.label_6.setFont(fontBold)
         self.label_7.setText("El orden en que se selecciona las \n"
                              "variables independientes del modelo\n"
                              "influye de forma significativa en este.")
+        self.label_7.setFont(fontBold)
         self.label.setText("Nombre del modelo")
+        self.label.setFont(fontBold)
         self.label_3.setText("Variable dependiente")
+        self.label_3.setFont(fontBold)
         self.label_3.setSizePolicy(sizePolicy)
         self.label_4.setSizePolicy(sizePolicy)
         self.label_4.setText("Variables independientes")
+        self.label_4.setFont(fontBold)
         self.pBAddModel.setText("Registrar modelo")
         self.label_2.setText( "Modelos definidos")
+        self.label_2.setFont(fontBold)
         self.pBEditModel.setText("Editar")
         self.pBDetailsModel.setText("Detalles")
         self.pBRemoveModel.setText( "Eliminar")

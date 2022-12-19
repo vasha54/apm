@@ -577,6 +577,10 @@ class ModelLMR:
     def analysisExtrapolationHide(self,**kwargs):
         return RGSST.analysisExtrapolationHide(self,**kwargs)
     
+    SERIE_GRAPH_QQ_TEST_NORMAL_RESIDUAL_NOT_SCALE ='serieGraphQQTestNormalResidualNotScale'
+    def serieGraphQQTestNormalResidualNotScale(self,**kwargs):
+        return RGSST.serieGraphQQTestNormalResidualNotScale(self,**kwargs)
+    
     
         
         
