@@ -1,11 +1,19 @@
 from view.ui.widget_test_normal_residual_studentized_ui import Ui_WidgetTestNormalResidualStudentized
 
 from PyQt5.QtWidgets import (
-    QWidget
+    QWidget,QVBoxLayout
 )
+
+from PyQt5.QtGui import (
+    QBrush, QColor, QPainter
+)
+
 
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
+
+from pyqtgraph import PlotWidget, plot
+import pyqtgraph as pg
 
 class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStudentized):
     def __init__(self,_keyModel,*args,**kwargs):
@@ -33,6 +41,58 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
         self.lOKOLMOGOROV_SMIRNOV_PVALUE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_PVALUE_RE)) )
         self.lOKOLMOGOROV_SMIRNOV_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_RE)) )
         
+        self.clearLayout(self.widgetGraphOne.layout())
+        
+        self.createChartQQTestNormalResidualStudentized()
+        self.createChartDistributionResidualStudentized()
+        
+        
     def update(self):
         self.keyModel = AnalysisData().getKeyModelSelect()
         self.createWorkSpace()
+        
+    
+    def clearLayout(self,layout):
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget() is not None:
+                child.widget().deleteLater()
+            elif child.layout() is not None:
+                clearLayout(child.layout())
+                
+    def createChartQQTestNormalResidualStudentized(self):
+        pg.setConfigOptions(antialias=True)
+        self.graphWidget = pg.PlotWidget()
+        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        styles = {'color':'b', 'font-size':'10px'}
+        
+        serie = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_CHART_QQ_TEST_NORMAL_RESIDUAL_STUDENTIZED)
+        xs = []
+        ys = []
+        xLine = []
+        yLine = []
+        
+        if serie !=None :
+            xs = serie[0]
+            ys = serie[1]
+            xLine = serie[2]
+            yLine = serie[3]
+        
+        
+        self.graphWidget.setLabel('left', 'Cuartiles de los residuales', **styles)
+        self.graphWidget.setLabel('bottom', 'Cuartiles teoricos', **styles)
+        self.graphWidget.setBackground('w')
+        
+        brush = QBrush(QColor(0,0,0,255))
+        brushLine = QBrush(QColor(255,0,0,255))
+        
+        penLine = pg.mkPen(color=(255, 0, 0), width=2)
+        
+        self.graphWidget.plot(xLine, yLine,pen=penLine ,symbol=None, symbolSize=5, symbolBrush=brushLine)
+        self.graphWidget.plot(xs, ys,pen=None,symbol='o', symbolSize=5, symbolBrush=brush)
+        
+        self.widgetGraphOne.layout().addWidget(self.graphWidget)
+    
+    
+    def createChartDistributionResidualStudentized(self):
+        pass

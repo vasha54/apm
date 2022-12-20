@@ -857,8 +857,8 @@ def serieChartQQTestNormalResidualNotScale(_model,**kwargs):
 
 def serieChartQQTestNormalResidualStudentized(_model,**kwargs):
     residualesST = residualSTModel(_model, **kwargs)
-    [xs,ys]=stats.probplot(residualesST, sparams=(), dist='norm', fit=False, plot=None, rvalue=False)
-    [u7,u8]=stats.probplot(residualesST, sparams=(), dist='norm', fit=True, plot=None, rvalue=False)
+    [xs,ys]=st.probplot(residualesST, sparams=(), dist='norm', fit=False, plot=None, rvalue=False)
+    [u7,u8]=st.probplot(residualesST, sparams=(), dist='norm', fit=True, plot=None, rvalue=False)
     m=u8[0]
     n=u8[1]
     maxX = max(xs)+0.1
