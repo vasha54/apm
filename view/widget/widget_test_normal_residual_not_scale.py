@@ -5,8 +5,10 @@ from PyQt5.QtWidgets import (
 )
 
 from PyQt5.QtGui import (
-    QBrush, QColor
+    QBrush, QColor, QPainter
 )
+
+
 
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
@@ -40,10 +42,65 @@ class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotSca
         self.lOSHAPIRO_WILK_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_RWS) )  )
         self.lOSHAPIRO_WILK_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_PVALUE_RWS) )  )
         
+        
+        self.clearLayout(self.widgetGraphOne.layout())
+        
+        self.createChartQQTestNormalResidualNotScale()
+        self.createChartDistributionResidualNotScale()
+        
+         
+    def update(self):
+        self.keyModel = AnalysisData().getKeyModelSelect()
+        self.createWorkSpace()
+        
+    def clearLayout(self,layout):
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget() is not None:
+                child.widget().deleteLater()
+            elif child.layout() is not None:
+                clearLayout(child.layout())
+                
+    def createChartDistributionResidualNotScale(self):
+        pg.setConfigOptions(antialias=True)
         self.graphWidget = pg.PlotWidget()
+        self.graphWidget.setRenderHints(QPainter.Antialiasing)
         styles = {'color':'b', 'font-size':'10px'}
         
-        serie = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_GRAPH_QQ_TEST_NORMAL_RESIDUAL_NOT_SCALE)
+        self.graphWidget.setLabel('left', 'Densidad', **styles)
+        self.graphWidget.setLabel('bottom', 'Residuales', **styles)
+        self.graphWidget.setBackground('w')
+        
+        series = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_CHART_DISTRIBUTION_RESIDUAL_NOT_SCALE)
+        
+        xKDE = []
+        yKDE = []
+        xNormal = []
+        yNormal = [] 
+        
+        if series != None:
+            xKDE = series[0]
+            yKDE = series[1]
+            xNormal = series[2]
+            yNormal = series[3]
+            
+        penLineNormal = pg.mkPen(color=(255, 0, 0), width=2)
+        brushLineNormal = QBrush(QColor(255,0,0,255))
+        
+        penLineKDE = pg.mkPen(color=(0, 0, 0), width=2)
+        self.graphWidget.addLegend()
+        self.graphWidget.plot(xNormal, yNormal, name = "Distribución normal", pen=penLineNormal , symbol=None, symbolSize=5, symbolBrush=brushLineNormal)
+        self.graphWidget.plot(xKDE,    yKDE   , name = "KDE", pen=penLineKDE    , symbol=None, symbolSize=None, symbolBrush=None)
+        
+        self.widgetGraphOne.layout().addWidget(self.graphWidget)
+                
+    def createChartQQTestNormalResidualNotScale(self):
+        pg.setConfigOptions(antialias=True)
+        self.graphWidget = pg.PlotWidget()
+        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        styles = {'color':'b', 'font-size':'10px'}
+        
+        serie = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_CHART_QQ_TEST_NORMAL_RESIDUAL_NOT_SCALE)
         xs = []
         ys = []
         xLine = []
@@ -63,21 +120,9 @@ class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotSca
         brush = QBrush(QColor(0,0,0,255))
         brushLine = QBrush(QColor(255,0,0,255))
         
+        penLine = pg.mkPen(color=(255, 0, 0), width=2)
+        
+        self.graphWidget.plot(xLine, yLine,pen=penLine ,symbol=None, symbolSize=5, symbolBrush=brushLine)
         self.graphWidget.plot(xs, ys,pen=None,symbol='o', symbolSize=5, symbolBrush=brush)
-        self.graphWidget.plot(xLine, yLine,pen='r',symbol=None, symbolSize=5, symbolBrush=brushLine)
         
-        
-        self.clearLayout(self.widgetGraphOne.layout())
         self.widgetGraphOne.layout().addWidget(self.graphWidget)
-         
-    def update(self):
-        self.keyModel = AnalysisData().getKeyModelSelect()
-        self.createWorkSpace()
-        
-    def clearLayout(self,layout):
-        while layout.count():
-            child = layout.takeAt(0)
-            if child.widget() is not None:
-                child.widget().deleteLater()
-            elif child.layout() is not None:
-                clearLayout(child.layout())

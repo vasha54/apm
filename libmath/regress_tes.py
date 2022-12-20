@@ -6,11 +6,9 @@ import numpy as np
 
 
 from scipy import stats as st
-from scipy.stats import chisquare, kurtosis, skew, shapiro, kstest, stats, anderson, normaltest
-
+from scipy.stats import chisquare, kurtosis, skew, shapiro, kstest, stats, anderson, normaltest, norm
 
 import scipy.stats
-
 
 from statsmodels.stats.diagnostic import lilliefors, het_white
 from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -845,15 +843,60 @@ def analysisExtrapolationHide(_model,**kwargs):
     return answer
 
 
-def serieGraphQQTestNormalResidualNotScale(_model,**kwargs):
+def serieChartQQTestNormalResidualNotScale(_model,**kwargs):
     residuales = residualModel(_model,**kwargs)
-    [x,y]=st.probplot(residuales, sparams=(), dist='norm', fit=False, plot=None, rvalue=False)
+    [xs,ys]=st.probplot(residuales, sparams=(), dist='norm', fit=False, plot=None, rvalue=False)
     [u3,u4]=st.probplot(residuales, sparams=(), dist='norm', fit=True, plot=None, rvalue=False)
     m=u4[0]
     n=u4[1]
-    maxX= max(x)
-    maxY = m*maxX+n
-    return [x,y,[0,maxX],[n,maxY]]
+    maxX = max(xs)+0.1
+    minX = min(xs)-0.1
+    maxY = m*maxX +n
+    minY = m*minX + n
+    return [xs,ys,[minX,maxX],[minY,maxY]]
+
+def serieChartQQTestNormalResidualStudentized(_model,**kwargs):
+    residualesST = residualSTModel(_model, **kwargs)
+    [xs,ys]=stats.probplot(residualesST, sparams=(), dist='norm', fit=False, plot=None, rvalue=False)
+    [u7,u8]=stats.probplot(residualesST, sparams=(), dist='norm', fit=True, plot=None, rvalue=False)
+    m=u8[0]
+    n=u8[1]
+    maxX = max(xs)+0.1
+    minX = min(xs)-0.1
+    maxY = m*maxX + n
+    minY = m*minX + n
+    return [xs,ys,[minX,maxX],[minY,maxY]]
+
+def serieChartDistributionResidualNotScale(_model,**kwargs):
+    residuales = residualModel(_model,**kwargs)
+    xH3=residuales
+    kde = sm.nonparametric.KDEUnivariate(xH3)
+    kde.fit() 
+    xKDE=kde.support  
+    yKDE=kde.density
+    
+    g=len(xKDE)
+    mu, std = norm.fit(residuales) 
+    
+    XH3min=min(xH3)
+    XH3max=max(xH3)
+    xNormal = np.linspace(XH3min, XH3max, g)
+    yNormal = norm.pdf(xNormal, mu, std)
+    
+    return [xKDE,yKDE,xNormal,yNormal]
+
+def serieChartDistributionResidualStudentized(_model, **kwargs):
+    pass
+    # residualesST = residualSTModel(_model, **kwargs)
+    # xH4=residualesST
+    
+    # g=len(xlineaAZ)
+    
+    # XH4min=min(xH4)
+    # XH4max=max(xH4)
+    # xKDE = np.linspace(XH4min, XH4max, g)
+    
+    
 
 
 
