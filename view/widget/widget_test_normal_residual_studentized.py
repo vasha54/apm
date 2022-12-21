@@ -42,6 +42,7 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
         self.lOKOLMOGOROV_SMIRNOV_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_RE)) )
         
         self.clearLayout(self.widgetGraphOne.layout())
+        self.clearLayout(self.widgetGraphTwo.layout())
         
         self.createChartQQTestNormalResidualStudentized()
         self.createChartDistributionResidualStudentized()
@@ -125,4 +126,4 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
         self.graphWidget.plot(xNormal, yNormal, name = "Distribución normal", pen=penLineNormal , symbol=None, symbolSize=5, symbolBrush=brushLineNormal)
         self.graphWidget.plot(xKDE,    yKDE   , name = "KDE", pen=penLineKDE    , symbol=None, symbolSize=None, symbolBrush=None)
         
-        self.widgetGraphOne.layout().addWidget(self.graphWidget)
+        self.widgetGraphTwo.layout().addWidget(self.graphWidget)

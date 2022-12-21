@@ -42,8 +42,8 @@ class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotSca
         self.lOSHAPIRO_WILK_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_RWS) )  )
         self.lOSHAPIRO_WILK_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_PVALUE_RWS) )  )
         
-        
         self.clearLayout(self.widgetGraphOne.layout())
+        self.clearLayout(self.widgetGraphTwo.layout())
         
         self.createChartQQTestNormalResidualNotScale()
         self.createChartDistributionResidualNotScale()
@@ -92,7 +92,7 @@ class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotSca
         self.graphWidget.plot(xNormal, yNormal, name = "Distribución normal", pen=penLineNormal , symbol=None, symbolSize=5, symbolBrush=brushLineNormal)
         self.graphWidget.plot(xKDE,    yKDE   , name = "KDE", pen=penLineKDE    , symbol=None, symbolSize=None, symbolBrush=None)
         
-        self.widgetGraphOne.layout().addWidget(self.graphWidget)
+        self.widgetGraphTwo.layout().addWidget(self.graphWidget)
                 
     def createChartQQTestNormalResidualNotScale(self):
         pg.setConfigOptions(antialias=True)
