@@ -163,9 +163,9 @@ kde1.fit()  # Estimate the densities
 xlineaAZ1=kde1.support  #KDE (univariante)
 ylineaAZ1=kde1.density
 
-plt.plot(xlineaAZ, ylineaAZ, color='red', linewidth=1)
+plt.plot(xlineaAZ1, ylineaAZ1, color='red', linewidth=1)
 plt.show()
-g=len(xlineaAZ)
+g=len(xlineaAZ1)
 
 XH4min=min(xH4)
 XH4max=max(xH4)

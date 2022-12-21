@@ -886,16 +886,22 @@ def serieChartDistributionResidualNotScale(_model,**kwargs):
     return [xKDE,yKDE,xNormal,yNormal]
 
 def serieChartDistributionResidualStudentized(_model, **kwargs):
-    pass
-    # residualesST = residualSTModel(_model, **kwargs)
-    # xH4=residualesST
+    residualesST = residualSTModel(_model, **kwargs)
+    xH4=residualesST
+    kde = sm.nonparametric.KDEUnivariate(xH4)
+    kde.fit() 
+    xKDE=kde.support 
+    yKDE=kde.density
     
-    # g=len(xlineaAZ)
+    g=len(xKDE)
+    mu1, std1 = norm.fit(residualesST) 
     
-    # XH4min=min(xH4)
-    # XH4max=max(xH4)
-    # xKDE = np.linspace(XH4min, XH4max, g)
+    XH4min=min(xH4)
+    XH4max=max(xH4)
+    xNormal = np.linspace(XH4min, XH4max, g)
+    yNormal = norm.pdf(xNormal, mu1, std1)
     
+    return [xKDE,yKDE,xNormal,yNormal] 
     
 
 

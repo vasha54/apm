@@ -95,4 +95,34 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
     
     
     def createChartDistributionResidualStudentized(self):
-        pass
+        pg.setConfigOptions(antialias=True)
+        self.graphWidget = pg.PlotWidget()
+        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        styles = {'color':'b', 'font-size':'10px'}
+        
+        self.graphWidget.setLabel('left', 'Densidad', **styles)
+        self.graphWidget.setLabel('bottom', 'Residuales', **styles)
+        self.graphWidget.setBackground('w')
+        
+        series = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_CHART_DISTRIBUTION_RESIDUAL_STUDENTIZED)
+        
+        xKDE = []
+        yKDE = []
+        xNormal = []
+        yNormal = [] 
+        
+        if series != None:
+            xKDE = series[0]
+            yKDE = series[1]
+            xNormal = series[2]
+            yNormal = series[3]
+            
+        penLineNormal = pg.mkPen(color=(255, 0, 0), width=2)
+        brushLineNormal = QBrush(QColor(255,0,0,255))
+        
+        penLineKDE = pg.mkPen(color=(0, 0, 0), width=2)
+        self.graphWidget.addLegend()
+        self.graphWidget.plot(xNormal, yNormal, name = "Distribución normal", pen=penLineNormal , symbol=None, symbolSize=5, symbolBrush=brushLineNormal)
+        self.graphWidget.plot(xKDE,    yKDE   , name = "KDE", pen=penLineKDE    , symbol=None, symbolSize=None, symbolBrush=None)
+        
+        self.widgetGraphOne.layout().addWidget(self.graphWidget)
