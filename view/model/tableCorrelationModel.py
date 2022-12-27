@@ -2,15 +2,9 @@ from PyQt5.QtCore import(
   QVariant,QAbstractTableModel
 )
 
-from PyQt5.QtGui import (
-    QStandardItemModel
-)
+from PyQt5 import QtCore
 
-from PyQt5 import QtCore, QtGui, Qt
-
-from controller.analysis_data import AnalysisData 
-
-from model.modelLMR import ModelLMR
+from view.preferences.preferences import PreferenceGUI
 
 
 class TableCorrelationModel(QAbstractTableModel):
@@ -19,6 +13,8 @@ class TableCorrelationModel(QAbstractTableModel):
         QAbstractTableModel.__init__(self, parent)
         self.headersVar = _headersVar
         self.data =_data 
+        self.decimalPlaces = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        self.formatStr = '.'+str(self.decimalPlaces)+'f'
 
     def rowCount(self, parent=None):
         return len(self.headersVar)
@@ -35,7 +31,7 @@ class TableCorrelationModel(QAbstractTableModel):
     def data(self, index, role=QtCore.Qt.DisplayRole):
         if index.isValid():
             if role == QtCore.Qt.DisplayRole :
-                return QVariant(str( round(self.data[index.row()][index.column()],3) ))
+                return QVariant(str( format(self.data[index.row()][index.column()],self.formatStr) ))
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         return QVariant()

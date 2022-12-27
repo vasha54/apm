@@ -8,6 +8,7 @@ from PyQt5.QtGui import (
     QBrush, QColor, QPainter
 )
 
+from view.preferences.preferences import PreferenceGUI
 
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
@@ -62,10 +63,15 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
                 clearLayout(child.layout())
                 
     def createChartQQTestNormalResidualStudentized(self):
+        colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
+        colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
+        colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
+        
+        pg.setConfigOption('foreground', colorAxes)
         pg.setConfigOptions(antialias=True)
         self.graphWidget = pg.PlotWidget()
         self.graphWidget.setRenderHints(QPainter.Antialiasing)
-        styles = {'color':'b', 'font-size':'10px'}
+        styles = {'color':colorText, 'font-size':'10px'}
         
         serie = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_CHART_QQ_TEST_NORMAL_RESIDUAL_STUDENTIZED)
         xs = []
@@ -82,7 +88,7 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
         
         self.graphWidget.setLabel('left', 'Cuartiles de los residuales', **styles)
         self.graphWidget.setLabel('bottom', 'Cuartiles teoricos', **styles)
-        self.graphWidget.setBackground('w')
+        self.graphWidget.setBackground(colorBackground)
         
         brush = QBrush(QColor(0,0,0,255))
         brushLine = QBrush(QColor(255,0,0,255))
@@ -96,14 +102,19 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
     
     
     def createChartDistributionResidualStudentized(self):
+        colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
+        colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
+        colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
+        
+        pg.setConfigOption('foreground', colorAxes)
         pg.setConfigOptions(antialias=True)
         self.graphWidget = pg.PlotWidget()
         self.graphWidget.setRenderHints(QPainter.Antialiasing)
-        styles = {'color':'b', 'font-size':'10px'}
+        styles = {'color':colorText, 'font-size':'10px'}
         
         self.graphWidget.setLabel('left', 'Densidad', **styles)
         self.graphWidget.setLabel('bottom', 'Residuales', **styles)
-        self.graphWidget.setBackground('w')
+        self.graphWidget.setBackground(colorBackground)
         
         series = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_CHART_DISTRIBUTION_RESIDUAL_STUDENTIZED)
         

@@ -28,7 +28,9 @@ class ModelVIFAnalysMultiColinualidadModel(QAbstractTableModel):
         return  1
 
     def columnCount(self, parent=None):
-        return len(self.namesSectionHeaderV)
+        if self.namesSectionHeaderV != None:
+            return len(self.namesSectionHeaderV)
+        return 0
     
     def headerData (self, section, direction, role=QtCore.Qt.DisplayRole):
         if role != QtCore.Qt.DisplayRole:

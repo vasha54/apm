@@ -16,7 +16,9 @@ class LimitVariableInpendentModel(QAbstractTableModel):
         
 
     def rowCount(self, parent=None):
-        return len(self.namesVarI)
+        if self.namesVarI != None:
+            return len(self.namesVarI)
+        return 0
 
     def columnCount(self, parent=None):
         return 3

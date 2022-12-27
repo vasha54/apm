@@ -1,4 +1,4 @@
-from pattern.singleton_meta import SingletonMeta
+from pattern.singleton import SingletonMeta
 
 from controller.manager_model import ManagerModel
 from controller.manager_variable import ManagerVariable

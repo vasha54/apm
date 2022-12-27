@@ -8,8 +8,6 @@ from PyQt5.QtGui import(
     QPixmap,QIcon
 )
 
-from PySide2.QtHelp import QHelpEngine
-
 from PyQt5.QtCore import QSize,QDir
 
 from PyQt5.uic import loadUi
@@ -17,6 +15,7 @@ from PyQt5 import QtCore
 from view.ui.mainwindow_ui import Ui_MainWindow
 from controller.analysis_data import AnalysisData
 from view.view.status_bar import StatusBar
+from view.preferences.preferences import PreferenceGUI
 
 from view.view.widget_tab.widget_data_filter import WidgetDataFilter
 from view.view.widget_tab.widget_charts_variables import WidgetChartVariables
@@ -28,6 +27,7 @@ from view.view.widget_tab.widget_quality_adjust_model import WidgetQualityAdjust
 from view.view.widget_tab.widget_validate import WidgetValidate
 from view.view.widget_tab.widget_tab import WidgetTab
 from view.ui.presentation_ui import Ui_WidgetPresentacion
+from view.dialog.dialog_preference import DialogPreference
 
 from view.resource import resource
 
@@ -39,6 +39,7 @@ class App(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.createWorkSpace()
         self.analysisData = AnalysisData()
+        self.preference = PreferenceGUI.instance().subscribe(self)
 
     def createWorkSpace(self):
         self.createMenuBar()
@@ -160,6 +161,7 @@ class App(QMainWindow, Ui_MainWindow):
         self.m_closeAction.triggered.connect(self.close)
         self.m_openFileExcelAction.triggered.connect(self.selectFileData)
         self.m_helpAction.triggered.connect(self.showHelp)
+        self.m_preferenceAction.triggered.connect(self.showPreference)
         self.m_tabWidget.currentChanged.connect(self.changeTabActive)
         
     def selectFileData(self):
@@ -170,7 +172,9 @@ class App(QMainWindow, Ui_MainWindow):
                                                   options=options)
         if fileName:
             self.analysisData.readFileExcel(fileName)
+            self.addOrUpdateTabBuildModels()
             self.addOrUpdateTabFilterData()
+            
             
     def addOrUpdateTabFilterData(self):
         if self.widgetDataFilter == None:
@@ -290,3 +294,7 @@ class App(QMainWindow, Ui_MainWindow):
     def showHelp(self):
         pass
         #helpEngine = QHelpEngine('help/index.qch')
+        
+    def showPreference(self):
+        preferencesDialog = DialogPreference(self)
+        preferencesDialog.exec()

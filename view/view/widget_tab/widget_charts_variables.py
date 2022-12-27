@@ -12,14 +12,15 @@ from PyQt5.QtCore import (
     QSize
 )
 
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5 import Qt
-from view.view.widget_tab.widget_tab import WidgetTab
-from view.components.widget_chart_item import WidgetChartItem
-from view.view.dialog_details_correlation import DialogDetailsCorrelation
-from view.model.tableCorrelationModel import TableCorrelationModel
 from controller.analysis_data import AnalysisData
+
+from view.view.widget_tab.widget_tab import WidgetTab
+from view.view.dialog_details_correlation import DialogDetailsCorrelation
+from view.components.widget_chart_item import WidgetChartItem
+from view.model.tableCorrelationModel import TableCorrelationModel
+from view.preferences.preferences import PreferenceGUI
 
 class WidgetChartVariables(WidgetTab):
     
@@ -29,6 +30,7 @@ class WidgetChartVariables(WidgetTab):
         self.createUI()
         self.createWorkspace()
         self.createConnect()
+        PreferenceGUI.instance().subscribe(self)
         
     def createUI(self):
         self.gridLayout = QGridLayout(self.widgetCentral)
@@ -84,7 +86,7 @@ class WidgetChartVariables(WidgetTab):
         self.verticalSpacer_2 = QSpacerItem(20, 42, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         self.gridLayout.addItem(self.verticalSpacer_2, 3, 1, 1, 1)
-        self.label.setText(u"Tabla de correlacion de las variables")
+        self.label.setText(u"Tabla de correlación de las variables")
         
         
         
@@ -134,3 +136,6 @@ class WidgetChartVariables(WidgetTab):
             dialog.setMinimumHeight(600)
             dialog.setMinimumWidth(600)
             dialog.exec()
+            
+    def changePreference(self,_listChange):
+        self.createWorkspace()
