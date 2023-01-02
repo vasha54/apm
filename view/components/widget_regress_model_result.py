@@ -7,7 +7,7 @@ from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
 
 from PyQt5 import QtCore, QtWidgets, QtGui
-
+from view.preferences.preferences import PreferenceGUI
 from view.ui.widget_regress_model_result_ui import Ui_WidgetRegressModelResult
 from view.model.modelResultRegress_model import ModelResultRegressModel
 from view.model.modelIntervalCoeffRegress_model import ModelIntervalCoeffRegressModel
@@ -20,27 +20,37 @@ class WidgetRegressModelResult(QWidget,Ui_WidgetRegressModelResult):
         self.setupUi(self)
         self.keyModel = _keyModel
         self.createWorkSpace()
+        PreferenceGUI.instance().subscribe(self)
+    
+    def changePreference(self,_listChange):
+        if PreferenceGUI.DECIMAL_PLACES in _listChange:
+            self.createWorkSpace()
+        
         
         
     def createWorkSpace(self):
+        
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
+        
         self.lOVariableDependent.setText(AnalysisData().getDataModel(self.keyModel,ModelLMR.NAME_VD))
-        self.lONumberObservations.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.NUMBER_MEAS)))
-        self.lOGLResidual.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.GL_RESIDUAL)))
-        self.lOGLModelo.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.GL_MODEL)))
+        self.lONumberObservations.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.NUMBER_MEAS),formatStr)))
+        self.lOGLResidual.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.GL_RESIDUAL),formatStr)))
+        self.lOGLModelo.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.GL_MODEL),formatStr)))
         
-        self.lOAIC.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.AIC)))
-        self.lOBIC.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.BIC)))
-        self.lOLagLikeHead.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.LOG_LIKELI_HEAD)))
+        self.lOAIC.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.AIC),formatStr)))
+        self.lOBIC.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.BIC),formatStr)))
+        self.lOLagLikeHead.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.LOG_LIKELI_HEAD),formatStr)))
         
-        self.lORcuad.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RCUAD)))
-        self.lORcuadAdjust.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RCUAD_ADJUST)))
-        self.lOFStadistic.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.FSTADISTIC)))
-        self.lOPValue.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.PVALUE)))
+        self.lORcuad.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RCUAD),formatStr)))
+        self.lORcuadAdjust.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RCUAD_ADJUST),formatStr)))
+        self.lOFStadistic.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.FSTADISTIC),formatStr)))
+        self.lOPValue.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.PVALUE),formatStr)))
         
-        self.lOMSEModel.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_MODEL)))
-        self.lOMSEResidual.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_RESIDUAL)))
-        self.lOMSETotal.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_TOTAL)))
-        self.lORMSEModel.setText(str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL)))
+        self.lOMSEModel.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_MODEL),formatStr)))
+        self.lOMSEResidual.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_RESIDUAL),formatStr)))
+        self.lOMSETotal.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MSE_TOTAL),formatStr)))
+        self.lORMSEModel.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL),formatStr)))
         
         self.modelResultRegress = ModelResultRegressModel(self.keyModel,self.tableViewResultRegress)
         self.modelIntervalCoeffRegress = ModelIntervalCoeffRegressModel(self.keyModel,self.tableViewIntervalEstimateCoeRegress)

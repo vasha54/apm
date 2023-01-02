@@ -13,6 +13,8 @@ from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
 from controller.analysis_data import AnalysisData
 
+from view.preferences.preferences import PreferenceGUI
+
 
 class ModelVIFAnalysMultiColinualidadModel(QAbstractTableModel):
     
@@ -20,7 +22,9 @@ class ModelVIFAnalysMultiColinualidadModel(QAbstractTableModel):
         QAbstractTableModel.__init__(self, parent)
         self.keyModel=_keyModel
         self.namesSectionHeaderV = AnalysisData().getDataModel(self.keyModel,ModelLMR.ALL_NAME_VAR)
-        self.valuesVIF =  AnalysisData().getDataModel(self.keyModel,ModelLMR.ANALYSIS_MULTICOLINIALIDAD)       
+        self.valuesVIF =  AnalysisData().getDataModel(self.keyModel,ModelLMR.ANALYSIS_MULTICOLINIALIDAD)
+        self.decimalPlaces = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        self.formatStr = '.'+str(self.decimalPlaces)+'f'     
 
         
         
@@ -44,7 +48,7 @@ class ModelVIFAnalysMultiColinualidadModel(QAbstractTableModel):
     def data(self, index, role=QtCore.Qt.DisplayRole):
         if index.isValid():
             if role == QtCore.Qt.DisplayRole :
-                return QVariant(str( self.valuesVIF[index.column()] ))
+                return QVariant(str(format(self.valuesVIF[index.column()],self.formatStr)))
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter | QtCore.Qt.AlignHCenter)
         return QVariant()

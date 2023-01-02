@@ -12,6 +12,7 @@ from controller.analysis_data import AnalysisData
 
 from model.modelLMR import ModelLMR
 
+from view.preferences.preferences import PreferenceGUI
 
 class ModelIntervalCoeffRegressModel(QAbstractTableModel):
     
@@ -23,6 +24,8 @@ class ModelIntervalCoeffRegressModel(QAbstractTableModel):
         self.terms = self.terms+AnalysisData().getDataModel(self.keyModel,ModelLMR.ALL_NAME_VARI)
         self.lowerLimit = AnalysisData().getDataModel(self.keyModel,ModelLMR.LOWER_LIMIT_VAR)
         self.upperLimit = AnalysisData().getDataModel(self.keyModel,ModelLMR.UPPER_LIMIT_VAR)
+        self.decimalPlaces = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        self.formatStr = '.'+str(self.decimalPlaces)+'f'
         
     def rowCount(self, parent=None):
         return  len(self.terms)
@@ -42,9 +45,9 @@ class ModelIntervalCoeffRegressModel(QAbstractTableModel):
                 if index.column() == 0:
                     return QVariant(str(self.terms[index.row()]))
                 elif index.column() == 1 :
-                    return QVariant(str(self.lowerLimit[index.row()]))
+                    return QVariant(str(format(self.lowerLimit[index.row()],self.formatStr)))
                 elif index.column() == 2 :
-                    return QVariant(str(self.upperLimit[index.row()]))
+                    return QVariant(str(format(self.upperLimit[index.row()],self.formatStr)))
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         return QVariant()

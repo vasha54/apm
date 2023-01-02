@@ -26,7 +26,7 @@ from view.view.widget_tab.widget_information_extrapolacion import WidgetInformat
 from view.view.widget_tab.widget_quality_adjust_model import WidgetQualityAdjustModel
 from view.view.widget_tab.widget_validate import WidgetValidate
 from view.view.widget_tab.widget_tab import WidgetTab
-from view.ui.presentation_ui import Ui_WidgetPresentacion
+from view.view.widget_tab.presentation_ui_v2 import Ui_WidgetPresentacion
 from view.dialog.dialog_preference import DialogPreference
 
 from view.resource import resource
@@ -54,38 +54,38 @@ class App(QMainWindow, Ui_MainWindow):
         self.widgetDataFilter = WidgetDataFilter(self)
         self.widgetChartsVariables = WidgetChartVariables(self)
         self.widgetBuildModel = WidgetBuildModel(self)
-        self.widgetAnalysModels= WidgetAnalysModels(self)
-        self.widgetDetailsModelSelect = WidgetDetailsModelSelect(self)
-        self.widgetInformationExtrapolacion = WidgetInformationExtrapolacion(self)
-        self.widgetQualityAdjustModel = WidgetQualityAdjustModel(self)
-        self.widgetValidate = WidgetValidate(self)
+        self.widgetAnalysModels= None #WidgetAnalysModels(self)
+        self.widgetDetailsModelSelect = None #WidgetDetailsModelSelect(self)
+        self.widgetInformationExtrapolacion =None #WidgetInformationExtrapolacion(self)
+        self.widgetQualityAdjustModel = None #WidgetQualityAdjustModel(self)
+        self.widgetValidate = None #WidgetValidate(self)
         
         self.widgetDataFilter.next.connect(self.addOrUpdateTabChartVariables)
         self.widgetChartsVariables.next.connect(self.addOrUpdateTabBuildModels)
         self.widgetBuildModel.next.connect(self.addOrUpdateAnalysModels)
-        self.widgetAnalysModels.next.connect(self.addOrUpdateDetailsModelSelect)
-        self.widgetDetailsModelSelect.next.connect(self.addOrUpdateQualityAdjustModel)
-        self.widgetQualityAdjustModel.next.connect(self.addOrUpdateInformationExtrapolacion)
-        self.widgetInformationExtrapolacion.next.connect(self.addOrUpdateValidate)
+        #self.widgetAnalysModels.next.connect(self.addOrUpdateDetailsModelSelect)
+        #self.widgetDetailsModelSelect.next.connect(self.addOrUpdateQualityAdjustModel)
+        #self.widgetQualityAdjustModel.next.connect(self.addOrUpdateInformationExtrapolacion)
+        #self.widgetInformationExtrapolacion.next.connect(self.addOrUpdateValidate)
         
         
         self.m_tabWidget.addTab(self.widgetDataFilter,"Datos filtrados")
         self.m_tabWidget.addTab(self.widgetChartsVariables,"Gráficas de correlación de la variables");
         self.m_tabWidget.addTab(self.widgetBuildModel,"Conformación de los modelos");
-        self.m_tabWidget.addTab(self.widgetAnalysModels,"Análisis de los modelos");
-        self.m_tabWidget.addTab(self.widgetDetailsModelSelect,"Detalles del modelo seleccionado");
-        self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste");
-        self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Análisis de extrapolación oculta");
-        self.m_tabWidget.addTab(self.widgetValidate,"Validación");
+        #self.m_tabWidget.addTab(self.widgetAnalysModels,"Análisis de los modelos");
+        #self.m_tabWidget.addTab(self.widgetDetailsModelSelect,"Detalles del modelo seleccionado");
+        #self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste");
+        #self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Análisis de extrapolación oculta");
+        #self.m_tabWidget.addTab(self.widgetValidate,"Validación");
         
         self.m_tabWidget.setTabEnabled(1,False)
         self.m_tabWidget.setTabEnabled(2,False)
         self.m_tabWidget.setTabEnabled(3,False)
-        self.m_tabWidget.setTabEnabled(4,False)
-        self.m_tabWidget.setTabEnabled(5,False)
-        self.m_tabWidget.setTabEnabled(6,False)
-        self.m_tabWidget.setTabEnabled(7,False)
-        self.m_tabWidget.setTabEnabled(8,False)
+        #self.m_tabWidget.setTabEnabled(4,False)
+        #self.m_tabWidget.setTabEnabled(5,False)
+        #self.m_tabWidget.setTabEnabled(6,False)
+        #self.m_tabWidget.setTabEnabled(7,False)
+        #self.m_tabWidget.setTabEnabled(8,False)
             
     def createMenuBar(self):
         #self.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
@@ -185,9 +185,12 @@ class App(QMainWindow, Ui_MainWindow):
         
         if index ==-1:
             index=self.m_tabWidget.addTab(self.widgetDataFilter,"Datos filtrados")
+        else:
+            self.widgetDataFilter.updateTab()
+            
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetDataFilter.updateTab()
+        
         
     def addOrUpdateTabChartVariables(self):
         if self.widgetChartsVariables == None:
@@ -197,23 +200,29 @@ class App(QMainWindow, Ui_MainWindow):
         index = self.m_tabWidget.indexOf(self.widgetChartsVariables);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetChartsVariables,"Gráficas de correlación de la variables");
+            index=self.m_tabWidget.addTab(self.widgetChartsVariables,"Gráficas de correlación de la variables")
+        else:
+            self.widgetChartsVariables.updateTab()
+        
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetChartsVariables.updateTab()
+        
         
     def addOrUpdateTabBuildModels(self):
         if self.widgetBuildModel == None:
             self.widgetBuildModel = WidgetBuildModel(self)
-            self.widgetBuildModel.next.connect(self.addOrUpdateComparativeModel)
+            self.widgetBuildModel.next.connect(self.addOrUpdateAnalysModels)
             
         index = self.m_tabWidget.indexOf(self.widgetBuildModel);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetBuildModel,"Conformación de los modelos");
+            index=self.m_tabWidget.addTab(self.widgetBuildModel,"Conformación de los modelos")
+        else:
+            self.widgetBuildModel.updateTab()
+            
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetBuildModel.updateTab()
+        
         
     def addOrUpdateAnalysModels(self):
         if self.widgetAnalysModels == None:
@@ -223,36 +232,45 @@ class App(QMainWindow, Ui_MainWindow):
         index = self.m_tabWidget.indexOf(self.widgetAnalysModels);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetAnalysModels,"Análisis de los modelos");
+            index=self.m_tabWidget.addTab(self.widgetAnalysModels,"Análisis de los modelos")
+        else:
+            self.widgetAnalysModels.updateTab()
+            
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetAnalysModels.updateTab()
+        
         
     def addOrUpdateDetailsModelSelect(self):
         if self.widgetDetailsModelSelect == None:
-            self.widgetDetailsModelSelect = WidgetAnalysModels(self)
+            self.widgetDetailsModelSelect = WidgetDetailsModelSelect(self)
             self.widgetDetailsModelSelect.next.connect(self.addOrUpdateQualityAdjustModel)
             
         index = self.m_tabWidget.indexOf(self.widgetDetailsModelSelect);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetDetailsModelSelect,"Detalles del modelo seleccionado");
+            index=self.m_tabWidget.addTab(self.widgetDetailsModelSelect,"Detalles del modelo seleccionado")
+        else:
+            self.widgetDetailsModelSelect.updateTab()
+            
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetDetailsModelSelect.updateTab()
+        
     
     def addOrUpdateQualityAdjustModel(self):
         if self.widgetQualityAdjustModel == None:
-            self.widgetQualityAdjustModel = WidgetAnalysModels(self)
+            self.widgetQualityAdjustModel = WidgetQualityAdjustModel(self)
             self.widgetQualityAdjustModel.next.connect(self.addOrUpdateInformationExtrapolacion)
             
         index = self.m_tabWidget.indexOf(self.widgetQualityAdjustModel);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste al modelo");
+            index=self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste al modelo")
+        else:
+            self.widgetQualityAdjustModel.updateTab()
+            
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetQualityAdjustModel.updateTab()
+        
     
     def addOrUpdateInformationExtrapolacion(self):
         if self.widgetInformationExtrapolacion == None:
@@ -262,22 +280,28 @@ class App(QMainWindow, Ui_MainWindow):
         index = self.m_tabWidget.indexOf(self.widgetInformationExtrapolacion);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Información de Extrapolación");
+            index=self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Información de Extrapolación")
+        else:
+            self.widgetInformationExtrapolacion.updateTab()
+            
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetInformationExtrapolacion.updateTab()
+        
     
     def addOrUpdateValidate(self):
         if self.widgetValidate == None:
             self.widgetValidate = WidgetValidate(self)
             
-        index = self.m_tabWidget.indexOf(self.widgetValidate);
+        index = self.m_tabWidget.indexOf(self.widgetValidate)
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetValidate,"Validación");
+            index=self.m_tabWidget.addTab(self.widgetValidate,"Validación")
+        else:
+            self.widgetValidate.updateTab()
+            
         self.m_tabWidget.setCurrentIndex(index)
         self.m_tabWidget.setTabEnabled(index,True)
-        self.widgetValidate.updateTab()
+        
         
     def changeTabActive(self,_index):
         widget = self.m_tabWidget.currentWidget()

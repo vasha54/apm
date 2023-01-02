@@ -3,6 +3,7 @@ from view.view.widget_tab.widget_tab import WidgetTab
 
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
+from view.preferences.preferences import PreferenceGUI
 from exceptions.exceptions import EstadigrafoFisherCalFOException, RelationFOFTException, SumsNeighborsException
 
 from view.components import message_box as MB
@@ -14,7 +15,8 @@ class WidgetQualityAdjustModel(WidgetTab):
         self.setupUi(self)
         self.createUI()
         self.createWorkspace()
-        self.createConnect()    
+        self.createConnect() 
+        PreferenceGUI.instance().subscribe(self)   
     
     def createUI(self):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.widgetCentral)
@@ -233,22 +235,60 @@ class WidgetQualityAdjustModel(WidgetTab):
         self.lORelationFOFt.setText("NA")
     
     def createWorkspace(self):
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
         self.keyModel = AnalysisData().getKeyModelSelect()
-        self.lORMSE.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL) ) )
-        self.lORelationRangeValuesERRSTD.setText(str( AnalysisData().getDataModel(self.keyModel, ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN) ))
         self.hideShowComponentWidgetResult(False)
-        self.lORMSE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL)) )
-        self.lORelationRangeValuesERRSTD.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN) ))
+        self.lORMSE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL),formatStr)) )
+        self.lORelationRangeValuesERRSTD.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN),formatStr) ))
+    
+    def changePreference(self,_listChange):
+        if PreferenceGUI.DECIMAL_PLACES in _listChange:
+            self.updateTab()
+            placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+            formatStr = '.'+str(placeDecimal)+'f'
+            levelSig = self.dSBLevelSignification.value()
+            
+            if self.lOSSfa.isVisible() == True:
+                self.lOSSfa.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.SSFA,alpha=float(levelSig)),formatStr) ) )
+            
+            if self.lOSSpe.isVisible() == True:
+                self.lOSSpe.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.SSPE,alpha=float(levelSig)),formatStr) ) )
+            
+            if self.lOCountObsv.isVisible() == True:
+                self.lOCountObsv.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.NUMBER_MEAS,alpha=float(levelSig)),formatStr) ) )
+            
+            if self.lOCountLevelVarInde.isVisible() == True:
+                self.lOCountLevelVarInde.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.COUNT_LEVEL_VAR_IND,alpha=float(levelSig)),formatStr) ) )
+            
+            if self.lOEstFisCalFO.isVisible() == True:
+                try:
+                    self.lOEstFisCalFO.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.ESTADIGRAFO_FISHER_CAL_FO,alpha=float(levelSig)),formatStr) ) )
+                except EstadigrafoFisherCalFOException as e:
+                    self.lOEstFisCalFO.setText("NA")
+            
+            if self.lOEstFisTabFO.isVisible() == True:
+                self.lOEstFisTabFO.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.ESTADIGRAFO_FISHER_TAB_FT,alpha=float(levelSig)),formatStr) ) )
+            
+            if self.lORelationFOFt.isVisible() == True:
+                try:
+                    self.lORelationFOFt.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_FOFT,alpha=float(levelSig)),formatStr) ) )
+                except RelationFOFTException as f:
+                    self.lORelationFOFt.setText("NA")
+                
+                
     
     def createConnect(self):
         self.pBCalculate.clicked.connect(self.calculate)
         super().createConnect()
         
     def updateTab(self):
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
         self.keyModel = AnalysisData().getKeyModelSelect()
-        self.lORMSE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL)) )
+        self.lORMSE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RMSE_MODEL),formatStr)) )
         try:
-            self.lORelationRangeValuesERRSTD.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN) ))
+            self.lORelationRangeValuesERRSTD.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_RANGE_VALUES_AND_ERROR_STD_MEAN),formatStr) ))
         except SumsNeighborsException as f:
             self.lORelationRangeValuesERRSTD.setText("NA")
             errorMessage = str(f)
@@ -264,7 +304,8 @@ class WidgetQualityAdjustModel(WidgetTab):
         
         sumVecinos =0
         errorMessage=""
-        
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
           
         try:
             sumVecinos = AnalysisData().getDataModel(self.keyModel, ModelLMR.SUMS_NEIGHBORS,alpha=float(levelSig))
@@ -272,18 +313,18 @@ class WidgetQualityAdjustModel(WidgetTab):
             errorMessage = errorMessage+str(f)
         
         if sumVecinos > 0 :
-           self.lOSSfa.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SSFA,alpha=float(levelSig)) ) )
-           self.lOSSpe.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SSPE,alpha=float(levelSig)) ) )
-           self.lOCountObsv.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.NUMBER_MEAS,alpha=float(levelSig)) ) )
-           self.lOCountLevelVarInde.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.COUNT_LEVEL_VAR_IND,alpha=float(levelSig)) ) )
+           self.lOSSfa.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.SSFA,alpha=float(levelSig)),formatStr) ) )
+           self.lOSSpe.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.SSPE,alpha=float(levelSig)),formatStr) ) )
+           self.lOCountObsv.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.NUMBER_MEAS,alpha=float(levelSig)),formatStr) ) )
+           self.lOCountLevelVarInde.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.COUNT_LEVEL_VAR_IND,alpha=float(levelSig)),formatStr) ) )
            try:
-               self.lOEstFisCalFO.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.ESTADIGRAFO_FISHER_CAL_FO,alpha=float(levelSig)) ) )
+               self.lOEstFisCalFO.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.ESTADIGRAFO_FISHER_CAL_FO,alpha=float(levelSig)),formatStr) ) )
            except EstadigrafoFisherCalFOException as e:
                errorMessage = errorMessage+str(e)
                self.lOEstFisCalFO.setText("NA")
-           self.lOEstFisTabFO.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.ESTADIGRAFO_FISHER_TAB_FT,alpha=float(levelSig)) ) )
+           self.lOEstFisTabFO.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.ESTADIGRAFO_FISHER_TAB_FT,alpha=float(levelSig)),formatStr) ) )
            try:
-               self.lORelationFOFt.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_FOFT,alpha=float(levelSig)) ) )   
+               self.lORelationFOFt.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.RELATION_FOFT,alpha=float(levelSig)),formatStr) ) )   
            except RelationFOFTException as f:
                errorMessage = errorMessage+str(f)
                self.lORelationFOFt.setText("NA")

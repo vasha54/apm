@@ -20,6 +20,7 @@
         <file alias="config.png">img/config.png</file>
         <file alias="logo_UM.png">img/logo_UM.png</file>
         <file alias="patternUM.png">img/patternUM.png</file>
+        <file alias="portada.png">img/portada.png</file>
     </qresource>
     <qresource prefix="/css">
         <file alias="style.css">css/style.css</file>

@@ -4,6 +4,7 @@ from controller.analysis_data import AnalysisData
 
 from view.components.widget_validation_boot_stropping import  WidgetValidationBootStropping
 from view.components.widget_validation_kold import WidgetValidationKold
+from view.preferences.preferences import PreferenceGUI
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 class WidgetValidate(WidgetTab):
@@ -59,10 +60,12 @@ class WidgetValidate(WidgetTab):
             self.gridLayout.replaceWidget(self.subWidget,self.widgetValidationKold)
             self.subWidget.setVisible(False)
             self.widgetValidationBootStropping.setVisible(False)
+            self.widgetValidationKold.changePreference([PreferenceGUI.DECIMAL_PLACES])
             self.widgetValidationKold.setVisible(True)
         elif self.rBKFold.isChecked() == False and self.rbBootStro.isChecked() == True:
             self.gridLayout.replaceWidget(self.widgetValidationKold,self.subWidget)
             self.gridLayout.replaceWidget(self.subWidget,self.widgetValidationBootStropping)
             self.subWidget.setVisible(False)
             self.widgetValidationKold.setVisible(False)
+            self.widgetValidationBootStropping.changePreference([PreferenceGUI.DECIMAL_PLACES])
             self.widgetValidationBootStropping.setVisible(True)

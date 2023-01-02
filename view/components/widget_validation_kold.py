@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 
 from view.ui.widget_validation_kold_ui import Ui_WidgetValidationKold
 
+from view.preferences.preferences import PreferenceGUI
 
 class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
     
@@ -20,6 +21,7 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         self.keyModel = _keyModel
         self.createWorkSpace()
         self.createConnects()
+        PreferenceGUI.instance().subscribe(self)
         
     def createWorkSpace(self):
         self.gBResult.setVisible(False)
@@ -33,29 +35,53 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
     
     def calculate(self):
         kValue = int(self.sBK.value())
-        self.lOCVNegRSMETE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TE_KFOLD,k = kValue)) )
-        self.lOCVNegRSMETV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TV_KFOLD,k = kValue)) )
-        self.lOCVRSquareTE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TE_KFOLD,k = kValue)) )
-        self.lOCVRSquareTV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TV_KFOLD,k = kValue)) )
-        self.lOMediaNegRSMETE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TE_KFOLD,k = kValue)) )
-        self.lOMediaNegRSMETV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TV_KFOLD,k = kValue)) )
-        self.lOMediaRSquareTE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TE_KFOLD,k = kValue)) )
-        self.lOMediaRSquareTV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TV_KFOLD,k = kValue)) )
-        self.lORMSETest.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_RMSE_TEST_KFOLD,k = kValue)) )
-        self.lORSquareTest.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_SQUARE_TWO_TEST_KFOLD,k = kValue)) )
+        
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
+        
+        self.lOCVNegRSMETE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TE_KFOLD,k = kValue),formatStr)) )
+        self.lOCVNegRSMETV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TV_KFOLD,k = kValue),formatStr)) )
+        self.lOCVRSquareTE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TE_KFOLD,k = kValue),formatStr)) )
+        self.lOCVRSquareTV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TV_KFOLD,k = kValue),formatStr)) )
+        self.lOMediaNegRSMETE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TE_KFOLD,k = kValue),formatStr)) )
+        self.lOMediaNegRSMETV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TV_KFOLD,k = kValue),formatStr)) )
+        self.lOMediaRSquareTE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TE_KFOLD,k = kValue),formatStr)) )
+        self.lOMediaRSquareTV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TV_KFOLD,k = kValue),formatStr)) )
+        self.lORMSETest.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_RMSE_TEST_KFOLD,k = kValue),formatStr)) )
+        self.lORSquareTest.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_SQUARE_TWO_TEST_KFOLD,k = kValue),formatStr)) )
         
         self.gBResult.setVisible(True)
     
     def changeValueK(self,_value):
         kValue = int(_value)
         
-        self.lOCVNegRSMETE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TE_KFOLD,k = kValue)) )
-        self.lOCVNegRSMETV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TV_KFOLD,k = kValue)) )
-        self.lOCVRSquareTE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TE_KFOLD,k = kValue)) )
-        self.lOCVRSquareTV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TV_KFOLD,k = kValue)) )
-        self.lOMediaNegRSMETE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TE_KFOLD,k = kValue)) )
-        self.lOMediaNegRSMETV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TV_KFOLD,k = kValue)) )
-        self.lOMediaRSquareTE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TE_KFOLD,k = kValue)) )
-        self.lOMediaRSquareTV.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TV_KFOLD,k = kValue)) )
-        self.lORMSETest.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_RMSE_TEST_KFOLD,k = kValue)) )
-        self.lORSquareTest.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_SQUARE_TWO_TEST_KFOLD,k = kValue)) )
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
+        
+        self.lOCVNegRSMETE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TE_KFOLD,k = kValue),formatStr)) )
+        self.lOCVNegRSMETV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TV_KFOLD,k = kValue),formatStr)) )
+        self.lOCVRSquareTE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TE_KFOLD,k = kValue),formatStr)) )
+        self.lOCVRSquareTV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TV_KFOLD,k = kValue),formatStr)) )
+        self.lOMediaNegRSMETE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TE_KFOLD,k = kValue),formatStr)) )
+        self.lOMediaNegRSMETV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TV_KFOLD,k = kValue),formatStr)) )
+        self.lOMediaRSquareTE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TE_KFOLD,k = kValue),formatStr)) )
+        self.lOMediaRSquareTV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TV_KFOLD,k = kValue),formatStr)) )
+        self.lORMSETest.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_RMSE_TEST_KFOLD,k = kValue),formatStr)) )
+        self.lORSquareTest.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_SQUARE_TWO_TEST_KFOLD,k = kValue),formatStr)) )
+        
+    def changePreference(self,_listChange):
+        if  PreferenceGUI.DECIMAL_PLACES in _listChange:
+            kValue = int(self.sBK.value())
+            placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+            formatStr = '.'+str(placeDecimal)+'f'
+            
+            self.lOCVNegRSMETE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TE_KFOLD,k = kValue),formatStr)) )
+            self.lOCVNegRSMETV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_NEG_RMSE_TV_KFOLD,k = kValue),formatStr)) )
+            self.lOCVRSquareTE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TE_KFOLD,k = kValue),formatStr)) )
+            self.lOCVRSquareTV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CV_RSQUARE_TV_KFOLD,k = kValue),formatStr)) )
+            self.lOMediaNegRSMETE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TE_KFOLD,k = kValue),formatStr)) )
+            self.lOMediaNegRSMETV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_NEG_RMSE_TV_KFOLD,k = kValue),formatStr)) )
+            self.lOMediaRSquareTE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TE_KFOLD,k = kValue),formatStr)) )
+            self.lOMediaRSquareTV.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.MEDIA_RSQUARE_TV_KFOLD,k = kValue),formatStr)) )
+            self.lORMSETest.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_RMSE_TEST_KFOLD,k = kValue),formatStr)) )
+            self.lORSquareTest.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_SQUARE_TWO_TEST_KFOLD,k = kValue),formatStr)) )

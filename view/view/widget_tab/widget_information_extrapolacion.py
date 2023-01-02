@@ -12,6 +12,8 @@ from controller.analysis_data import AnalysisData
 from view.model.limit_variable_inpendent_model import LimitVariableInpendentModel
 from view.model.points_extrapolation_model import PointsExtrapolationModel
 
+from view.preferences.preferences import PreferenceGUI
+
 class WidgetInformationExtrapolacion(WidgetTab):
     
     def __init__(self,*args,**kwargs):
@@ -20,7 +22,8 @@ class WidgetInformationExtrapolacion(WidgetTab):
         self.setupUi(self)
         self.createUI()
         self.createWorkspace()
-        self.createConnect()    
+        self.createConnect()
+        PreferenceGUI.instance().subscribe(self)     
     
     def createUI(self):
         self.gridLayout_3 = QtWidgets.QGridLayout(self.widgetCentral)
@@ -160,4 +163,36 @@ class WidgetInformationExtrapolacion(WidgetTab):
                 self.lOMessage.setText(str(answer['msg']))
                 self.lOMessage.setVisible(True) 
                 self.tableViewPointsExtrapolation.setVisible(False)
-            
+    
+    def changePreference(self,_listChange):
+        if PreferenceGUI.DECIMAL_PLACES in _listChange:
+            self.modelLimitVARI = LimitVariableInpendentModel(self.keyModel,self.tableViewVarIND)
+            self.tableViewVarIND.setModel(self.modelLimitVARI)
+            self.tableViewVarIND.verticalHeader().hide()
+            sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Expanding)
+            sizePolicy.setHorizontalStretch(0)
+            sizePolicy.setVerticalStretch(0)
+            sizePolicy.setHeightForWidth(self.tableViewVarIND.sizePolicy().hasHeightForWidth())
+            self.tableViewVarIND.setSizePolicy(sizePolicy)
+            self.tableViewVarIND.setMinimumSize(QtCore.QSize(0, 0))
+            self.tableViewVarIND.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            countLevelVar = self.spBCountLevelN.value()
+            if self.tableViewPointsExtrapolation.isVisible() == True:
+                answer = AnalysisData().getDataModel(self.keyModel,ModelLMR.ANALYSIS_EXTRAPOLATION_HIDE,esp=int(countLevelVar))
+                if 'result' in answer.keys():
+                    result = int(answer['result'])
+                    
+                    if result == 1:
+                        self.lOMessage.setText(str(answer['msg']))
+                        self.lOMessage.setVisible(True)
+                        self.modelPointsExtrapolation = PointsExtrapolationModel(self.keyModel,answer['points'])
+                        self.tableViewPointsExtrapolation.setModel(self.modelPointsExtrapolation)
+                        self.tableViewPointsExtrapolation.verticalHeader().hide()
+                        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Expanding)
+                        sizePolicy.setHorizontalStretch(0)
+                        sizePolicy.setVerticalStretch(0)
+                        sizePolicy.setHeightForWidth(self.tableViewPointsExtrapolation.sizePolicy().hasHeightForWidth())
+                        self.tableViewPointsExtrapolation.setSizePolicy(sizePolicy)
+                        self.tableViewPointsExtrapolation.setMinimumSize(QtCore.QSize(0, 0))
+                        self.tableViewPointsExtrapolation.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+                        self.tableViewPointsExtrapolation.setVisible(True)

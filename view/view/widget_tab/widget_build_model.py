@@ -111,7 +111,7 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout_5 = QVBoxLayout()
         self.label_8 = QLabel(self.groupBox)
         self.label_8.setSizePolicy(sizePolicy)
-        self.label_8.setText("Alfa para los coeficientes de regresion")
+        self.label_8.setText("Alfa para los coeficientes de regresión")
         self.verticalLayout_5.addWidget(self.label_8)
 
         self.doubleSBIntervalConfidence = QDoubleSpinBox(self.groupBox)

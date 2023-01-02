@@ -12,6 +12,7 @@ from controller.analysis_data import AnalysisData
 
 from model.modelLMR import ModelLMR
 
+from view.preferences.preferences import PreferenceGUI
 
 class ModelResultRegressModel(QAbstractTableModel):
     
@@ -25,6 +26,8 @@ class ModelResultRegressModel(QAbstractTableModel):
         self.stderr = AnalysisData().getDataModel(self.keyModel,ModelLMR.STD_ERR)
         self.tc = AnalysisData().getDataModel(self.keyModel,ModelLMR.TC)
         self.pvalor =AnalysisData().getDataModel(self.keyModel,ModelLMR.PV_COEFF)
+        self.decimalPlaces = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        self.formatStr = '.'+str(self.decimalPlaces)+'f'
 
     def rowCount(self, parent=None):
         return len(self.terms)
@@ -44,13 +47,13 @@ class ModelResultRegressModel(QAbstractTableModel):
                 if index.column() == 0:
                     return QVariant(str(self.terms[index.row()]))
                 elif index.column() == 1 :
-                    return QVariant(str(self.coeff[index.row()]))
+                    return QVariant(str(format(self.coeff[index.row()],self.formatStr)))
                 elif index.column() == 2 :
-                    return QVariant(str(self.stderr[index.row()]))
+                    return QVariant(str(format(self.stderr[index.row()],self.formatStr)))
                 elif index.column() == 3 :
-                    return QVariant(str(self.tc[index.row()]))
+                    return QVariant(str(format(self.tc[index.row()],self.formatStr)))
                 elif index.column() == 4 :
-                    return QVariant(str(self.pvalor[index.row()]))
+                    return QVariant(str(format(self.pvalor[index.row()],self.formatStr)))
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         return QVariant()

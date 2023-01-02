@@ -243,7 +243,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Estadígrafo de F</string>
+             <string>Estadígrafo de F:</string>
             </property>
            </widget>
           </item>
@@ -373,7 +373,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>RMSE modelo</string>
+             <string>RMSE modelo:</string>
             </property>
            </widget>
           </item>

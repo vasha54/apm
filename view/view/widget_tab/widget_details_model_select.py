@@ -37,21 +37,13 @@ class WidgetDetailsModelSelect(WidgetTab):
         self.tabTestHomecedasticidadResidual = WidgetTestHomecedasticidadResidual(keyModelSelect)
         self.tabAnalysMultiColinualidad = WidgetAnalysMultiColinualidad(keyModelSelect)
         self.tabTestIndependenceResidual = WidgetTestIndependenceResidual(keyModelSelect)
-        self.tabChartNormalResidualNotScale = QtWidgets.QWidget()
-        self.tabChartNormalResidual = QtWidgets.QWidget()
-        self.tabChartHomecedasticidadResidual = QtWidgets.QWidget()
-        self.tabChartIndependenceResidual = QtWidgets.QWidget()
         
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualNotScale,"Análisis de normalidad (Residuales no escalados)")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualStudentized,"Análisis de normalidad (Residuales estudertizados)")
-        #self.tabWidgetDetailsModelSelect.addTab(self.tabChartNormalResidualNotScale,"Gráficos de normalidad residuales no escalados")
-        #self.tabWidgetDetailsModelSelect.addTab(self.tabChartNormalResidual,"Gráficos de normalidad residuales estudertizados")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestHomecedasticidadResidual,"Pruebas de homecedasticidad de los residuales")
-        #self.tabWidgetDetailsModelSelect.addTab(self.tabChartHomecedasticidadResidual,"Gráficos de homecedasticidad de los residuales")
         self.tabWidgetDetailsModelSelect.addTab(self.tabAnalysMultiColinualidad,"Análisis de multicolinealidad")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestIndependenceResidual,"Pruebas de independencia de residuales")
-        #self.tabWidgetDetailsModelSelect.addTab(self.tabChartIndependenceResidual,"Gráficos de independencia de residuales")
-    
+        
     def createConnect(self):
         super().createConnect()
         
