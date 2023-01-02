@@ -16,6 +16,8 @@ from model.modelLMR import ModelLMR
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
+from view.preferences.preferences import PreferenceGUI
+
 class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotScale):
     def __init__(self,_keyModel,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -23,24 +25,27 @@ class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotSca
         self.setupUi(self)
         self.keyModel = _keyModel
         self.createWorkSpace()
+        PreferenceGUI.instance().subscribe(self)
         
     def createWorkSpace(self):
-        self.lOANDERSON_DARLING_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.ANDERSON_DARLING_PVALUE_RWS) )  )
-        self.lOANDERSON_DARLING_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.ANDERSON_DARLING_RWS) )  )
-        self.lOCHI_SQUARE_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.CHI_SQUARE_PVALUE_RWS) )  )
-        self.lOCHI_SQUARE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.CHI_SQUARE_RWS) )  )
-        self.lOCOEFF_ASYMETRY_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_ASYMETRY_RWS) )  )
-        self.lOCOEFF_CURTOSIS_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_CURTOSIS_RWS) )  )
-        self.lOJARQUE_BERA_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.JARQUE_BERA_PVALUE_RWS) )  )
-        self.lOJARQUE_BERA_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.JARQUE_BERA_RWS) )  )
-        self.lOK_CUAD_DANGOSTINO_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.K_CUAD_DANGOSTINO_PVALUE_RWS) )  )
-        self.lOK_CUAD_DANGOSTINO_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.K_CUAD_DANGOSTINO_RWS) )  )
-        self.lOKOLMOGOROV_SMIRNOV_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_PVALUE_RWS) )  )
-        self.lOKOLMOGOROV_SMIRNOV_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_RWS) )  )
-        self.lOLILLIEFORS_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.LILLIEFORS_PVALUE_RWS) )  )
-        self.lOLILLIEFORS_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.LILLIEFORS_RWS) )  )
-        self.lOSHAPIRO_WILK_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_RWS) )  )
-        self.lOSHAPIRO_WILK_PVALUE_RWS.setText( str( AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_PVALUE_RWS) )  )
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
+        self.lOANDERSON_DARLING_PVALUE_RWS.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.ANDERSON_DARLING_PVALUE_RWS),formatStr)))
+        self.lOANDERSON_DARLING_RWS.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.ANDERSON_DARLING_RWS),formatStr)) )
+        self.lOCHI_SQUARE_PVALUE_RWS.setText(str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CHI_SQUARE_PVALUE_RWS),formatStr)))
+        self.lOCHI_SQUARE_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CHI_SQUARE_RWS),formatStr)))
+        self.lOCOEFF_ASYMETRY_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_ASYMETRY_RWS),formatStr)))
+        self.lOCOEFF_CURTOSIS_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_CURTOSIS_RWS),formatStr)))
+        self.lOJARQUE_BERA_PVALUE_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.JARQUE_BERA_PVALUE_RWS),formatStr)))
+        self.lOJARQUE_BERA_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.JARQUE_BERA_RWS),formatStr)))
+        self.lOK_CUAD_DANGOSTINO_PVALUE_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.K_CUAD_DANGOSTINO_PVALUE_RWS),formatStr)))
+        self.lOK_CUAD_DANGOSTINO_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.K_CUAD_DANGOSTINO_RWS),formatStr)))
+        self.lOKOLMOGOROV_SMIRNOV_PVALUE_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_PVALUE_RWS),formatStr)))
+        self.lOKOLMOGOROV_SMIRNOV_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_RWS),formatStr)))
+        self.lOLILLIEFORS_PVALUE_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.LILLIEFORS_PVALUE_RWS),formatStr)))
+        self.lOLILLIEFORS_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.LILLIEFORS_RWS),formatStr)))
+        self.lOSHAPIRO_WILK_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_RWS),formatStr)))
+        self.lOSHAPIRO_WILK_PVALUE_RWS.setText( str( format(AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_PVALUE_RWS),formatStr)))
         
         self.clearLayout(self.widgetGraphOne.layout())
         self.clearLayout(self.widgetGraphTwo.layout())
@@ -48,6 +53,8 @@ class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotSca
         self.createChartQQTestNormalResidualNotScale()
         self.createChartDistributionResidualNotScale()
         
+    def changePreference(self,_listChange):
+        self.update()
          
     def update(self):
         self.keyModel = AnalysisData().getKeyModelSelect()
@@ -98,6 +105,10 @@ class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotSca
         self.graphWidget.plot(xKDE,    yKDE   , name = "KDE", pen=penLineKDE    , symbol=None, symbolSize=None, symbolBrush=None)
         
         self.widgetGraphTwo.layout().addWidget(self.graphWidget)
+        
+        self.labelTitleDistributionResidual.setStyleSheet(" color:"+colorText+"; background-color:"+colorBackground+"; ")
+        
+        
                 
     def createChartQQTestNormalResidualNotScale(self):
         colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
@@ -136,3 +147,5 @@ class WidgetTestNormalResidualNotScale(QWidget,Ui_WidgetTestNormalResidualNotSca
         self.graphWidget.plot(xs, ys,pen=None,symbol='o', symbolSize=5, symbolBrush=brush)
         
         self.widgetGraphOne.layout().addWidget(self.graphWidget)
+        
+        self.labelTitleChartQQ.setStyleSheet("color:"+colorText+"; background-color:"+colorBackground+";")

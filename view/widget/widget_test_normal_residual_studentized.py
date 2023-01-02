@@ -13,6 +13,8 @@ from view.preferences.preferences import PreferenceGUI
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
 
+from view.preferences.preferences import PreferenceGUI
+
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
@@ -23,24 +25,27 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
         self.setupUi(self)
         self.keyModel = _keyModel
         self.createWorkSpace()
+        PreferenceGUI.instance().subscribe(self)
         
     def createWorkSpace(self):
-        self.lOANDERSON_DARLING_PVALUE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.ANDERSON_DARLING_PVALUE_RE)) )
-        self.lOANDERSON_DARLING_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.ANDERSON_DARLING_RE)) )
-        self.lOCHI_SQUARE_PVALUE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CHI_SQUARE_PVALUE_RE)) )
-        self.lOCHI_SQUARE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.CHI_SQUARE_RE)) )
-        self.lOCOEFF_ASYMETRY_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_ASYMETRY_RE)) )
-        self.lOCOEFF_CURTOSIS_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_CURTOSIS_RE)) )
-        self.lOJARQUE_BERA_PVALUE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.JARQUE_BERA_PVALUE_RE)) )
-        self.lOJARQUE_BERA_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.JARQUE_BERA_RE)) )
-        self.lOK_CUAD_DANGOSTINO_PVALUE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.K_CUAD_DANGOSTINO_PVALUE_RE)) )
-        self.lOK_CUAD_DANGOSTINO_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.K_CUAD_DANGOSTINO_RE)) )
-        self.lOLILLIEFORS_PVALUE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.LILLIEFORS_PVALUE_RE)) )
-        self.lOLILLIEFORS_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.LILLIEFORS_RE)) )
-        self.lOSHAPIRO_WILK_PVALUE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_PVALUE_RE)) )
-        self.lOSHAPIRO_WILK_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_RE)) )
-        self.lOKOLMOGOROV_SMIRNOV_PVALUE_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_PVALUE_RE)) )
-        self.lOKOLMOGOROV_SMIRNOV_RE.setText( str(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_RE)) )
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
+        self.lOANDERSON_DARLING_PVALUE_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.ANDERSON_DARLING_PVALUE_RE),formatStr)) )
+        self.lOANDERSON_DARLING_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.ANDERSON_DARLING_RE),formatStr)) )
+        self.lOCHI_SQUARE_PVALUE_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CHI_SQUARE_PVALUE_RE),formatStr)) )
+        self.lOCHI_SQUARE_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.CHI_SQUARE_RE),formatStr)) )
+        self.lOCOEFF_ASYMETRY_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_ASYMETRY_RE),formatStr)) )
+        self.lOCOEFF_CURTOSIS_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_CURTOSIS_RE),formatStr)) )
+        self.lOJARQUE_BERA_PVALUE_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.JARQUE_BERA_PVALUE_RE),formatStr)) )
+        self.lOJARQUE_BERA_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.JARQUE_BERA_RE),formatStr)) )
+        self.lOK_CUAD_DANGOSTINO_PVALUE_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.K_CUAD_DANGOSTINO_PVALUE_RE),formatStr)) )
+        self.lOK_CUAD_DANGOSTINO_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.K_CUAD_DANGOSTINO_RE),formatStr)) )
+        self.lOLILLIEFORS_PVALUE_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.LILLIEFORS_PVALUE_RE),formatStr)) )
+        self.lOLILLIEFORS_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.LILLIEFORS_RE),formatStr)) )
+        self.lOSHAPIRO_WILK_PVALUE_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_PVALUE_RE),formatStr)) )
+        self.lOSHAPIRO_WILK_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.SHAPIRO_WILK_RE),formatStr)) )
+        self.lOKOLMOGOROV_SMIRNOV_PVALUE_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_PVALUE_RE),formatStr)) )
+        self.lOKOLMOGOROV_SMIRNOV_RE.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.KOLMOGOROV_SMIRNOV_RE),formatStr)) )
         
         self.clearLayout(self.widgetGraphOne.layout())
         self.clearLayout(self.widgetGraphTwo.layout())
@@ -52,7 +57,9 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
     def update(self):
         self.keyModel = AnalysisData().getKeyModelSelect()
         self.createWorkSpace()
-        
+    
+    def changePreference(self,_listChange):
+        self.update()
     
     def clearLayout(self,layout):
         while layout.count():
@@ -99,6 +106,8 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
         self.graphWidget.plot(xs, ys,pen=None,symbol='o', symbolSize=5, symbolBrush=brush)
         
         self.widgetGraphOne.layout().addWidget(self.graphWidget)
+        
+        self.labelTitleChartQQ.setStyleSheet("color:"+colorText+"; background-color:"+colorBackground+";")
     
     
     def createChartDistributionResidualStudentized(self):
@@ -138,3 +147,7 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
         self.graphWidget.plot(xKDE,    yKDE   , name = "KDE", pen=penLineKDE    , symbol=None, symbolSize=None, symbolBrush=None)
         
         self.widgetGraphTwo.layout().addWidget(self.graphWidget)
+        
+        self.labelTitleDistributionResidual.setStyleSheet(" color:"+colorText+"; background-color:"+colorBackground+"; ")
+        
+        
