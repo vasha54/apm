@@ -41,8 +41,9 @@ class WidgetDetailsModelSelect(WidgetTab):
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualNotScale,"Análisis de normalidad (Residuales no escalados)")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualStudentized,"Análisis de normalidad (Residuales estudertizados)")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestHomecedasticidadResidual,"Pruebas de homecedasticidad de los residuales")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabAnalysMultiColinualidad,"Análisis de multicolinealidad")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestIndependenceResidual,"Pruebas de independencia de residuales")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabAnalysMultiColinualidad,"Análisis de multicolinealidad")
+        
         
     def createConnect(self):
         super().createConnect()

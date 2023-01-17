@@ -903,6 +903,105 @@ def serieChartDistributionResidualStudentized(_model, **kwargs):
     
     return [xKDE,yKDE,xNormal,yNormal] 
     
+def meanResidualNotScaled(_model, **kwargs):
+    residuals =residualModel(_model,**kwargs)
+    return np.mean(residuals)
+
+def meanResidualStudentized(_model, **kwargs):
+    residuals = residualSTModel(_model,**kwargs)
+    return np.mean(residuals)
+
+def testSpecificationWhiteWE(_model, **kwargs):
+    resul = fitModel(_model)
+    residuales = residualModel(_model,**kwargs)
+    whitespec=dg.spec_white(residuales, resul.model.exog)
+    WE=whitespec[0]
+    return WE
+
+def testSpecificationWhitePValue(_model, **kwargs):
+    resul = fitModel(_model)
+    residuales = residualModel(_model,**kwargs)
+    whitespec=dg.spec_white(residuales, resul.model.exog)
+    PvWE=whitespec[1]
+    return PvWE
+
+def testRainbowLinearityF(_model, **kwargs):
+    resul = fitModel(_model)
+    rainbow=dg.linear_rainbow(resul, frac=0.5, order_by=None, use_distance=False,center=None)
+    F=rainbow[0]
+    return F
+
+def testRainbowLinearityPValue(_model, **kwargs):
+    resul = fitModel(_model)
+    rainbow=dg.linear_rainbow(resul, frac=0.5, order_by=None, use_distance=False,center=None)
+    pValue=rainbow[1]
+    return pValue
+
+def testHarveyCollierLinearityHC(_model, **kwargs):
+    resul = fitModel(_model)
+    harvey=dg.linear_harvey_collier(resul, order_by=None, skip=None)
+    hc=harvey[0]
+    return hc
+
+def testHarveyCollierLinearityPValue(_model, **kwargs):
+    resul = fitModel(_model)
+    harvey=dg.linear_harvey_collier(resul, order_by=None, skip=None)
+    pValue=harvey[1]
+    return pValue
+
+def testMultiplierLagrangeLinearityF(_model, **kwargs):
+    resul = fitModel(_model,**kwargs)
+    residuales = residualModel(_model,**kwargs)
+    lagrange=dg.linear_lm(residuales, resul.model.exog, func=None)
+    fValue = "NA"
+    if hasattr(lagrange[2],'fvalue'):
+        fValue = lagrange[2].fvalue
+    else:
+        raise NotFoundParameterExtraException('fvalue','dg.linear_lm')
+    return fValue
+
+
+def testMultiplierLagrangeLinearityPValue(_model, **kwargs):
+    resul = fitModel(_model,**kwargs)
+    residuales = residualModel(_model,**kwargs)
+    lagrange=dg.linear_lm(residuales, resul.model.exog, func=None)
+    pValue = "NA"
+    if hasattr(lagrange[2],'pvalue'):
+        pValue = lagrange[2].pvalue
+    else:
+        raise NotFoundParameterExtraException('pvalue','dg.linear_lm')
+    return pValue
+
+
+def testRamseyF(_model, **kwargs):
+    fValue = None
+    if 'power' in kwargs.keys():
+        power = kwargs['power']
+        resul = fitModel(_model, **kwargs)
+        ramsey=dg.linear_reset(resul,power,test_type='fitted', use_f=True) 
+        if hasattr(ramsey,'fvalue'):
+            fValue = ramsey.fvalue
+        else:
+            raise NotFoundParameterExtraException('fvalue','dg.linear_reset')
+    else:
+        raise NotFoundParameterExtraException('power','testRamsey')
+    return fValue
+
+def testRamseyPValue(_model, **kwargs):
+    fValue = None
+    if 'power' in kwargs.keys():
+        power = kwargs['power']
+        resul = fitModel(_model, **kwargs)
+        ramsey=dg.linear_reset(resul,power,test_type='fitted', use_f=True) 
+        if hasattr(ramsey,'pvalue'):
+            fValue = ramsey.pvalue
+        else:
+            raise NotFoundParameterExtraException('pvalue','dg.linear_reset')
+    else:
+        raise NotFoundParameterExtraException('power','testRamsey')
+    return fValue
+
+
 
 
 
@@ -980,4 +1079,5 @@ def getValuesThisVariable(nameVar, dataFrame):
     else:
         raise VariableNotFoundDataFrame(nameVar) 
     return values
+
     

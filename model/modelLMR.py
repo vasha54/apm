@@ -593,8 +593,54 @@ class ModelLMR:
     def serieChartDistributionResidualStudentized(self,**kwargs):
         return RGSST.serieChartDistributionResidualStudentized(self,**kwargs)
     
+    MEDIA_RESIDUAL_NOT_SCALED = 'meanResidualNotScaled'
+    def meanResidualNotScaled(self,**kwargs):
+        return RGSST.meanResidualNotScaled(self,**kwargs)  
     
+    MEDIA_RESIDUAL_STUDENTIZED = 'meanResidualStudentized'
+    def meanResidualStudentized(self,**kwargs):
+        return RGSST.meanResidualStudentized(self,**kwargs) 
     
+    TEST_SPECIFICATION_WHITE_WE = 'testSpecificationWhiteWE'
+    def testSpecificationWhiteWE(self,**kwargs):
+        return RGSST.testSpecificationWhiteWE(self,**kwargs)
+    
+    TEST_SPECIFICATION_WHITE_PVALUE = 'testSpecificationWhitePValue'
+    def testSpecificationWhitePValue(self,**kwargs):
+        return RGSST.testSpecificationWhitePValue(self,**kwargs)
+    
+    TEST_RAINBOW_LINEARITY_F = 'testRainbowLinearityF'
+    def testRainbowLinearityF(self,**kwargs):
+        return RGSST.testRainbowLinearityF(self,**kwargs)
+    
+    TEST_RAINBOW_LINEARITY_PVALUE = 'testRainbowLinearityPValue'
+    def testRainbowLinearityPValue(self,**kwargs):
+        return RGSST.testRainbowLinearityPValue(self,**kwargs)
+    
+    TEST_HARVEY_COLLIER_LINEARITY_HC = 'testHarveyCollierLinearityHC'
+    def testHarveyCollierLinearityHC(self,**kwargs):
+        return RGSST.testHarveyCollierLinearityHC(self,**kwargs)
+    
+    TEST_HARVEY_COLLIER_LINEARITY_PVALUE = 'testHarveyCollierLinearityPValue'
+    def testHarveyCollierLinearityPValue(self,**kwargs):
+        return RGSST.testHarveyCollierLinearityPValue(self,**kwargs)
+    
+    TEST_MULTIPLIER_LAGRANGE_LINEARITY_F = 'testMultiplierLagrangeLinearityF'
+    def testMultiplierLagrangeLinearityF(self,**kwargs):
+        return RGSST.testMultiplierLagrangeLinearityF(self,**kwargs)
+    
+    TEST_MULTIPLIER_LAGRANGE_LINEARITY_PVALUE = 'testMultiplierLagrangeLinearityPValue'
+    def testMultiplierLagrangeLinearityPValue(self,**kwargs):
+        return RGSST.testMultiplierLagrangeLinearityPValue(self,**kwargs)
+    
+    TEST_RAMSEY_F ='testRamseyF'
+    def testRamseyF(self,**kwargs):
+        return RGSST.testRamseyF(self,**kwargs)
+    
+    TEST_RAMSEY_PVALUE ='testRamseyPValue'
+    def testRamseyPValue(self,**kwargs):
+        return RGSST.testRamseyPValue(self,**kwargs)
+        
     
         
         

@@ -24,7 +24,7 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         PreferenceGUI.instance().subscribe(self)
         
     def createWorkSpace(self):
-        self.gBResult.setVisible(False)
+        self.frameResult.setVisible(False)
         
     def setKeyModel(self, _keyModel):
         self.keyModel = _keyModel
@@ -50,7 +50,7 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         self.lORMSETest.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_RMSE_TEST_KFOLD,k = kValue),formatStr)) )
         self.lORSquareTest.setText( str(format(AnalysisData().getDataModel(self.keyModel,ModelLMR.TEST_SQUARE_TWO_TEST_KFOLD,k = kValue),formatStr)) )
         
-        self.gBResult.setVisible(True)
+        self.frameResult.setVisible(True)
     
     def changeValueK(self,_value):
         kValue = int(_value)
