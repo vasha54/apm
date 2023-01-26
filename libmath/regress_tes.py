@@ -14,6 +14,7 @@ from statsmodels.stats.diagnostic import lilliefors, het_white
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.formula.api import ols
 from statsmodels.stats.stattools import durbin_watson
+from statsmodels.nonparametric.smoothers_lowess import lowess
 
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
@@ -742,6 +743,68 @@ def testSquareTwoTestKFOLD(_model,**kwargs):
         raise NotFoundParameterExtraException('k','testSquareTwoTestKFOLD')
     return g
 
+def chartNegRMSEKFold(_model, **kwargs):
+    data = None
+    if 'k' in kwargs.keys():
+        k = int(kwargs['k'])
+        
+        y = _model.getDataFrameVD()
+        X = _model.getDataFrameVI() 
+    
+        clf = LinearRegression()
+        model=clf.fit(X, y) 
+        
+        scores = cross_validate(model, X, y, cv=k,scoring=('r2', 'neg_mean_squared_error'), return_train_score=True)
+        a=scores['test_neg_mean_squared_error']
+        b=scores['train_neg_mean_squared_error']
+        data = {'test_neg_mean':a,'train_neg_mean':b}
+        return data
+    else:
+        raise NotFoundParameterExtraException('k','chartNegRMSEKFold')
+    
+def chartRSquareKFold(_model, **kwargs):
+    data = None
+    if 'k' in kwargs.keys():
+        k = int(kwargs['k'])
+        
+        y = _model.getDataFrameVD()
+        X = _model.getDataFrameVI() 
+    
+        clf = LinearRegression()
+        model=clf.fit(X, y) 
+        
+        scores = cross_validate(model, X, y, cv=k,scoring=('r2', 'neg_mean_squared_error'), return_train_score=True)
+        a=scores['test_r2']
+        b=scores['train_r2']
+        data = {'test_r2':a,'train_r2':b}
+        return data
+    else:
+        raise NotFoundParameterExtraException('k','chartRSquareKFold')
+    
+def chartValuesPredictedKFold(_model, **kwargs):
+    data = None
+    if 'k' in kwargs.keys():
+        k = int(kwargs['k'])
+        
+        clf = LinearRegression()
+        
+        y = _model.getDataFrameVD()
+        X = _model.getDataFrameVI() 
+        
+        resul = fitModel(_model,**kwargs)
+        
+        data = {}
+        
+        answer = cross_val_predict(clf,X,y,cv=k)
+        print('y',answer[0])
+        print('x',resul.fittedvalues)
+        data['value-y'] = answer[0]
+        data['value-x'] = resul.fittedvalues
+        
+        return data
+    else:
+        raise NotFoundParameterExtraException('k','chartValuesPredictedKFold')
+
 def analysisExtrapolationHide(_model,**kwargs):
     # result 0 si es desconocido, -1 si no hay evidencias , 1 si hay evidencia de extrapolacion
     answer = {'result':0,'msg':'','points':None}
@@ -1001,7 +1064,30 @@ def testRamseyPValue(_model, **kwargs):
         raise NotFoundParameterExtraException('power','testRamsey')
     return fValue
 
+def chartValueObserverValueAdjust(_model, **kwargs):
+    resul = fitModel(_model, **kwargs)
+    x = resul.fittedvalues
+    y = _model.getDataFrameVD()[_model.getNameVariableD()]
+    data = {'x':x, 'y':y}
+    return data
 
+def chartResidualValueAdjust(_model, **kwargs):
+    resul = fitModel(_model, **kwargs)
+    xScatter = resul.fittedvalues
+    yScatter =resul.resid
+    
+    grid, yhat=lowess(yScatter, xScatter).T
+    
+    xCurve=grid   
+    yCurve=yhat
+    
+    data ={'xScatter':xScatter,
+           'yScatter':yScatter,
+           'xCurve':xCurve,
+           'yCurve':yCurve
+           }
+    
+    return data
 
 
 
@@ -1079,5 +1165,7 @@ def getValuesThisVariable(nameVar, dataFrame):
     else:
         raise VariableNotFoundDataFrame(nameVar) 
     return values
+
+
 
     

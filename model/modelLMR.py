@@ -640,7 +640,26 @@ class ModelLMR:
     TEST_RAMSEY_PVALUE ='testRamseyPValue'
     def testRamseyPValue(self,**kwargs):
         return RGSST.testRamseyPValue(self,**kwargs)
-        
+    
+    CHART_NEG_RMSE_KFOLD = 'chartNegRMSEKFold'
+    def chartNegRMSEKFold(self,**kwargs):
+        return RGSST.chartNegRMSEKFold(self,**kwargs)
+    
+    CHART_R_SQUARE_KFOLD = 'chartRSquareKFold'
+    def chartRSquareKFold(self,**kwargs):
+        return RGSST.chartRSquareKFold(self,**kwargs)
+    
+    CHART_VALUES_PREDICTED_KFOLD = 'chartValuesPredictedKFold'
+    def chartValuesPredictedKFold(self,**kwargs):
+        return RGSST.chartValuesPredictedKFold(self,**kwargs)
+    
+    CHART_VALUE_OBSERVER_VALUE_ADJUST = 'chartValueObserverValueAdjust'
+    def chartValueObserverValueAdjust(self, **kwargs):
+        return RGSST.chartValueObserverValueAdjust(self,**kwargs)
+    
+    CHART_RESIDUAL_VALUE_ADJUST = 'chartResidualValueAdjust'
+    def chartResidualValueAdjust(self, **kwargs):
+        return RGSST.chartResidualValueAdjust(self, **kwargs)        
     
         
         
