@@ -40,7 +40,7 @@ class Ui_WidgetValidationKold(object):
         self.sBK.setMinimumSize(QtCore.QSize(0, 26))
         self.sBK.setMaximumSize(QtCore.QSize(16777215, 26))
         self.sBK.setMinimum(2)
-        self.sBK.setMaximum(20)
+        self.sBK.setMaximum(15)
         self.sBK.setObjectName("sBK")
         self.gridLayout_2.addWidget(self.sBK, 0, 1, 1, 1)
         self.pBAnalizar = QtWidgets.QPushButton(WidgetValidationKold)

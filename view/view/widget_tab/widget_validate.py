@@ -34,7 +34,7 @@ class WidgetValidate(WidgetTab):
         sizePolicy.setHeightForWidth(self.subWidget.sizePolicy().hasHeightForWidth())
         self.subWidget.setSizePolicy(sizePolicy)
         self.gridLayout.addWidget(self.subWidget, 1, 0, 1, 2)
-        self.pushButtonNext.setVisible(False)
+        self.pushButtonNext.setVisible(True)
         
         self.rBKFold.setText("Validación cruzada por K-Fold")
         self.rbBootStro.setText("Validación por bootsstropping")

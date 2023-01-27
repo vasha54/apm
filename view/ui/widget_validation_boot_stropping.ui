@@ -38,10 +38,10 @@
      <item>
       <widget class="QSpinBox" name="sBCountBoot">
        <property name="minimum">
-        <number>1</number>
+        <number>2</number>
        </property>
        <property name="maximum">
-        <number>10000</number>
+        <number>1000</number>
        </property>
       </widget>
      </item>

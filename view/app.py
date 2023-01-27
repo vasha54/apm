@@ -25,6 +25,7 @@ from view.view.widget_tab.widget_details_model_select import WidgetDetailsModelS
 from view.view.widget_tab.widget_information_extrapolacion import WidgetInformationExtrapolacion
 from view.view.widget_tab.widget_quality_adjust_model import WidgetQualityAdjustModel
 from view.view.widget_tab.widget_validate import WidgetValidate
+from view.view.widget_tab.widget_comparative_models import WidgetComparativeModel
 from view.view.widget_tab.widget_tab import WidgetTab
 from view.view.widget_tab.presentation_ui_v2 import Ui_WidgetPresentacion
 from view.dialog.dialog_preference import DialogPreference
@@ -59,6 +60,7 @@ class App(QMainWindow, Ui_MainWindow):
         self.widgetInformationExtrapolacion =None #WidgetInformationExtrapolacion(self)
         self.widgetQualityAdjustModel = None #WidgetQualityAdjustModel(self)
         self.widgetValidate = None #WidgetValidate(self)
+        self.widgetComparativeModels = None
         
         self.widgetDataFilter.next.connect(self.addOrUpdateTabChartVariables)
         self.widgetChartsVariables.next.connect(self.addOrUpdateTabBuildModels)
@@ -291,11 +293,27 @@ class App(QMainWindow, Ui_MainWindow):
     def addOrUpdateValidate(self):
         if self.widgetValidate == None:
             self.widgetValidate = WidgetValidate(self)
+            self.widgetValidate.next.connect(self.addOrUpdateComparativeModels)
             
         index = self.m_tabWidget.indexOf(self.widgetValidate)
         
         if index ==-1:
             index=self.m_tabWidget.addTab(self.widgetValidate,"Validación")
+        else:
+            self.widgetValidate.updateTab()
+            
+        self.m_tabWidget.setCurrentIndex(index)
+        self.m_tabWidget.setTabEnabled(index,True)
+        
+    def addOrUpdateComparativeModels(self):
+        if self.widgetComparativeModels == None:
+            self.widgetComparativeModels = WidgetComparativeModel(self)
+            #self.widgetValidate.next.connect(self.addOrUpdateComparativeModels)
+            
+        index = self.m_tabWidget.indexOf(self.widgetComparativeModels)
+        
+        if index ==-1:
+            index=self.m_tabWidget.addTab(self.widgetComparativeModels,"Comparación de los modelos")
         else:
             self.widgetValidate.updateTab()
             

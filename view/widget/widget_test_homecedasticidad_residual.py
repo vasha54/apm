@@ -8,6 +8,8 @@ from PyQt5.QtGui import (
     QBrush, QColor, QPainter
 )
 
+import PyQt5.QtCore 
+
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
 from view.preferences.preferences import PreferenceGUI
@@ -87,6 +89,10 @@ class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadRe
         
         data =AnalysisData().getDataModel(self.keyModel,ModelLMR.CHART_RESIDUAL_VALUE_ADJUST)
         
+        
+        xLine = [min(min(data['xCurve']),min(data['xScatter']))-0.05,max(max(data['xCurve']),max(data['xScatter']))+0.05]
+        yLine = [0,0]
+        
         colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
@@ -103,9 +109,10 @@ class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadRe
         
         brushScatter = QBrush(QColor(0, 0, 255, 225))
         penRed = pg.mkPen(color=(255, 0, 0), width=2)
-        penBlack = pg.mkPen(color=(0, 0, 0), width=2)
+        penBlack = pg.mkPen(color=(0, 0, 0), width=2, style=PyQt5.QtCore.Qt.DashLine)
         
         self.graphWidget.addLegend()
+        self.graphWidget.plot(xLine, yLine, pen=penBlack,symbol=None, symbolSize=5, symbolBrush=None)
         self.graphWidget.plot(data['xCurve'], data['yCurve'], pen=penRed,symbol=None, symbolSize=5, symbolBrush=None)
         self.graphWidget.plot(data['xScatter'], data['yScatter'], pen=None, symbol='o', symbolSize=5, symbolBrush=brushScatter)
         
