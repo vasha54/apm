@@ -3,6 +3,7 @@ from model.modelLMR import ModelLMR
 class ManagerModel:
     def __init__(self):
         self.dictModel={}
+        self.setKeyModelCompare = set()
         
     def addModel(self,_model):
         if self.canAddThisModel(_model):
@@ -59,4 +60,19 @@ class ManagerModel:
         if _key in self.dictModel.keys():
             model = self.dictModel[_key]
         return model
-       
+    
+    def addKeyModelCompare(self,_keyModel):
+        self.setKeyModelCompare.add(_keyModel)
+        
+    def removeKeyModelCompare(self,_keyModel):
+        self.setKeyModelCompare.discard(_keyModel)
+        
+    def getKeyModelCompare(self):
+        return self.setKeyModelCompare
+    
+    def getKeyNameModels(self):
+        listKNM = []
+        for k,v in self.dictModel.items():
+            model = {'name':v.getNameModel(),'key':k}
+            listKNM.append(model)
+        return listKNM

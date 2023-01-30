@@ -1,10 +1,29 @@
+from PyQt5.QtWidgets import (
+    QWidget, QGridLayout, QVBoxLayout, QLayout, QLabel, QSizePolicy, QTableView,
+    QSpacerItem, QGroupBox, QHBoxLayout
+)
+
+from PyQt5.QtWidgets import (
+    QWidget,QHeaderView
+)
+
+from PyQt5.QtCore import (
+    QSize
+)
+
 from view.view.widget_tab.widget_tab import WidgetTab
 
 from controller.analysis_data import AnalysisData
 
 from view.components.widget_validation_boot_stropping import  WidgetValidationBootStropping
 from view.components.widget_validation_kold import WidgetValidationKold
+from view.components.list_view import ListViewCheckBox
+
 from view.preferences.preferences import PreferenceGUI
+
+from view.model.comparative_models_model import ComparativeModelsModel
+
+from view.components import message_box as MB
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 class WidgetComparativeModel(WidgetTab):
@@ -15,7 +34,7 @@ class WidgetComparativeModel(WidgetTab):
         self.createUI()
         self.createWorkspace()
         self.createConnect() 
-        self.pushButtonNext.setVisible(False)   
+        PreferenceGUI.instance().subscribe(self)     
     
     def createUI(self):
         self.gridLayout = QtWidgets.QGridLayout(self.widgetCentral)
@@ -31,7 +50,7 @@ class WidgetComparativeModel(WidgetTab):
         font.setWeight(75)
         self.label.setFont(font)
         self.verticalLayout.addWidget(self.label)
-        self.listViewModel = QtWidgets.QListView(self.widgetCentral)
+        self.listViewModel = ListViewCheckBox(self.widgetCentral)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -63,17 +82,73 @@ class WidgetComparativeModel(WidgetTab):
         sizePolicy.setHeightForWidth(self.tableViewModelCom.sizePolicy().hasHeightForWidth())
         self.tableViewModelCom.setSizePolicy(sizePolicy)
         self.gridLayout.addWidget(self.tableViewModelCom, 2, 0, 1, 2)
-        self.label.setText("Modelos :")
+        self.label.setText("Modelos:")
         self.pBCompare.setText("Comparar")
         
-    
+        self.tableViewModelCom.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableViewModelCom.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.tableViewModelCom.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
+        self.tableViewModelCom.verticalHeader().hide()
+        
+        
     def createWorkspace(self):
-        pass
+        self.tableViewModelCom.setVisible(False)
+        self.widgetChartComparative.setVisible(False)
+        self.pushButtonNext.setVisible(False)
+        self.loadModels()
     
     def createConnect(self):
-        pass
+        self.pBCompare.clicked.connect(self.compareModels)
+        self.listViewModel.checked.connect(self.selectModel)
         
     def updateTab(self):
+        pass
+    
+    def compareModels(self):
+        keysModelComparative = AnalysisData().getKeyModelCompare()
+        
+        if len(keysModelComparative) > 0:
+            self.modelsComparativeModel = ComparativeModelsModel(keysModelComparative)
+            self.tableViewModelCom.setModel(self.modelsComparativeModel)
+            self.tableViewModelCom.setVisible(True)
+            self.widgetChartComparative.setVisible(True)
+        else:
+            self.tableViewModelCom.setVisible(False)
+            self.widgetChartComparative.setVisible(False)
+            messageBox=MB.showGenericMessage(self.parent(),MB.MESSAG_CRITICAL,
+                                                       "Error",
+                                                       "Tiene que existir modelos seleccionados para establecer la comparación.")
+            messageBox.exec()
+        
+    def loadModels(self):
+        self.modelCandidateModel = QtGui.QStandardItemModel(self.listViewModel)
+        
+        models = AnalysisData().getKeyNameModels()
+        
+        for model in models:
+            itemModel = QtGui.QStandardItem(model['name'])
+            itemModel.setCheckable(True)
+            itemModel.setData(model['key'], QtCore.Qt.ItemDataRole.UserRole)
+            itemModel.setCheckState(QtCore.Qt.Unchecked)
+            self.modelCandidateModel.appendRow(itemModel)
+            
+        self.listViewModel.setModel(self.modelCandidateModel)
+        
+    def selectModel(self,_index):
+        if _index.data(QtCore.Qt.ItemDataRole.CheckStateRole) == QtCore.Qt.Checked:
+            self.addModel(_index)
+        elif _index.data(QtCore.Qt.ItemDataRole.CheckStateRole) == QtCore.Qt.Unchecked:
+            self.removeModel(_index)
+    
+    def removeModel(self,_index):
+        keyModel = _index.data(QtCore.Qt.ItemDataRole.UserRole)
+        AnalysisData().removeKeyModelCompare(keyModel)
+    
+    def addModel(self,_index):
+        keyModel = _index.data(QtCore.Qt.ItemDataRole.UserRole)
+        AnalysisData().addKeyModelCompare(keyModel)
+        
+    def changePreference(self,_listChange):
         pass
     
    

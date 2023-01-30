@@ -28,10 +28,7 @@ class ModelLMR:
         self.dataFrameModel = _dataFrameModel
         self.isSelectModel = _isSelect
         self.intervalConfidence = _intervalConfidence
-        
-        
-        
-        
+             
     def __str__(self):
         modelStr = self.nameModel+"("+self.nameVariableD+"~"
         union="+"

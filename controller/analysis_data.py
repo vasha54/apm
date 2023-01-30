@@ -128,5 +128,17 @@ class AnalysisData(metaclass=SingletonMeta):
     
     def tableCorrelations(self):
         return self.managerVariable.tableCorrelations(self.variablesSelect)
+    
+    def addKeyModelCompare(self,_keyModel):
+        self.managerModels.addKeyModelCompare(_keyModel)
+        
+    def removeKeyModelCompare(self,_keyModel):
+        self.managerModels.removeKeyModelCompare(_keyModel)
+        
+    def getKeyModelCompare(self):
+        return self.managerModels.getKeyModelCompare()
+    
+    def getKeyNameModels(self):
+        return self.managerModels.getKeyNameModels()
             
         
