@@ -11,6 +11,9 @@ from PyQt5.QtCore import (
     QSize
 )
 
+
+from PyQt5.QtChart import QPolarChart, QChartView, QValueAxis, QScatterSeries
+
 from view.view.widget_tab.widget_tab import WidgetTab
 
 from controller.analysis_data import AnalysisData
@@ -24,6 +27,8 @@ from view.preferences.preferences import PreferenceGUI
 from view.model.comparative_models_model import ComparativeModelsModel
 
 from view.components import message_box as MB
+
+import pyqtgraph as pg
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 class WidgetComparativeModel(WidgetTab):
@@ -110,6 +115,7 @@ class WidgetComparativeModel(WidgetTab):
         if len(keysModelComparative) > 0:
             self.modelsComparativeModel = ComparativeModelsModel(keysModelComparative)
             self.tableViewModelCom.setModel(self.modelsComparativeModel)
+            self.createChartSpider();
             self.tableViewModelCom.setVisible(True)
             self.widgetChartComparative.setVisible(True)
         else:
@@ -150,5 +156,63 @@ class WidgetComparativeModel(WidgetTab):
         
     def changePreference(self,_listChange):
         pass
+    
+    def clearLayout(self,layout):
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget() is not None:
+                child.widget().deleteLater()
+            elif child.layout() is not None:
+                clearLayout(child.layout())
+    
+    def createChartSpider(self):
+        # self.polar = QPolarChart()
+        # chartView = QChartView(self.polar)
+        
+        # axisy = QValueAxis()
+        # axisx = QValueAxis()
+        
+        # axisy.setRange(0,500)
+        # axisy.setTickCount(4)
+        # self.polar.setAxisY(axisy)
+        # axisx.setRange(0,360)
+        # axisx.setTickCount(5)
+        # self.polar.setAxisX(axisx)
+        
+        # #Let's draw scatter series
+        # self.polar_series = QScatterSeries()
+        # self.polar_series.setMarkerSize(5.0)        
+        
+        # self.polar_series.append(0, 0)
+        # self.polar_series.append(360, 500) 
+        # #Why not draw archimedes spiral
+        # for i in range(0,360,10): 
+        #     self.polar_series.append(i, i)
+        # self.polar.addSeries(self.polar_series)
+        
+        # self.clearLayout(self.vLayoutChartComparative)
+        
+        plot = pg.plot()
+        plot.setAspectLocked()
+        
+        # Add polar grid lines
+        plot.addLine(x=0, pen=0.2)
+        plot.addLine(y=0, pen=0.2)
+        
+        for r in range(2, 20, 2):
+            circle = QGraphicsEllipseItem(-r, -r, r * 2, r * 2)
+            circle.setPen(pg.mkPen(0.2))
+            plot.addItem(circle)
+        
+        # make polar data
+        theta = np.linspace(0, 2 * np.pi, 100)
+        radius = np.random.normal(loc=10, size=100)
+        
+        # Transform to cartesian and plot
+        x = radius * np.cos(theta)
+        y = radius * np.sin(theta)
+        #plot.plot(x, y)
+        
+        self.vLayoutChartComparative.addWidget(plot.plot(x, y))
     
    
