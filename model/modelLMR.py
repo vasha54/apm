@@ -656,7 +656,11 @@ class ModelLMR:
     
     CHART_RESIDUAL_VALUE_ADJUST = 'chartResidualValueAdjust'
     def chartResidualValueAdjust(self, **kwargs):
-        return RGSST.chartResidualValueAdjust(self, **kwargs)        
+        return RGSST.chartResidualValueAdjust(self, **kwargs)
+    
+    CHART_FREQUENCY_COEFFICIENT_BOOT_STROPPING = 'chartFrequencyCoefficientBootStropping'
+    def chartFrequencyCoefficientBootStropping(self,**kwargs):
+        return RGSST.chartFrequencyCoefficientBootStropping(self,**kwargs)       
     
         
         

@@ -58,15 +58,15 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         
         penLine = pg.mkPen(color=(255, 0, 0), width=2)
         brushLine = QBrush(QColor(255,0,0,255))
+        brush = QBrush(QColor(0,0,255,255))
         
-        xLine = [0,1]
-        yLine = [0,1]
+        xLine = [min(data['value-x'])-0.05,max(data['value-x'])+0.05]
+        yLine = [min(data['value-y'])-0.05,max(data['value-y'])+0.05]
         
         self.graphWidget.addLegend()
         
         self.graphWidget.plot(xLine, yLine,pen=penLine ,symbol=None, symbolSize=5, symbolBrush=brushLine)
-        #self.graphWidget.plot(data['value-x'], data['value-y'], pen=None,symbol='o', symbolSize=5, symbolBrush=brush)
-        #self.graphWidget.plot(dataXTrain, dataYTrain,name="Test de entrenamiento", pen=penLineTrain,symbol='o', symbolSize=5, symbolBrush=brushTrain)
+        self.graphWidget.plot(data['value-x'], data['value-y'], pen=None,symbol='o', symbolSize=5, symbolBrush=brush)
         
         self.clearLayout(self.vLayoutChartValuesPredichosKFold)
         

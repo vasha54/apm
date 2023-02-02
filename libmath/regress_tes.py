@@ -21,6 +21,8 @@ import statsmodels.formula.api as smf
 import statsmodels.stats.diagnostic as dg
 import statsmodels.stats.api as sms
 
+
+
 from sklearn.model_selection import cross_validate
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
@@ -33,7 +35,9 @@ from exceptions.exceptions import NotFoundParameterExtraException, EstadigrafoFi
 
 cvar = lambda x: np. std (x, ddof = 1 ) / np. mean (x) * 100
 
-
+def generateBars(_list):
+    bars = {}
+    return bars
 
 def fitModel(_model,**kwargs):
     reg=smf.ols(_model.eval(),_model.getDataFrameModel())
@@ -713,6 +717,50 @@ def cvRSquareBootStropping(_model,**kwargs):
     else :
         raise NotFoundParameterExtraException('boots','cvRSquareBootStropping')
     return Rcuacv
+
+def chartFrequencyCoefficientBootStropping(_model,**kwargs):
+    data = {}
+    if 'boots' in kwargs.keys():
+       boots = int(kwargs['boots'])
+       names = _model.getNamesVariableI()
+       k= _model.numberMeasurement()
+       boot_coeff = []
+       for _ in range(boots):
+           data_df = _model.getDataFrameModel()
+           sample_df = data_df.sample(n=k, replace=True)
+           regbst=smf.ols(_model.eval(),sample_df)
+           resulbst=regbst.fit()
+           coeffbst=resulbst.params 
+           boot_coeff.append(coeffbst)
+       
+       
+       names.append('Intercept')
+       
+       for n in names:
+           data[n] ={'name':n,'coeff':[]}
+           for coeff in boot_coeff:
+               data[n]['coeff'].append(coeff.at[n])
+        
+       for n in names:
+           data[n]['coeff'].sort()
+           nValues = len(data[n]['coeff'])
+           if nValues % 2 == 1:
+               data[n]['median'] = data[n]['coeff'][int(nValues/2)]
+           else:
+               data[n]['median'] = (data[n]['coeff'][int(nValues/2)]+ data[n]['coeff'][int(nValues/2)+1])/2
+           mean = sum(data[n]['coeff'])/len(data[n]['coeff'])
+           data[n]['mean'] =mean
+           variance = sum([((x - mean) ** 2) for x in data[n]['coeff']]) / len(data[n]['coeff'])
+           res = variance ** 0.5
+           data[n]['std'] = res
+           data[n]['cv'] = (res/mean)*100
+           
+           data[n]['bars'] = generateBars(data[n]['coeff'])
+           
+           return data 
+    else:
+       raise NotFoundParameterExtraException('boots','chartFrequencyCoefficientBootStropping') 
+    return data
     
     
 def testRMSETestKFOLD(_model,**kwargs):
@@ -789,16 +837,15 @@ def chartValuesPredictedKFold(_model, **kwargs):
         clf = LinearRegression()
         
         y = _model.getDataFrameVD()
-        X = _model.getDataFrameVI() 
+        X = _model.getDataFrameVI()
+        
         
         resul = fitModel(_model,**kwargs)
         
         data = {}
         
         answer = cross_val_predict(clf,X,y,cv=k)
-        print('y',answer[0])
-        print('x',resul.fittedvalues)
-        data['value-y'] = answer[0]
+        data['value-y'] =np.ravel(answer)
         data['value-x'] = resul.fittedvalues
         
         return data

@@ -4,11 +4,15 @@ from PyQt5.QtWidgets import (
 )
 
 from PyQt5.QtWidgets import (
-    QWidget,QHeaderView
+    QWidget,QHeaderView, QGraphicsEllipseItem
 )
 
 from PyQt5.QtCore import (
     QSize
+)
+
+from PyQt5.QtGui import(
+    QBrush, QColor, QPainter
 )
 
 
@@ -29,6 +33,7 @@ from view.model.comparative_models_model import ComparativeModelsModel
 from view.components import message_box as MB
 
 import pyqtgraph as pg
+import math
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 class WidgetComparativeModel(WidgetTab):
@@ -166,53 +171,61 @@ class WidgetComparativeModel(WidgetTab):
                 clearLayout(child.layout())
     
     def createChartSpider(self):
-        # self.polar = QPolarChart()
-        # chartView = QChartView(self.polar)
         
-        # axisy = QValueAxis()
-        # axisx = QValueAxis()
+        self.clearLayout(self.vLayoutChartComparative)
         
-        # axisy.setRange(0,500)
-        # axisy.setTickCount(4)
-        # self.polar.setAxisY(axisy)
-        # axisx.setRange(0,360)
-        # axisx.setTickCount(5)
-        # self.polar.setAxisX(axisx)
+        keysModelComparative = AnalysisData().getKeyModelCompare()
         
-        # #Let's draw scatter series
-        # self.polar_series = QScatterSeries()
-        # self.polar_series.setMarkerSize(5.0)        
+        countModels =len(keysModelComparative)
         
-        # self.polar_series.append(0, 0)
-        # self.polar_series.append(360, 500) 
-        # #Why not draw archimedes spiral
-        # for i in range(0,360,10): 
-        #     self.polar_series.append(i, i)
-        # self.polar.addSeries(self.polar_series)
+        indicators = ['R-cua', 'R-cua adj','AIC', 'BIC']
         
-        # self.clearLayout(self.vLayoutChartComparative)
+        countIndicators = len(indicators)
+        angleRotation = (2.00*math.pi)/countIndicators
         
-        plot = pg.plot()
-        plot.setAspectLocked()
+        xLineSpider=[0 for item in range(0, countModels+1)]
+        yLineSpider=[item for item in range(0, countModels+1)]
         
-        # Add polar grid lines
-        plot.addLine(x=0, pen=0.2)
-        plot.addLine(y=0, pen=0.2)
+        xLineSpider.append(0)
+        yLineSpider.append(yLineSpider[-1]+0.075)
         
-        for r in range(2, 20, 2):
-            circle = QGraphicsEllipseItem(-r, -r, r * 2, r * 2)
-            circle.setPen(pg.mkPen(0.2))
-            plot.addItem(circle)
+        colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
+        colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
+        colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        # make polar data
-        theta = np.linspace(0, 2 * np.pi, 100)
-        radius = np.random.normal(loc=10, size=100)
+        pg.setConfigOption('foreground', colorAxes)
+        pg.setConfigOption('background', colorBackground)
+        pg.setConfigOptions(antialias=True)
+        self.graphWidget = pg.PlotWidget()
+        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        self.graphWidget.getPlotItem().hideAxis('bottom')
+        self.graphWidget.getPlotItem().hideAxis('left')
         
-        # Transform to cartesian and plot
-        x = radius * np.cos(theta)
-        y = radius * np.sin(theta)
-        #plot.plot(x, y)
+        penLine = pg.mkPen(color=colorAxes, width=1)
+        brushLine = QBrush(QColor(colorAxes))
         
-        self.vLayoutChartComparative.addWidget(plot.plot(x, y))
+        angle = 0
+        for i in range(0,countIndicators):
+            xLineSpiderRotate = []
+            yLineSpiderRotate = []
+            
+            for j in range(0,len(xLineSpider)-1):
+                xRotate = xLineSpider[j]*math.cos(angle)-yLineSpider[j]*math.sin(angle)
+                yRotate = yLineSpider[j]*math.cos(angle)+xLineSpider[j]*math.sin(angle)
+                xLineSpiderRotate.append(xRotate)
+                yLineSpiderRotate.append(yRotate)
+            
+            self.graphWidget.plot(xLineSpiderRotate, yLineSpiderRotate,pen=penLine ,symbol='o', symbolSize=3, symbolBrush=brushLine)
+            
+            xText = xLineSpider[-1]*math.cos(angle)-yLineSpider[-1]*math.sin(angle)
+            yText = yLineSpider[-1]*math.cos(angle)+xLineSpider[-1]*math.sin(angle)
+            
+            labelIndicators = pg.TextItem(text=indicators[i], color=colorAxes, anchor=(0, 1))
+            labelIndicators.setPos(xText,yText)
+            self.graphWidget.addItem(labelIndicators, ignoreBounds=True)
+            
+            angle=angleRotation+angle
+        
+        self.vLayoutChartComparative.addWidget(self.graphWidget)
     
    
