@@ -208,8 +208,31 @@
     </widget>
    </item>
    <item row="3" column="0" colspan="4">
-    <widget class="QWidget" name="widgetChart" native="true">
-     <layout class="QGridLayout" name="gLayoutChart"/>
+    <widget class="QTableWidget" name="tWCharts">
+     <property name="columnCount">
+      <number>3</number>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderCascadingSectionResizes">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <column/>
+     <column/>
+     <column/>
     </widget>
    </item>
   </layout>

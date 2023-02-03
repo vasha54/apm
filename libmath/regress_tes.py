@@ -37,6 +37,27 @@ cvar = lambda x: np. std (x, ddof = 1 ) / np. mean (x) * 100
 
 def generateBars(_list):
     bars = {}
+    _list.sort()
+    intervalRange = (max(_list)-min(_list)) / 7
+    
+    minInterval = min(_list)
+    maxInterval = minInterval + intervalRange
+    
+    for index in range(1,8):
+        bars[index] = {}
+        bars[index]['minInterval']=minInterval
+        bars[index]['maxInterval']=maxInterval
+        minInterval = maxInterval
+        maxInterval = minInterval + intervalRange
+        count = 0
+        
+        for v in _list:
+            if float(minInterval)<= float(v) and float(v) <= float(maxInterval):
+                count = count + 1
+        bars[index]['frequency'] = count
+    
+    print(bars)
+     
     return bars
 
 def fitModel(_model,**kwargs):
@@ -722,7 +743,7 @@ def chartFrequencyCoefficientBootStropping(_model,**kwargs):
     data = {}
     if 'boots' in kwargs.keys():
        boots = int(kwargs['boots'])
-       names = _model.getNamesVariableI()
+       names = _model.getNamesVariableI().copy()
        k= _model.numberMeasurement()
        boot_coeff = []
        for _ in range(boots):
@@ -744,10 +765,14 @@ def chartFrequencyCoefficientBootStropping(_model,**kwargs):
        for n in names:
            data[n]['coeff'].sort()
            nValues = len(data[n]['coeff'])
+           print('name',n)
+           print('nValue',nValues)
+           print('coeff',data[n]['coeff'])
+           
            if nValues % 2 == 1:
                data[n]['median'] = data[n]['coeff'][int(nValues/2)]
            else:
-               data[n]['median'] = (data[n]['coeff'][int(nValues/2)]+ data[n]['coeff'][int(nValues/2)+1])/2
+               data[n]['median'] = (data[n]['coeff'][int(nValues/2)]+ data[n]['coeff'][int(nValues/2)-1])/2
            mean = sum(data[n]['coeff'])/len(data[n]['coeff'])
            data[n]['mean'] =mean
            variance = sum([((x - mean) ** 2) for x in data[n]['coeff']]) / len(data[n]['coeff'])
@@ -757,7 +782,7 @@ def chartFrequencyCoefficientBootStropping(_model,**kwargs):
            
            data[n]['bars'] = generateBars(data[n]['coeff'])
            
-           return data 
+       return data 
     else:
        raise NotFoundParameterExtraException('boots','chartFrequencyCoefficientBootStropping') 
     return data
