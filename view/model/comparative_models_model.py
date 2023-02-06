@@ -13,7 +13,7 @@ class ComparativeModelsModel(QAbstractTableModel):
     
     def __init__(self,_keyModels, parent=None):
         QAbstractTableModel.__init__(self, parent)
-        self.headersName=['Modelos', 'R-cua', 'R-cua adj','AIC', 'BIC', 'Log-likelihead']
+        self.headersName=['Modelos', 'R-cua', 'R-cua adj','RMSE','AIC', 'BIC', 'Log-likelihead']
         self.keyModels = list(_keyModels)
         
     def rowCount(self, parent=None):
@@ -34,10 +34,12 @@ class ComparativeModelsModel(QAbstractTableModel):
                 elif index.column() == 2:
                     return str(format(AnalysisData().getDataModel(self.keyModels[index.row()],ModelLMR.RCUAD_ADJUST),formatStr))
                 elif index.column() == 3:
-                    return str(format(AnalysisData().getDataModel(self.keyModels[index.row()],ModelLMR.AIC),formatStr))
+                    return str(format(AnalysisData().getDataModel(self.keyModels[index.row()],ModelLMR.RMSE_MODEL),formatStr))
                 elif index.column() == 4:
-                    return str(format(AnalysisData().getDataModel(self.keyModels[index.row()],ModelLMR.BIC),formatStr))
+                    return str(format(AnalysisData().getDataModel(self.keyModels[index.row()],ModelLMR.AIC),formatStr))
                 elif index.column() == 5:
+                    return str(format(AnalysisData().getDataModel(self.keyModels[index.row()],ModelLMR.BIC),formatStr))
+                elif index.column() == 6:
                     return str(format(AnalysisData().getDataModel(self.keyModels[index.row()],ModelLMR.LOG_LIKELI_HEAD),formatStr))
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter | QtCore.Qt.AlignHCenter)

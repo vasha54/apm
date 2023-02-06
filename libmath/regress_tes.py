@@ -674,7 +674,7 @@ def mediaRSEMBootStropping(_model,**kwargs):
         boots = int(kwargs['boots'])
         k= _model.numberMeasurement()
         for _ in range(boots):
-            data_df = _model.getDataFrameModel()
+            data_df = _model.getDataFrameModel().copy(deep=True)
             sample_df = data_df.sample(n=k, replace=True)
             regbst=smf.ols(_model.eval(),sample_df)
             resulbst=regbst.fit() 
@@ -692,7 +692,7 @@ def cvRSEMBootStropping(_model,**kwargs):
         boots = int(kwargs['boots'])
         k= _model.numberMeasurement()
         for _ in range(boots):
-            data_df = _model.getDataFrameModel()
+            data_df = _model.getDataFrameModel().copy(deep=True)
             sample_df = data_df.sample(n=k, replace=True)
             regbst=smf.ols(_model.eval(),sample_df)
             resulbst=regbst.fit() 
@@ -710,7 +710,7 @@ def mediaRSquareBootStropping(_model,**kwargs):
         boots = int(kwargs['boots'])
         k= _model.numberMeasurement()
         for _ in range(boots):
-            data_df = _model.getDataFrameModel()
+            data_df = _model.getDataFrameModel().copy(deep=True)
             sample_df = data_df.sample(n=k, replace=True)
             regbst=smf.ols(_model.eval(),sample_df)
             resulbst=regbst.fit()
@@ -728,7 +728,7 @@ def cvRSquareBootStropping(_model,**kwargs):
         boots = int(kwargs['boots'])
         k= _model.numberMeasurement()
         for _ in range(boots):
-            data_df = _model.getDataFrameModel()
+            data_df = _model.getDataFrameModel().copy(deep=True)
             sample_df = data_df.sample(n=k, replace=True)
             regbst=smf.ols(_model.eval(),sample_df)
             resulbst=regbst.fit()
@@ -747,7 +747,7 @@ def chartFrequencyCoefficientBootStropping(_model,**kwargs):
        k= _model.numberMeasurement()
        boot_coeff = []
        for _ in range(boots):
-           data_df = _model.getDataFrameModel()
+           data_df = _model.getDataFrameModel().copy(deep=True)
            sample_df = data_df.sample(n=k, replace=True)
            regbst=smf.ols(_model.eval(),sample_df)
            resulbst=regbst.fit()
@@ -765,9 +765,6 @@ def chartFrequencyCoefficientBootStropping(_model,**kwargs):
        for n in names:
            data[n]['coeff'].sort()
            nValues = len(data[n]['coeff'])
-           print('name',n)
-           print('nValue',nValues)
-           print('coeff',data[n]['coeff'])
            
            if nValues % 2 == 1:
                data[n]['median'] = data[n]['coeff'][int(nValues/2)]

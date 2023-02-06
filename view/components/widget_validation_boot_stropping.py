@@ -135,6 +135,7 @@ class WidgetValidationBootStropping(QWidget,Ui_WidgetValidationBootStropping):
         self.lOCVRSQUARE.setText( str(format(AnalysisData().getDataModel(self.keyModel, ModelLMR.CV_RSQUARE_BOOT_STROPPING, boots=bootsValue),formatStr)) )
         self.lOMediaRSME.setText( str(format(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSEM_BOOT_STROPPING, boots=bootsValue),formatStr)) )
         self.lOMediaRSQUARE.setText( str(format(AnalysisData().getDataModel(self.keyModel, ModelLMR.MEDIA_RSQUARE_BOOT_STROPPING, boots=bootsValue),formatStr)) )
+        self.createChart();
             
         
         

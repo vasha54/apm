@@ -27,6 +27,13 @@ class WidgetChartHistogram(QWidget):
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
+        mean = _data['mean']
+        std = _data['std']
+        median = _data['median']
+        cv = _data['cv']
+        
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f'
         
         self.labelTitle = QLabel(_data['name'])
         font = QtGui.QFont()
@@ -37,7 +44,20 @@ class WidgetChartHistogram(QWidget):
         self.labelTitle.setScaledContents(True)
         self.labelTitle.setAlignment(Qt.AlignCenter)
         
-        print(_data)
+        self.labelMean = QLabel("Media: "+str(format(mean,formatStr)))
+        self.labelMean.setStyleSheet("background-color: "+str(colorBackground)+";")
+        self.labelMean.setScaledContents(True)
+        self.labelMean.setAlignment(Qt.AlignRight)
+        
+        self.labelCV = QLabel("CV: "+str(format(cv,formatStr)))
+        self.labelCV.setStyleSheet("background-color: "+str(colorBackground)+";")
+        self.labelCV.setScaledContents(True)
+        self.labelCV.setAlignment(Qt.AlignRight)
+        
+        self.labelMedian = QLabel("Mediana: "+str(format(median,formatStr)))
+        self.labelMedian.setStyleSheet("background-color: "+str(colorBackground)+";")
+        self.labelMedian.setScaledContents(True)
+        self.labelMedian.setAlignment(Qt.AlignRight)
         
         
         pg.setConfigOption('foreground', colorAxes)
@@ -71,6 +91,9 @@ class WidgetChartHistogram(QWidget):
         
         
         layout.addWidget(self.labelTitle)
+        layout.addWidget(self.labelMean)
+        layout.addWidget(self.labelCV)
+        layout.addWidget(self.labelMedian)
         layout.addWidget(self.graphWidget)
         layout.setSpacing(0)
         self.setLayout(layout)

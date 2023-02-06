@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (
-    QVBoxLayout, QTabWidget
+    QVBoxLayout, QTabWidget, QWidget
 )
 
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
@@ -42,6 +42,8 @@ class WidgetDetailsModelSelect(WidgetTab):
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualStudentized,"Análisis de normalidad (Residuales estudertizados)")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestHomecedasticidadResidual,"Análisis de homecedasticidad de los residuales")
         self.tabWidgetDetailsModelSelect.addTab(self.tabAnalysMultiColinualidad,"Análisis de multicolinealidad")
+        self.tabWidgetDetailsModelSelect.addTab(QWidget(),"Gráficas de los coeficientes del modelo")
+        self.tabWidgetDetailsModelSelect.addTab(QWidget(),"Otros gráficos")
         
         
     def createConnect(self):

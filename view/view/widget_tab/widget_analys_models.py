@@ -46,10 +46,21 @@ class WidgetAnalysModels(WidgetTab):
         super().createConnect()
         
     def updateTab(self):
-        while self.toolBoxModel.count() >0:
-            self.toolBoxModel.removeItem(0)
+        self.clearLayout(self.verticalLayout)
+        self.toolBoxModel = QToolBox(self.widgetCentral)
+        self.verticalLayout.addWidget(self.toolBoxModel)
+        
         self.createWorkspace() 
         
     def changeTab(self,index):
-        AnalysisData().setSelectModel(self.relationsPosWidgetKeyModel[index])    
+        AnalysisData().setSelectModel(self.relationsPosWidgetKeyModel[index])
+        
+    def clearLayout(self,layout):
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget() is not None:
+                child.widget().deleteLater()
+            elif child.layout() is not None:
+                clearLayout(child.layout())
+            
         
