@@ -1158,6 +1158,28 @@ def chartResidualValueAdjust(_model, **kwargs):
     
     return data
 
+def chartCoeffModel(_model, **kwargs):
+    dictBetasCoeff = {}
+    namesVariables = _model.getNamesVariableI().copy()
+    data_df = _model.getDataFrameVI().copy(deep=True)
+    for name in namesVariables:
+        dictBetasCoeff[name] = {'name':name}
+        betascoeff = list()
+        B = data_df 
+        B_constant=sm.add_constant(B)
+        y=data_df[name]
+        lin_reg=sm.OLS(y,B_constant).fit()
+        influence = lin_reg.get_influence()
+        dfbetas=influence.dfbetas
+        dfbetas=influence.dfbetas
+        n=0  #numero del coeficicente (en este caso intercepto)
+        g=len(data_df[name]) #Cantidad de obsservaciones MENOS 1
+        for i in range(g):
+            betascoeff.append(dfbetas[i][n]) #DA LOS VALORES
+            
+        print(name,betascoeff)
+    
+    print(dictBetasCoeff)
 
 
 #-----------------------------------------------------------------------

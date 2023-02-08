@@ -14,9 +14,20 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_WidgetOthersChartsModelSelect(object):
     def setupUi(self, WidgetOthersChartsModelSelect):
         WidgetOthersChartsModelSelect.setObjectName("WidgetOthersChartsModelSelect")
-        WidgetOthersChartsModelSelect.resize(400, 300)
+        WidgetOthersChartsModelSelect.resize(667, 545)
         self.gLayout = QtWidgets.QGridLayout(WidgetOthersChartsModelSelect)
         self.gLayout.setObjectName("gLayout")
+        self.tWidgetCharts = QtWidgets.QTableWidget(WidgetOthersChartsModelSelect)
+        self.tWidgetCharts.setShowGrid(False)
+        self.tWidgetCharts.setGridStyle(QtCore.Qt.NoPen)
+        self.tWidgetCharts.setColumnCount(3)
+        self.tWidgetCharts.setObjectName("tWidgetCharts")
+        self.tWidgetCharts.setRowCount(0)
+        self.tWidgetCharts.horizontalHeader().setVisible(False)
+        self.tWidgetCharts.horizontalHeader().setStretchLastSection(True)
+        self.tWidgetCharts.verticalHeader().setVisible(False)
+        self.tWidgetCharts.verticalHeader().setStretchLastSection(True)
+        self.gLayout.addWidget(self.tWidgetCharts, 0, 0, 1, 1)
 
         self.retranslateUi(WidgetOthersChartsModelSelect)
         QtCore.QMetaObject.connectSlotsByName(WidgetOthersChartsModelSelect)

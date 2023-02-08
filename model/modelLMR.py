@@ -660,7 +660,11 @@ class ModelLMR:
     
     CHART_FREQUENCY_COEFFICIENT_BOOT_STROPPING = 'chartFrequencyCoefficientBootStropping'
     def chartFrequencyCoefficientBootStropping(self,**kwargs):
-        return RGSST.chartFrequencyCoefficientBootStropping(self,**kwargs)       
+        return RGSST.chartFrequencyCoefficientBootStropping(self,**kwargs)
+    
+    CHART_COEFF_MODEL = 'chartCoeffModel'
+    def chartCoeffModel(self,**kwargs):
+        return RGSST.chartCoeffModel(self,**kwargs)       
     
         
         
