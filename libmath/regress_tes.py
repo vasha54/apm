@@ -1167,7 +1167,7 @@ def chartCoeffModel(_model, **kwargs):
         betascoeff = list()
         B = data_df 
         B_constant=sm.add_constant(B)
-        y=data_df[name]
+        y=data_df[name]#Aqui va variable dependiite
         lin_reg=sm.OLS(y,B_constant).fit()
         influence = lin_reg.get_influence()
         dfbetas=influence.dfbetas
@@ -1176,10 +1176,10 @@ def chartCoeffModel(_model, **kwargs):
         g=len(data_df[name]) #Cantidad de obsservaciones MENOS 1
         for i in range(g):
             betascoeff.append(dfbetas[i][n]) #DA LOS VALORES
-            
-        print(name,betascoeff)
-    
-    print(dictBetasCoeff)
+        print(dfbetas)    
+        #print(name,betascoeff)
+    #print('------------------------------------')
+    #print(dictBetasCoeff)
 
 
 #-----------------------------------------------------------------------
