@@ -7,12 +7,14 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import (
     QBrush, QColor, QPainter
 )
+ 
 
-import PyQt5.QtCore 
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 
 from model.modelLMR import ModelLMR
 from view.preferences.preferences import PreferenceGUI
 from controller.analysis_data import AnalysisData
+from view.components.widget_chart_histogram_coeff import WidgetChartHistogramCoeff
 
 class WidgetChartsCoeffModelSelect(QWidget,Ui_WidgetChartsCoeffModelSelect):
     
@@ -25,7 +27,29 @@ class WidgetChartsCoeffModelSelect(QWidget,Ui_WidgetChartsCoeffModelSelect):
         
     def createWorkSpace(self):
         self.tWidgetChart.clear()
-        data = AnalysisData().getDataModel(self.keyModel,ModelLMR.CHART_COEFF_MODEL)
+        self.tWidgetChart.setColumnCount(3)
+        header = self.tWidgetChart.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        
+        datas = AnalysisData().getDataModel(self.keyModel,ModelLMR.CHART_COEFF_MODEL)
+        
+        rows = len(datas)//3
+        
+        if len(datas)% 3 !=0 :
+            rows=rows+1
+            
+        self.tWidgetChart.setRowCount(rows)
+        
+        i=0
+        
+        for k,data in datas.items():
+            self.tWidgetChart.setRowHeight(i//3,250)
+            widget = WidgetChartHistogramCoeff(data)
+            self.tWidgetChart.setCellWidget(i//3,i%3,widget)
+            i=i+1
+            
         
     
     def update(self):

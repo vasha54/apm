@@ -16,7 +16,7 @@ from PyQt5.QtGui import(
 )
 
 
-from PyQt5.QtChart import QPolarChart, QChartView, QValueAxis, QScatterSeries
+#from PyQt5.QtChart import QPolarChart, QChartView, QValueAxis, QScatterSeries
 
 from view.view.widget_tab.widget_tab import WidgetTab
 
