@@ -664,7 +664,31 @@ class ModelLMR:
     
     CHART_COEFF_MODEL = 'chartCoeffModel'
     def chartCoeffModel(self,**kwargs):
-        return RGSST.chartCoeffModel(self,**kwargs)       
+        return RGSST.chartCoeffModel(self,**kwargs)
+    
+    DISTANCE_COOKS = 'distanceCooks'
+    def distanceCooks(self, **kwargs):
+        return RGSST.distanceCooks(self, **kwargs)
+    
+    LEVERAGE ='leverage'
+    def leverage(self, **kwargs):
+        return RGSST.leverage(self, **kwargs) 
+    
+    COVARIANCE_RATIO = 'covarianceRatio'
+    def covarianceRatio(self, **kwargs):
+        return RGSST.covarianceRatio(self, **kwargs)
+    
+    DFFITS = 'dffits'
+    def dffits(self, **kwargs):
+        return RGSST.dffits(self, **kwargs)  
+    
+    RESIDUAL_MODEL ='residualModel'
+    def residualModel(self,**kwargs):
+        return RGSST.residualModel(self,**kwargs)
+    
+    RESIDUAL_ST_MODEL = 'residualSTModel'
+    def residualSTModel(self,**kwargs):
+        return RGSST.residualSTModel(self,**kwargs)    
     
         
         

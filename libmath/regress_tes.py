@@ -1178,8 +1178,46 @@ def chartCoeffModel(_model, **kwargs):
             dictBetasCoeff[name]['coef'].append(dfbetas[i][j])
     
     return dictBetasCoeff
-    
 
+def distanceCooks(_model, **kwargs):
+    data_dfvi = _model.getDataFrameVI().copy(deep=True)
+    B = data_dfvi
+    B_constant=sm.add_constant(B)
+    y = _model.getDataFrameVD().copy(deep=True)
+    lin_reg = sm.OLS(y,B_constant).fit()
+    influence = lin_reg.get_influence()
+    cooks = influence.cooks_distance
+    return cooks[0]
+    
+def leverage(_model, **kwargs):
+    data_dfvi = _model.getDataFrameVI().copy(deep=True)
+    B = data_dfvi
+    B_constant=sm.add_constant(B)
+    y = _model.getDataFrameVD().copy(deep=True)
+    lin_reg=sm.OLS(y,B_constant).fit()
+    influence = lin_reg.get_influence()
+    leverage = influence.hat_matrix_diag
+    return leverage 
+
+def covarianceRatio(_model, **kwargs):
+    data_dfvi = _model.getDataFrameVI().copy(deep=True)
+    B = data_dfvi
+    B_constant=sm.add_constant(B)
+    y = _model.getDataFrameVD().copy(deep=True)
+    lin_reg=sm.OLS(y,B_constant).fit()
+    influence = lin_reg.get_influence()
+    cov_ratio=influence.cov_ratio
+    return cov_ratio  
+
+def dffits(_model, **kwargs):
+    data_dfvi = _model.getDataFrameVI().copy(deep=True)
+    B = data_dfvi
+    B_constant=sm.add_constant(B)
+    y = _model.getDataFrameVD().copy(deep=True)
+    lin_reg = sm.OLS(y,B_constant).fit()
+    influence = lin_reg.get_influence()
+    dffits = influence.dffits[0] 
+    return dffits
 #-----------------------------------------------------------------------
 
 def mean(nameVar, dataFrame):

@@ -78,7 +78,7 @@ class WidgetChartHistogram(QWidget):
         x = [ ]
         
         bars = _data['bars']
-        print(bars)
+        
         
         for k,v in bars.items():
             y1.append(v['frequency'])
