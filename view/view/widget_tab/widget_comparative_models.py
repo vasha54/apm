@@ -31,9 +31,14 @@ from view.preferences.preferences import PreferenceGUI
 from view.model.comparative_models_model import ComparativeModelsModel
 
 from view.components import message_box as MB
+from view.components.chart_radal import ChartRadal
 
 import pyqtgraph as pg
 import math
+from math import pi
+
+
+
 
 from model.modelLMR import ModelLMR
 
@@ -172,87 +177,95 @@ class WidgetComparativeModel(WidgetTab):
             elif child.layout() is not None:
                 clearLayout(child.layout())
     
+    
+    
+    
     def createChartSpider(self):
-        
         self.clearLayout(self.vLayoutChartComparative)
         
-        keysModelComparative = AnalysisData().getKeyModelCompare()
+        widgetChart = QWidget(self)
         
-        countModels =len(keysModelComparative)
+        chart = ChartRadal(self)
+        chart.makeRadarChart("Comparativa grafica entre los diferentes modelos")
+        self.vLayoutChartComparative.addWidget(chart)
         
-        indicators = ['R-cuadrado', 'R-cuadrado adjustado','AIC', 'BIC', 'RSME', 'Log-likehead']
-        indicatorsKEY = [ModelLMR.RCUAD, ModelLMR.RCUAD_ADJUST, ModelLMR.AIC, ModelLMR.BIC, ModelLMR.RMSE_MODEL, ModelLMR.LOG_LIKELI_HEAD]
+        # keysModelComparative = AnalysisData().getKeyModelCompare()
         
-        countIndicators = len(indicators)
-        angleRotation = (2.00*math.pi)/countIndicators
+        # countModels =len(keysModelComparative)
         
-        xLineSpider=[0 for item in range(0, countModels+1)]
-        yLineSpider=[item for item in range(0, countModels+1)]
+        # indicators = ['R-cuadrado', 'R-cuadrado adjustado','AIC', 'BIC', 'RSME', 'Log-likehead']
+        # indicatorsKEY = [ModelLMR.RCUAD, ModelLMR.RCUAD_ADJUST, ModelLMR.AIC, ModelLMR.BIC, ModelLMR.RMSE_MODEL, ModelLMR.LOG_LIKELI_HEAD]
         
-        xLineSpider.append(0)
-        yLineSpider.append(yLineSpider[-1]+0.075)
+        # countIndicators = len(indicators)
+        # angleRotation = (2.00*math.pi)/countIndicators
         
-        colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
-        colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
-        colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
+        # xLineSpider=[0 for item in range(0, countModels+1)]
+        # yLineSpider=[item for item in range(0, countModels+1)]
         
-        pg.setConfigOption('foreground', colorAxes)
-        pg.setConfigOption('background', colorBackground)
-        pg.setConfigOptions(antialias=True)
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.setRenderHints(QPainter.Antialiasing)
-        self.graphWidget.getPlotItem().hideAxis('bottom')
-        self.graphWidget.getPlotItem().hideAxis('left')
-        self.graphWidget.setMaximumWidth(self.listViewModel.geometry().height())
-        self.graphWidget.setMaximumHeight(self.listViewModel.geometry().height())
+        # xLineSpider.append(0)
+        # yLineSpider.append(yLineSpider[-1]+0.075)
         
-        penLine = pg.mkPen(color=colorAxes, width=1)
-        brushLine = QBrush(QColor(colorAxes))
+        # colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
+        # colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
+        # colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        angle = 0
+        # pg.setConfigOption('foreground', colorAxes)
+        # pg.setConfigOption('background', colorBackground)
+        # pg.setConfigOptions(antialias=True)
+        # self.graphWidget = pg.PlotWidget()
+        # self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        # self.graphWidget.getPlotItem().hideAxis('bottom')
+        # self.graphWidget.getPlotItem().hideAxis('left')
+        # self.graphWidget.setMaximumWidth(self.listViewModel.geometry().height())
+        # self.graphWidget.setMaximumHeight(self.listViewModel.geometry().height())
         
-        linesPolygonXs ={}
-        linesPolygonYs ={}
+        # penLine = pg.mkPen(color=colorAxes, width=1)
+        # brushLine = QBrush(QColor(colorAxes))
         
-        for i in range(0,countIndicators):
-            xLineSpiderRotate = []
-            yLineSpiderRotate = []
+        # angle = 0
+        
+        # linesPolygonXs ={}
+        # linesPolygonYs ={}
+        
+        # for i in range(0,countIndicators):
+        #     xLineSpiderRotate = []
+        #     yLineSpiderRotate = []
             
-            for j in range(0,len(xLineSpider)-1):
+        #     for j in range(0,len(xLineSpider)-1):
                 
-                if j != 0 and j not in linesPolygonXs.keys():
-                    linesPolygonXs[j] = list()
-                    linesPolygonYs[j] = list()
+        #         if j != 0 and j not in linesPolygonXs.keys():
+        #             linesPolygonXs[j] = list()
+        #             linesPolygonYs[j] = list()
                 
-                xRotate = xLineSpider[j]*math.cos(angle)-yLineSpider[j]*math.sin(angle)
-                yRotate = yLineSpider[j]*math.cos(angle)+xLineSpider[j]*math.sin(angle)
-                xLineSpiderRotate.append(xRotate)
-                yLineSpiderRotate.append(yRotate)
+        #         xRotate = xLineSpider[j]*math.cos(angle)-yLineSpider[j]*math.sin(angle)
+        #         yRotate = yLineSpider[j]*math.cos(angle)+xLineSpider[j]*math.sin(angle)
+        #         xLineSpiderRotate.append(xRotate)
+        #         yLineSpiderRotate.append(yRotate)
                 
-                if j != 0:
-                    linesPolygonXs[j].append(xRotate)
-                    linesPolygonYs[j].append(yRotate)
+        #         if j != 0:
+        #             linesPolygonXs[j].append(xRotate)
+        #             linesPolygonYs[j].append(yRotate)
             
-            self.graphWidget.plot(xLineSpiderRotate, yLineSpiderRotate,pen=penLine ,symbol='o', symbolSize=3, symbolBrush=brushLine)
+        #     self.graphWidget.plot(xLineSpiderRotate, yLineSpiderRotate,pen=penLine ,symbol='o', symbolSize=3, symbolBrush=brushLine)
             
             
             
-            xText = xLineSpider[-1]*math.cos(angle)-yLineSpider[-1]*math.sin(angle)
-            yText = yLineSpider[-1]*math.cos(angle)+xLineSpider[-1]*math.sin(angle)
+        #     xText = xLineSpider[-1]*math.cos(angle)-yLineSpider[-1]*math.sin(angle)
+        #     yText = yLineSpider[-1]*math.cos(angle)+xLineSpider[-1]*math.sin(angle)
             
-            labelIndicators = pg.TextItem(text=indicators[i], color=colorAxes, anchor=(0, 1))
-            labelIndicators.setPos(xText,yText)
-            self.graphWidget.addItem(labelIndicators, ignoreBounds=True)
+        #     labelIndicators = pg.TextItem(text=indicators[i], color=colorAxes, anchor=(0, 1))
+        #     labelIndicators.setPos(xText,yText)
+        #     self.graphWidget.addItem(labelIndicators, ignoreBounds=True)
             
-            angle=angleRotation+angle
+        #     angle=angleRotation+angle
         
           
-        for k in linesPolygonYs.keys():
-            linesPolygonXs[k].append(linesPolygonXs[k][0])
-            linesPolygonYs[k].append(linesPolygonYs[k][0])
-            self.graphWidget.plot(linesPolygonXs[k], linesPolygonYs[k],pen=penLine ,symbol='o', symbolSize=3, symbolBrush=brushLine)
+        # for k in linesPolygonYs.keys():
+        #     linesPolygonXs[k].append(linesPolygonXs[k][0])
+        #     linesPolygonYs[k].append(linesPolygonYs[k][0])
+        #     self.graphWidget.plot(linesPolygonXs[k], linesPolygonYs[k],pen=penLine ,symbol='o', symbolSize=3, symbolBrush=brushLine)
             
         
-        self.vLayoutChartComparative.addWidget(self.graphWidget)
+        # self.vLayoutChartComparative.addWidget(self.graphWidget)
     
    
