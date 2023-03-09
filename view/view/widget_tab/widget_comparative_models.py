@@ -31,7 +31,7 @@ from view.preferences.preferences import PreferenceGUI
 from view.model.comparative_models_model import ComparativeModelsModel
 
 from view.components import message_box as MB
-from view.components.chart_radal import ChartRadal
+from view.components.charts.chart_radal import ChartRadal
 
 import pyqtgraph as pg
 import math
@@ -183,13 +183,28 @@ class WidgetComparativeModel(WidgetTab):
     def createChartSpider(self):
         self.clearLayout(self.vLayoutChartComparative)
         
-        widgetChart = QWidget(self)
+        keysModelComparative = AnalysisData().getKeyModelCompare()
+        
+        yInt = []
+        yStr = []
+        
+        for i in range(1,len(keysModelComparative)+1):
+            yInt.append(i)
+            yStr.append(str(i))
+        
+        confiBasic = {
+            'minY':0, 'maxY':len(keysModelComparative)+1, 
+            'yticks': yInt, 
+            'yticksStr':yStr,
+            'title':'Comparativa grafica entre los diferentes modelos',
+            'showLegend':True,
+        }
         
         chart = ChartRadal(self)
-        chart.makeRadarChart("Comparativa grafica entre los diferentes modelos")
+        chart.makeRadarChart(confiBasic)
         self.vLayoutChartComparative.addWidget(chart)
         
-        # keysModelComparative = AnalysisData().getKeyModelCompare()
+        # 
         
         # countModels =len(keysModelComparative)
         
