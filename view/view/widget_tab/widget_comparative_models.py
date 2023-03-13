@@ -185,6 +185,8 @@ class WidgetComparativeModel(WidgetTab):
         
         keysModelComparative = AnalysisData().getKeyModelCompare()
         
+        dataFrame = AnalysisData().getDataFrameComparativeModel()
+        
         yInt = []
         yStr = []
         
@@ -201,86 +203,8 @@ class WidgetComparativeModel(WidgetTab):
         }
         
         chart = ChartRadal(self)
-        chart.makeRadarChart(confiBasic)
+        chart.makeRadarChart(confiBasic,dataFrame)
         self.vLayoutChartComparative.addWidget(chart)
         
-        # 
-        
-        # countModels =len(keysModelComparative)
-        
-        # indicators = ['R-cuadrado', 'R-cuadrado adjustado','AIC', 'BIC', 'RSME', 'Log-likehead']
-        # indicatorsKEY = [ModelLMR.RCUAD, ModelLMR.RCUAD_ADJUST, ModelLMR.AIC, ModelLMR.BIC, ModelLMR.RMSE_MODEL, ModelLMR.LOG_LIKELI_HEAD]
-        
-        # countIndicators = len(indicators)
-        # angleRotation = (2.00*math.pi)/countIndicators
-        
-        # xLineSpider=[0 for item in range(0, countModels+1)]
-        # yLineSpider=[item for item in range(0, countModels+1)]
-        
-        # xLineSpider.append(0)
-        # yLineSpider.append(yLineSpider[-1]+0.075)
-        
-        # colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
-        # colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
-        # colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
-        
-        # pg.setConfigOption('foreground', colorAxes)
-        # pg.setConfigOption('background', colorBackground)
-        # pg.setConfigOptions(antialias=True)
-        # self.graphWidget = pg.PlotWidget()
-        # self.graphWidget.setRenderHints(QPainter.Antialiasing)
-        # self.graphWidget.getPlotItem().hideAxis('bottom')
-        # self.graphWidget.getPlotItem().hideAxis('left')
-        # self.graphWidget.setMaximumWidth(self.listViewModel.geometry().height())
-        # self.graphWidget.setMaximumHeight(self.listViewModel.geometry().height())
-        
-        # penLine = pg.mkPen(color=colorAxes, width=1)
-        # brushLine = QBrush(QColor(colorAxes))
-        
-        # angle = 0
-        
-        # linesPolygonXs ={}
-        # linesPolygonYs ={}
-        
-        # for i in range(0,countIndicators):
-        #     xLineSpiderRotate = []
-        #     yLineSpiderRotate = []
-            
-        #     for j in range(0,len(xLineSpider)-1):
-                
-        #         if j != 0 and j not in linesPolygonXs.keys():
-        #             linesPolygonXs[j] = list()
-        #             linesPolygonYs[j] = list()
-                
-        #         xRotate = xLineSpider[j]*math.cos(angle)-yLineSpider[j]*math.sin(angle)
-        #         yRotate = yLineSpider[j]*math.cos(angle)+xLineSpider[j]*math.sin(angle)
-        #         xLineSpiderRotate.append(xRotate)
-        #         yLineSpiderRotate.append(yRotate)
-                
-        #         if j != 0:
-        #             linesPolygonXs[j].append(xRotate)
-        #             linesPolygonYs[j].append(yRotate)
-            
-        #     self.graphWidget.plot(xLineSpiderRotate, yLineSpiderRotate,pen=penLine ,symbol='o', symbolSize=3, symbolBrush=brushLine)
-            
-            
-            
-        #     xText = xLineSpider[-1]*math.cos(angle)-yLineSpider[-1]*math.sin(angle)
-        #     yText = yLineSpider[-1]*math.cos(angle)+xLineSpider[-1]*math.sin(angle)
-            
-        #     labelIndicators = pg.TextItem(text=indicators[i], color=colorAxes, anchor=(0, 1))
-        #     labelIndicators.setPos(xText,yText)
-        #     self.graphWidget.addItem(labelIndicators, ignoreBounds=True)
-            
-        #     angle=angleRotation+angle
-        
-          
-        # for k in linesPolygonYs.keys():
-        #     linesPolygonXs[k].append(linesPolygonXs[k][0])
-        #     linesPolygonYs[k].append(linesPolygonYs[k][0])
-        #     self.graphWidget.plot(linesPolygonXs[k], linesPolygonYs[k],pen=penLine ,symbol='o', symbolSize=3, symbolBrush=brushLine)
-            
-        
-        # self.vLayoutChartComparative.addWidget(self.graphWidget)
-    
+         
    

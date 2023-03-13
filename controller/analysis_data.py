@@ -3,6 +3,8 @@ from pattern.singleton import SingletonMeta
 from controller.manager_model import ManagerModel
 from controller.manager_variable import ManagerVariable
 
+from model.modelLMR import ModelLMR
+
 from util.read_excel import ReadExcel
 import pandas as pd
 
@@ -140,5 +142,59 @@ class AnalysisData(metaclass=SingletonMeta):
     
     def getKeyNameModels(self):
         return self.managerModels.getKeyNameModels()
-            
+    
+    def getDataFrameComparativeModel(self):
+        data={'models':[],
+              'R-Cuadrado':[],
+              'AIC':[],
+              'Log-likehead':[],
+              'R-cuadrado adjustado':[],
+              'RSME':[],
+              'BIC':[]}
+        
+        keyModelsCompare = self.managerModels.getKeyModelCompare()
+        
+        for key in keyModelsCompare:
+            data['models'].append(self.managerModels.getDataModel(key,ModelLMR.NAME))
+            data['R-Cuadrado'].append(self.managerModels.getDataModel(key,ModelLMR.RCUAD))
+            data['AIC'].append(self.managerModels.getDataModel(key, ModelLMR.AIC))
+            data['Log-likehead'].append(self.managerModels.getDataModel(key,ModelLMR.LOG_LIKELI_HEAD))
+            data['R-cuadrado adjustado'].append(self.managerModels.getDataModel(key,ModelLMR.RCUAD_ADJUST))
+            data['RSME'].append(self.managerModels.getDataModel(key,ModelLMR.RMSE_MODEL))
+            data['BIC'].append(self.managerModels.getDataModel(key,ModelLMR.BIC))
+        
+        data['AIC']=self.sortIndicators(data['AIC'],False)
+        data['RSME']=self.sortIndicators(data['RSME'],False)
+        data['BIC']=self.sortIndicators(data['BIC'],False)
+        data['R-Cuadrado']=self.sortIndicators(data['R-Cuadrado'],False)
+        data['R-cuadrado adjustado']=self.sortIndicators(data['R-cuadrado adjustado'],False)
+        data['Log-likehead']=self.sortIndicators(data['Log-likehead'],False)
+        
+        df = pd.DataFrame(data)
+        return df
+    
+    def sortIndicators(self,listIndicators,orderCre=True):
+        listOrder = []
+        
+        if orderCre == True:
+            for x in listIndicators:
+                listOrder.append(sum(i < x for i in listIndicators)+1)
+        else:
+            for x in listIndicators:
+                listOrder.append(sum(i > x for i in listIndicators)+1)
+        
+        print(listIndicators)
+        print(listOrder)
+        
+        listIndicators = listOrder
+        return listIndicators
+#         df = pd.DataFrame({
+# 'models': ['Model 1', 'Modelo 2','Modelo 3', 'Modelo 4', 'Modelo 5', 'Modelo 6'],
+# 'R-Cuadrado': [3, 1, 0, 4, 3, 4],
+# 'AIC': [2, 1, 6, 3, 2, 2],
+# 'Log-likehead': [0, 3, 2, 4, 4, 4],
+# 'R-cuadrado adjustado': [2, 1, 3, 4, 2,1],
+# 'RSME': [2, 5, 3, 4, 3, 1],
+# 'BIC': [2, 2, 3, 4, 3, 2]
+# })
         

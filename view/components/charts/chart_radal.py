@@ -36,12 +36,13 @@ class ChartRadal(FigureCanvas):
         
               
     
-    def makeRadarChart(self,config=confiBasic,dataFrame=df):
+    def makeRadarChart(self,config,dataFrame):
         
         my_palette = plt.cm.get_cmap("Set2", len(dataFrame.index))
         
         for row in range(0, len(dataFrame.index)):
-            self.make_spider( row=row, color=my_palette(row))
+            print("dgdg",row)
+            self.make_spider(dataFrame, row, my_palette(row))
         
         # Draw ylabels
         self.ax.set_rlabel_position(0)
@@ -59,9 +60,9 @@ class ChartRadal(FigureCanvas):
         if 'title' in config.keys():
             plt.title(config['title'], size=11, y=1.1)
             
-    def make_spider(self, row, color):
+    def make_spider(self,_dataFrame, row, color):
         # number of variable
-        categories=list(df)[1:]
+        categories=list(_dataFrame)[1:]
         N = len(categories)
         # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
         angles = [n / float(N) * 2 * pi for n in range(N)]
@@ -77,7 +78,7 @@ class ChartRadal(FigureCanvas):
     
 
     # Ind1
-        values=df.loc[row].drop('models').values.flatten().tolist()
+        values=_dataFrame.loc[row].drop('models').values.flatten().tolist()
         values += values[:1]
         self.ax.plot(angles, values, color=color, linewidth=2, linestyle='solid')
         #self.ax.fill(angles, values, color=color, alpha=0.4)
