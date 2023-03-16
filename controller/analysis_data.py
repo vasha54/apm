@@ -166,8 +166,8 @@ class AnalysisData(metaclass=SingletonMeta):
         data['AIC']=self.sortIndicators(data['AIC'],False)
         data['RSME']=self.sortIndicators(data['RSME'],False)
         data['BIC']=self.sortIndicators(data['BIC'],False)
-        data['R-Cuadrado']=self.sortIndicators(data['R-Cuadrado'],False)
-        data['R-cuadrado adjustado']=self.sortIndicators(data['R-cuadrado adjustado'],False)
+        data['R-Cuadrado']=self.sortIndicators(data['R-Cuadrado'],True)
+        data['R-cuadrado adjustado']=self.sortIndicators(data['R-cuadrado adjustado'],True)
         data['Log-likehead']=self.sortIndicators(data['Log-likehead'],False)
         
         df = pd.DataFrame(data)

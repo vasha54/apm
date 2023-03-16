@@ -119,7 +119,14 @@ class WidgetComparativeModel(WidgetTab):
         self.listViewModel.checked.connect(self.selectModel)
         
     def updateTab(self):
-        pass
+        click = False
+        if  self.tableViewModelCom.isVisible() ==True and  len(keysModelComparative) > 0:
+            click=True
+        self.createWorkspace()
+        
+        if click ==True:
+            self.compareModels()
+            
     
     def compareModels(self):
         keysModelComparative = AnalysisData().getKeyModelCompare()
