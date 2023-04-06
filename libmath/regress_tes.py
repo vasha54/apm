@@ -56,7 +56,7 @@ def generateBars(_list):
                 count = count + 1
         bars[index]['frequency'] = count
     
-    print(bars)
+    #print(bars)
      
     return bars
 

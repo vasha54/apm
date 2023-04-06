@@ -41,6 +41,10 @@ class ChartRadal(FigureCanvas):
         my_palette = plt.cm.get_cmap("Set2", len(dataFrame.index))
         
         for row in range(0, len(dataFrame.index)):
+<<<<<<< HEAD
+=======
+            #print("dgdg",row)
+>>>>>>> 077f726176b6a825fb9223a48178bbd1e7adabb3
             self.make_spider(dataFrame, row, my_palette(row))
         
         # Draw ylabels
@@ -56,8 +60,8 @@ class ChartRadal(FigureCanvas):
         if 'showLegend' in config.keys() and config['showLegend'] == True:
             plt.legend(labels =dataFrame['models'],loc='center left', bbox_to_anchor=(1, 0.5))
         
-        if 'title' in config.keys():
-            plt.title(config['title'], size=11, y=1.1)
+        # if 'title' in config.keys():
+        #     plt.title(config['title'], size=11, y=1.1)
             
     def make_spider(self,_dataFrame, row, color):
         # number of variable
