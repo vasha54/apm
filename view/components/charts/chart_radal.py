@@ -41,7 +41,6 @@ class ChartRadal(FigureCanvas):
         my_palette = plt.cm.get_cmap("Set2", len(dataFrame.index))
         
         for row in range(0, len(dataFrame.index)):
-            print("dgdg",row)
             self.make_spider(dataFrame, row, my_palette(row))
         
         # Draw ylabels
