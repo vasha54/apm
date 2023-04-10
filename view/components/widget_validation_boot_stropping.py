@@ -95,7 +95,6 @@ class WidgetValidationBootStropping(QWidget,Ui_WidgetValidationBootStropping):
             self.tWCharts.setRowHeight(j,250)
         
         for k,v in datas.items():
-            print(v)
             item = WidgetChartHistogram(v)
             self.tWCharts.setCellWidget(index//3,index%3,item)
             index = index +1 

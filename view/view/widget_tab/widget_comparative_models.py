@@ -174,7 +174,7 @@ class WidgetComparativeModel(WidgetTab):
         AnalysisData().addKeyModelCompare(keyModel)
         
     def changePreference(self,_listChange):
-        pass
+        self.updateTab()
     
     def clearLayout(self,layout):
         while layout.count():

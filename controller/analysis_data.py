@@ -183,9 +183,6 @@ class AnalysisData(metaclass=SingletonMeta):
             for x in listIndicators:
                 listOrder.append(sum(i > x for i in listIndicators)+1)
         
-        print(listIndicators)
-        print(listOrder)
-        
         listIndicators = listOrder
         return listIndicators
 #         df = pd.DataFrame({

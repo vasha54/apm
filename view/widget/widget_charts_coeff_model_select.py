@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from model.modelLMR import ModelLMR
 from view.preferences.preferences import PreferenceGUI
 from controller.analysis_data import AnalysisData
-from view.components.widget_chart_histogram_coeff import WidgetChartHistogramCoeff
+from view.components.charts.chart_histogram import ChartHistogram
 
 class WidgetChartsCoeffModelSelect(QWidget,Ui_WidgetChartsCoeffModelSelect):
     
@@ -46,7 +46,8 @@ class WidgetChartsCoeffModelSelect(QWidget,Ui_WidgetChartsCoeffModelSelect):
         
         for k,data in datas.items():
             self.tWidgetChart.setRowHeight(i//3,250)
-            widget = WidgetChartHistogramCoeff(data)
+            widget = ChartHistogram(self)
+            widget.makeHistogramChart(data)
             self.tWidgetChart.setCellWidget(i//3,i%3,widget)
             i=i+1
             

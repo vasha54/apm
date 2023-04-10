@@ -5,25 +5,26 @@ import pandas as pd
 from math import pi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from view.preferences.preferences import PreferenceGUI
 
-df = pd.DataFrame({
-'models': ['Model 1', 'Modelo 2','Modelo 3', 'Modelo 4', 'Modelo 5', 'Modelo 6'],
-'R-Cuadrado': [3, 1, 0, 4, 3, 4],
-'AIC': [2, 1, 6, 3, 2, 2],
-'Log-likehead': [0, 3, 2, 4, 4, 4],
-'R-cuadrado adjustado': [2, 1, 3, 4, 2,1],
-'RSME': [2, 5, 3, 4, 3, 1],
-'BIC': [2, 2, 3, 4, 3, 2]
-})
+# df = pd.DataFrame({
+# 'models': ['Model 1', 'Modelo 2','Modelo 3', 'Modelo 4', 'Modelo 5', 'Modelo 6'],
+# 'R-Cuadrado': [3, 1, 0, 4, 3, 4],
+# 'AIC': [2, 1, 6, 3, 2, 2],
+# 'Log-likehead': [0, 3, 2, 4, 4, 4],
+# 'R-cuadrado adjustado': [2, 1, 3, 4, 2,1],
+# 'RSME': [2, 5, 3, 4, 3, 1],
+# 'BIC': [2, 2, 3, 4, 3, 2]
+# })
 
-confiBasic = {
-   'minY':0,
-   'maxY':5,
-   'yticks': [1,2,3,4],
-   'yticksStr':["1","2","3","4"],
-   'title':'Comparativa grafica entre los diferentes modelos',
-   'showLegend':True
-}
+# confiBasic = {
+#    'minY':0,
+#    'maxY':5,
+#    'yticks': [1,2,3,4],
+#    'yticksStr':["1","2","3","4"],
+#    'title':'Comparativa grafica entre los diferentes modelos',
+#    'showLegend':True
+# }
 
 
 
@@ -38,13 +39,16 @@ class ChartRadal(FigureCanvas):
     
     def makeRadarChart(self,config,dataFrame):
         
+        colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
+        colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
+        colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
+        
+        
+        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
+        formatStr = '.'+str(placeDecimal)+'f' 
         my_palette = plt.cm.get_cmap("Set2", len(dataFrame.index))
         
         for row in range(0, len(dataFrame.index)):
-<<<<<<< HEAD
-=======
-            #print("dgdg",row)
->>>>>>> 077f726176b6a825fb9223a48178bbd1e7adabb3
             self.make_spider(dataFrame, row, my_palette(row))
         
         # Draw ylabels
@@ -55,11 +59,13 @@ class ChartRadal(FigureCanvas):
         if 'yticks' in config.keys() and 'yticksStr' in config.keys():
             plt.yticks(config['yticks'], config['yticksStr'], color="grey", size=7)
         
-        
+        self.fig.patch.set_alpha(0) 
         # Draw title and legend
         if 'showLegend' in config.keys() and config['showLegend'] == True:
             plt.legend(labels =dataFrame['models'],loc='center left', bbox_to_anchor=(1, 0.5))
-        
+        self.fig.patch.set_facecolor('#000000FF')
+        self.fig.patch.set_alpha(0)
+        self.ax.set_facecolor(colorBackground)
         # if 'title' in config.keys():
         #     plt.title(config['title'], size=11, y=1.1)
             

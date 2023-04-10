@@ -55,8 +55,6 @@ def generateBars(_list):
             if float(minInterval)<= float(v) and float(v) <= float(maxInterval):
                 count = count + 1
         bars[index]['frequency'] = count
-    
-    #print(bars)
      
     return bars
 
@@ -1173,7 +1171,7 @@ def chartCoeffModel(_model, **kwargs):
     
     for j in range(0,len(namesVariables)):
         name = namesVariables[j]
-        dictBetasCoeff[name] = {'name':name,'coef':list()}
+        dictBetasCoeff[name] = {'name':name,'coef':list(),'title_X':'Observación','title_Y':'DfBeta'}
         for i in range(g):
             dictBetasCoeff[name]['coef'].append(dfbetas[i][j])
     
