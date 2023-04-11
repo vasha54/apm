@@ -22,6 +22,7 @@ class WidgetChartsCoeffModelSelect(QWidget,Ui_WidgetChartsCoeffModelSelect):
         super().__init__(*args,**kwargs)
         self.setupUi(self)
         self.keyModel = _keyModel
+        self.charts = []
         self.createWorkSpace()
         PreferenceGUI.instance().subscribe(self)
         
@@ -44,19 +45,34 @@ class WidgetChartsCoeffModelSelect(QWidget,Ui_WidgetChartsCoeffModelSelect):
         
         i=0
         
+        colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
+        colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
+        colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
+        
         for k,data in datas.items():
             self.tWidgetChart.setRowHeight(i//3,250)
             widget = ChartHistogram(self)
             widget.makeHistogramChart(data)
+            widget.setColorText(colorText)
+            widget.setColorAxes(colorAxes)
+            widget.setColorBackground(colorBackground)
+            self.charts.append(widget)
             self.tWidgetChart.setCellWidget(i//3,i%3,widget)
             i=i+1
-            
-        
     
     def update(self):
         self.keyModel = AnalysisData().getKeyModelSelect()
+        self.charts.clear()
         self.createWorkSpace()
     
     def changePreference(self,_listChange):
         if PreferenceGUI.COLOR_AXES_CHART in _listChange or PreferenceGUI.COLOR_BACKGROUND_CHART in _listChange  or PreferenceGUI.COLOR_TEXT_CHART in _listChange:
-            self.update()
+            colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
+            colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
+            colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
+            
+            for chart in self.charts:
+                chart.setColorText(colorText)
+                chart.setColorAxes(colorAxes)
+                chart.setColorBackground(colorBackground)
+                
