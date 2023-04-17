@@ -37,7 +37,7 @@ class ChartRadal(FigureCanvas):
         
               
     
-    def makeRadarChart(self,config,dataFrame):
+    def makeChart(self,config,dataFrame):
         
         colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)

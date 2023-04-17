@@ -18,7 +18,7 @@ from controller.analysis_data import AnalysisData
 
 from view.view.widget_tab.widget_tab import WidgetTab
 from view.view.dialog_details_correlation import DialogDetailsCorrelation
-from view.components.widget_chart_item import WidgetChartItem
+from view.components.widget_chart_scatter import WidgetChartScatter
 from view.model.tableCorrelationModel import TableCorrelationModel
 from view.preferences.preferences import PreferenceGUI
 
@@ -116,7 +116,7 @@ class WidgetChartVariables(WidgetTab):
             self.tableWidgetChart.setRowHeight(j,250)
         
         for i in range(0,len(correlations)):
-            item = WidgetChartItem(correlations[i])
+            item = WidgetChartScatter(correlations[i])
             self.tableWidgetChart.setCellWidget(i//3,i%3,item)
                 
       

@@ -210,7 +210,7 @@ class WidgetComparativeModel(WidgetTab):
         }
         
         chart = ChartRadal(self)
-        chart.makeRadarChart(confiBasic,dataFrame)
+        chart.makeChart(confiBasic,dataFrame)
         self.vLayoutChartComparative.addWidget(chart)
         
          

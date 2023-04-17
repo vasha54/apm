@@ -99,21 +99,7 @@ class WidgetValidationBootStropping(QWidget,Ui_WidgetValidationBootStropping):
             self.tWCharts.setCellWidget(index//3,index%3,item)
             index = index +1 
         
-        # colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
-        # colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
-        # colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        # pg.setConfigOption('foreground', colorAxes)
-        # pg.setConfigOptions(antialias=True)
-        # self.graphWidget = pg.PlotWidget()
-        # self.graphWidget.setRenderHints(QPainter.Antialiasing)
-        
-        # styles = {'color':colorText, 'font-size':'10px'}
-        # self.graphWidget.setLabel('left', 'Frecuencia', **styles)
-        # self.graphWidget.setLabel('bottom', 'Coeficiente', **styles)
-        # self.graphWidget.setBackground(colorBackground)
-        
-        # self.vLayoutChart.addWidget(self.graphWidget)
         
     
         

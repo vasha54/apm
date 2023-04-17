@@ -52,7 +52,16 @@ class WidgetChartsCoeffModelSelect(QWidget,Ui_WidgetChartsCoeffModelSelect):
         for k,data in datas.items():
             self.tWidgetChart.setRowHeight(i//3,250)
             widget = ChartHistogram(self)
-            widget.makeHistogramChart(data)
+            dataChart= {}
+            if 'name' in data.keys():
+                dataChart['name']=data['name']
+            if 'title_X' in data.keys():
+                dataChart['title_X']=data['title_X']
+            if 'title_Y' in data.keys():
+                dataChart['title_Y']=data['title_Y']
+            if 'coef' in data.keys():
+                dataChart['heights']=data['coef']
+            widget.makeChart(dataChart)
             widget.setColorText(colorText)
             widget.setColorAxes(colorAxes)
             widget.setColorBackground(colorBackground)

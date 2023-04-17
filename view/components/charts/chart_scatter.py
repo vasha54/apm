@@ -3,7 +3,7 @@ from math import pi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
-class ChartHistogram(FigureCanvas):
+class ChartScatter(FigureCanvas):
         
     def __init__(self,parent):
         self.fig,self.ax = plt.subplots(1,1,constrained_layout=True)
@@ -14,20 +14,24 @@ class ChartHistogram(FigureCanvas):
     def makeChart(self,_data):
         self.data=_data
         
-        bars = list()
-        heights = list()
+        valuesX = list()
+        valuesY = list()
+        sizePoints =2
         
-        if 'heights' in _data.keys():
-            heights = _data['heights']
+        if 'valuesX' in _data.keys():
+            valuesX = _data['valuesX']
         
-        if 'bars' in _data.keys():
-            bars = _data['bars']
+        if 'valuesY' in _data.keys():
+            valuesY = _data['valuesY']
         
-        if len(bars) ==0 and len(heights) >0:
-            for i in range(0,len(heights)):
-                bars.append(i)
+        if 'sizePoints' in _data.keys():
+            sizePoints = _data['sizePoints']
         
-        plt.bar(bars, height=heights)
+        if len(valuesX) != len(valuesY) :
+            valuesX = list()
+            valuesY = list()
+        
+        plt.scatter(valuesX,valuesY,s=sizePoints)
         
 
         if 'name' in _data.keys():
@@ -88,11 +92,3 @@ class ChartHistogram(FigureCanvas):
         self.ax.set_facecolor(_color)
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()
-        
-    
-        
-        
-        
-
-        
-        
