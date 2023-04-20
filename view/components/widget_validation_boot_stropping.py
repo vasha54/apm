@@ -22,9 +22,6 @@ from view.components.widget_chart_histogram import WidgetChartHistogram
 
 from view.preferences.preferences import PreferenceGUI
 
-from pyqtgraph import PlotWidget, plot
-import pyqtgraph as pg
-
 class WidgetValidationBootStropping(QWidget,Ui_WidgetValidationBootStropping):
     
     

@@ -14,9 +14,8 @@ from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
 
 from view.preferences.preferences import PreferenceGUI
+from view.components.charts.chart_multiple import ChartMultiple
 
-from pyqtgraph import PlotWidget, plot
-import pyqtgraph as pg
 
 class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStudentized):
     def __init__(self,_keyModel,*args,**kwargs):
@@ -74,12 +73,6 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        pg.setConfigOption('foreground', colorAxes)
-        pg.setConfigOptions(antialias=True)
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.setRenderHints(QPainter.Antialiasing)
-        styles = {'color':colorText, 'font-size':'10px'}
-        
         serie = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_CHART_QQ_TEST_NORMAL_RESIDUAL_STUDENTIZED)
         xs = []
         ys = []
@@ -92,38 +85,27 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
             xLine = serie[2]
             yLine = serie[3]
         
+        self.graphWidgetOne = ChartMultiple(self)
+        self.graphWidgetOne.addPlot(xLine,yLine,color="#FF0000")
+        self.graphWidgetOne.addScatter(xs,ys,c="#000000")
         
-        self.graphWidget.setLabel('left', 'Cuartiles de los residuales', **styles)
-        self.graphWidget.setLabel('bottom', 'Cuartiles teoricos', **styles)
-        self.graphWidget.setBackground(colorBackground)
         
-        brush = QBrush(QColor(0,0,0,255))
-        brushLine = QBrush(QColor(255,0,0,255))
+        self.graphWidgetOne.setNameChart("Gráfica Q-Q de distribución normal")
+        self.graphWidgetOne.setTitleY("Cuartiles de los residuales")
+        self.graphWidgetOne.setTitleX("Cuartiles teoricos")
+        self.graphWidgetOne.setColorAxes(colorAxes)
+        self.graphWidgetOne.setColorBackground(colorBackground)
+        self.graphWidgetOne.setColorText(colorText)
         
-        penLine = pg.mkPen(color=(255, 0, 0), width=2)
         
-        self.graphWidget.plot(xLine, yLine,pen=penLine ,symbol=None, symbolSize=5, symbolBrush=brushLine)
-        self.graphWidget.plot(xs, ys,pen=None,symbol='o', symbolSize=5, symbolBrush=brush)
+        self.widgetGraphOne.layout().addWidget(self.graphWidgetOne)
         
-        self.widgetGraphOne.layout().addWidget(self.graphWidget)
         
-        self.labelTitleChartQQ.setStyleSheet("color:"+colorText+"; background-color:"+colorBackground+";")
-    
     
     def createChartDistributionResidualStudentized(self):
         colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
-        
-        pg.setConfigOption('foreground', colorAxes)
-        pg.setConfigOptions(antialias=True)
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.setRenderHints(QPainter.Antialiasing)
-        styles = {'color':colorText, 'font-size':'10px'}
-        
-        self.graphWidget.setLabel('left', 'Densidad', **styles)
-        self.graphWidget.setLabel('bottom', 'Residuales', **styles)
-        self.graphWidget.setBackground(colorBackground)
         
         series = AnalysisData().getDataModel(self.keyModel,ModelLMR.SERIE_CHART_DISTRIBUTION_RESIDUAL_STUDENTIZED)
         
@@ -137,17 +119,19 @@ class WidgetTestNormalResidualStudentized(QWidget,Ui_WidgetTestNormalResidualStu
             yKDE = series[1]
             xNormal = series[2]
             yNormal = series[3]
-            
-        penLineNormal = pg.mkPen(color=(255, 0, 0), width=2)
-        brushLineNormal = QBrush(QColor(255,0,0,255))
         
-        penLineKDE = pg.mkPen(color=(0, 0, 0), width=2)
-        self.graphWidget.addLegend()
-        self.graphWidget.plot(xNormal, yNormal, name = "Distribución normal", pen=penLineNormal , symbol=None, symbolSize=5, symbolBrush=brushLineNormal)
-        self.graphWidget.plot(xKDE,    yKDE   , name = "KDE", pen=penLineKDE    , symbol=None, symbolSize=None, symbolBrush=None)
+        self.graphWidgetTwo = ChartMultiple(self)
+        self.graphWidgetTwo.addPlot(xNormal,yNormal,color="#FF0000",label="Distribución normal")
+        self.graphWidgetTwo.addPlot(xKDE,yKDE,color="#000000",label="KDE")
         
-        self.widgetGraphTwo.layout().addWidget(self.graphWidget)
+        self.graphWidgetTwo.setNameChart("Distribución de los Residuales")
+        self.graphWidgetTwo.setTitleY("Densidad")
+        self.graphWidgetTwo.setTitleX("Residuales")
+        self.graphWidgetTwo.setColorAxes(colorAxes)
+        self.graphWidgetTwo.setColorBackground(colorBackground)
+        self.graphWidgetTwo.setColorText(colorText)
+        self.graphWidgetTwo.legend()
         
-        self.labelTitleDistributionResidual.setStyleSheet(" color:"+colorText+"; background-color:"+colorBackground+"; ")
+        self.widgetGraphTwo.layout().addWidget(self.graphWidgetTwo)
         
         

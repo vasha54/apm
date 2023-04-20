@@ -13,9 +13,7 @@ import PyQt5.QtCore
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
 from view.preferences.preferences import PreferenceGUI
-
-from pyqtgraph import PlotWidget, plot
-import pyqtgraph as pg
+from view.components.charts.chart_multiple import ChartMultiple
 
 class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadResidual):
     def __init__(self,_keyModel,*args,**kwargs):
@@ -50,7 +48,7 @@ class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadRe
     
     def changePreference(self,_listChange):
         self.update()
-        
+    
     def createChartValueObserverValueAdjust(self):
         
         data = AnalysisData().getDataModel(self.keyModel,ModelLMR.CHART_VALUE_OBSERVER_VALUE_ADJUST)
@@ -62,33 +60,24 @@ class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadRe
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        pg.setConfigOption('foreground', colorAxes)
-        pg.setConfigOptions(antialias=True)
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        self.chartVOVA = ChartMultiple(self)
         
-        styles = {'color':colorText, 'font-size':'10px'}
-        self.graphWidget.setLabel('left', 'Valores observados', **styles)
-        self.graphWidget.setLabel('bottom', 'Valores ajustados', **styles)
-        self.graphWidget.setBackground(colorBackground)
+        self.chartVOVA.addPlot(xs,ys,color='#FF0000')
+        self.chartVOVA.addScatter(data['x'], data['y'],c='#0000FF')
         
-        brushScatter = QBrush(QColor(0, 0, 255, 225))
-        penLine = pg.mkPen(color=(255, 0, 0), width=2)
-        
-        self.graphWidget.addLegend()
-        self.graphWidget.plot( xs, ys, pen=penLine,symbol=None, symbolSize=5, symbolBrush=None)
-        self.graphWidget.plot(data['x'], data['y'], pen=None,symbol='o', symbolSize=5, symbolBrush=brushScatter)
+        self.chartVOVA.setTitleX('Valores ajustados')
+        self.chartVOVA.setTitleY('Valores observados')
+        self.chartVOVA.setColorText(colorText)
+        self.chartVOVA.setColorAxes(colorAxes)
+        self.chartVOVA.setColorBackground(colorBackground)
         
         self.clearLayout(self.vLChartValueObserverValueAdjust)
+        self.vLChartValueObserverValueAdjust.addWidget(self.chartVOVA)
         
-        self.vLChartValueObserverValueAdjust.addWidget(self.graphWidget)
-        
-        
-    
+
     def createChartResidualValueAdjust(self):
         
         data =AnalysisData().getDataModel(self.keyModel,ModelLMR.CHART_RESIDUAL_VALUE_ADJUST)
-        
         
         xLine = [min(min(data['xCurve']),min(data['xScatter']))-0.05,max(max(data['xCurve']),max(data['xScatter']))+0.05]
         yLine = [0,0]
@@ -97,30 +86,20 @@ class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadRe
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        pg.setConfigOption('foreground', colorAxes)
-        pg.setConfigOptions(antialias=True)
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        self.chartRVA = ChartMultiple(self)
         
-        styles = {'color':colorText, 'font-size':'10px'}
-        self.graphWidget.setLabel('left', 'Valores observados', **styles)
-        self.graphWidget.setLabel('bottom', 'Valores ajustados', **styles)
-        self.graphWidget.setBackground(colorBackground)
+        self.chartRVA.addPlot(xLine,yLine,color='#000000',linestyle='dashed')
+        self.chartRVA.addPlot(data['xCurve'],data['yCurve'],color='#FF0000')
+        self.chartRVA.addScatter(data['xScatter'], data['yScatter'],c='#0000FF')
         
-        brushScatter = QBrush(QColor(0, 0, 255, 225))
-        penRed = pg.mkPen(color=(255, 0, 0), width=2)
-        penBlack = pg.mkPen(color=(0, 0, 0), width=2, style=PyQt5.QtCore.Qt.DashLine)
-        
-        self.graphWidget.addLegend()
-        self.graphWidget.plot(xLine, yLine, pen=penBlack,symbol=None, symbolSize=5, symbolBrush=None)
-        self.graphWidget.plot(data['xCurve'], data['yCurve'], pen=penRed,symbol=None, symbolSize=5, symbolBrush=None)
-        self.graphWidget.plot(data['xScatter'], data['yScatter'], pen=None, symbol='o', symbolSize=5, symbolBrush=brushScatter)
-        
+        self.chartRVA.setTitleX('Valores ajustados')
+        self.chartRVA.setTitleY('Valores observados')
+        self.chartRVA.setColorAxes(colorAxes)
+        self.chartRVA.setColorBackground(colorBackground)
+        self.chartRVA.setColorText(colorText)
         
         self.clearLayout(self.vLChartResidualValueAdjust)
-        
-        self.vLChartResidualValueAdjust.addWidget(self.graphWidget)
-        
+        self.vLChartResidualValueAdjust.addWidget(self.chartRVA)
         
     
     def clearLayout(self,layout):

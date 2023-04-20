@@ -5,7 +5,8 @@ import pandas as pd
 from math import pi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-from view.preferences.preferences import PreferenceGUI
+from view.components.charts.chart_abstract import ChartAbstract
+
 
 # df = pd.DataFrame({
 # 'models': ['Model 1', 'Modelo 2','Modelo 3', 'Modelo 4', 'Modelo 5', 'Modelo 6'],
@@ -28,48 +29,56 @@ from view.preferences.preferences import PreferenceGUI
 
 
 
-class ChartRadal(FigureCanvas):
+class ChartRadal(ChartAbstract):
     
     def __init__(self,parent):
         self.fig,self.ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        super().__init__(self.fig)
-        self.setParent(parent)
+        super().__init__(self.fig,self.ax,parent)
         
               
     
-    def makeChart(self,config,dataFrame):
+    def makeChart(self,_config,_dataFrame):
         
-        colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
-        colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
-        colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
+        colorText = '#000000'
+        colorBackground = '#FFFFFF' 
+        colorAxes = '#000000'
         
+        self.config = _config
+        self.dataFrame = _dataFrame
         
-        placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
-        formatStr = '.'+str(placeDecimal)+'f' 
-        my_palette = plt.cm.get_cmap("Set2", len(dataFrame.index))
+        if 'colorText' in self.config.keys():
+            colorText = self.config['colorText']
+            
+        if 'colorAxes' in self.config.keys():
+            colorAxes = self.config['colorAxes']
+            
+        if 'colorBackground' in self.config.keys():
+            colorBackground = self.config['colorBackground']
         
-        for row in range(0, len(dataFrame.index)):
-            self.make_spider(dataFrame, row, my_palette(row))
+        my_palette = plt.cm.get_cmap("Set2", len(self.dataFrame.index))
+        
+        for row in range(0, len(self.dataFrame.index)):
+            self.make_spider(self.dataFrame, row, my_palette(row),colorText)
         
         # Draw ylabels
         self.ax.set_rlabel_position(0)
-        if 'minY' in config.keys() and 'maxY' in config.keys() :
-            plt.ylim(float(config['minY']),float(config['maxY']))
+        if 'minY' in self.config.keys() and 'maxY' in self.config.keys() :
+            plt.ylim(float(self.config['minY']),float(self.config['maxY']))
         
-        if 'yticks' in config.keys() and 'yticksStr' in config.keys():
-            plt.yticks(config['yticks'], config['yticksStr'], color="grey", size=7)
+        if 'yticks' in self.config.keys() and 'yticksStr' in self.config.keys():
+            plt.yticks(self.config['yticks'], self.config['yticksStr'], color=colorText, size=7)
         
         self.fig.patch.set_alpha(0) 
         # Draw title and legend
-        if 'showLegend' in config.keys() and config['showLegend'] == True:
-            plt.legend(labels =dataFrame['models'],loc='center left', bbox_to_anchor=(1, 0.5))
+        if 'showLegend' in self.config.keys() and self.config['showLegend'] == True:
+            plt.legend(labels =self.dataFrame['models'],loc='center left', bbox_to_anchor=(1, 0.5))
         self.fig.patch.set_facecolor('#000000FF')
         self.fig.patch.set_alpha(0)
         self.ax.set_facecolor(colorBackground)
         # if 'title' in config.keys():
         #     plt.title(config['title'], size=11, y=1.1)
             
-    def make_spider(self,_dataFrame, row, color):
+    def make_spider(self,_dataFrame, row, color,colorText):
         # number of variable
         categories=list(_dataFrame)[1:]
         N = len(categories)
@@ -82,7 +91,7 @@ class ChartRadal(FigureCanvas):
         self.ax.set_theta_direction(-1)
 
     # Draw one axe per variable + add labels labels yet
-        plt.xticks(angles[:-1], categories, color='grey', size=8)
+        plt.xticks(angles[:-1], categories, color=colorText, size=8)
 
     
 

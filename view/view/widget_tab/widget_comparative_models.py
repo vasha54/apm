@@ -120,6 +120,7 @@ class WidgetComparativeModel(WidgetTab):
         
     def updateTab(self):
         click = False
+        keysModelComparative = AnalysisData().getKeyModelCompare()
         if  self.tableViewModelCom.isVisible() ==True and  len(keysModelComparative) > 0:
             click=True
         self.createWorkspace()
@@ -193,6 +194,9 @@ class WidgetComparativeModel(WidgetTab):
         keysModelComparative = AnalysisData().getKeyModelCompare()
         
         dataFrame = AnalysisData().getDataFrameComparativeModel()
+        colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
+        colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
+        colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
         yInt = []
         yStr = []
@@ -207,6 +211,9 @@ class WidgetComparativeModel(WidgetTab):
             'yticksStr':yStr,
             'title':'Comparativa grafica entre los diferentes modelos',
             'showLegend':True,
+            'colorText':colorText,
+            'colorAxes':colorAxes,
+            'colorBackground':colorBackground,
         }
         
         chart = ChartRadal(self)

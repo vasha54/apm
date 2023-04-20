@@ -113,12 +113,7 @@ class WidgetOthersChartsModelSelect(QWidget,Ui_WidgetOthersChartsModelSelect):
             widgetChart.setColorBackground(colorBackground)
             self.chartHistogram.append(widgetChart)
             
-            layout = QtWidgets.QVBoxLayout(self)
-            layout.setSpacing(0)
-            layout.addWidget(widgetChart)
-            widget = QWidget(self)
-            widget.setLayout(layout)
-            self.tWidgetCharts.setCellWidget(i//COLUMNS,i%COLUMNS,widget)
+            self.tWidgetCharts.setCellWidget(i//COLUMNS,i%COLUMNS,widgetChart)
             
             i=i+1
         
@@ -140,13 +135,7 @@ class WidgetOthersChartsModelSelect(QWidget,Ui_WidgetOthersChartsModelSelect):
         self.chartScatter.setColorBackground(colorBackground)
         self.chartScatter.setColorText(colorText)
         
-        layout = QtWidgets.QVBoxLayout(self)
-        layout.setSpacing(0)
-        layout.addWidget(self.chartScatter)
-        widget = QWidget(self)
-        widget.setLayout(layout)
-        
-        self.tWidgetCharts.setCellWidget(2,0,widget)
+        self.tWidgetCharts.setCellWidget(2,0,self.chartScatter)
         
     
         

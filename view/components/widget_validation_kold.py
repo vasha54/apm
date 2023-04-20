@@ -15,9 +15,8 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from view.ui.widget_validation_kold_ui import Ui_WidgetValidationKold
 
 from view.preferences.preferences import PreferenceGUI
+from view.components.charts.chart_multiple import ChartMultiple
 
-from pyqtgraph import PlotWidget, plot
-import pyqtgraph as pg
 
 class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
     
@@ -41,37 +40,26 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         kValue = int(self.sBK.value())
         data =AnalysisData().getDataModel(self.keyModel,ModelLMR.CHART_VALUES_PREDICTED_KFOLD,k=kValue)
         
+        xLine = [min(data['value-x'])-0.05,max(data['value-x'])+0.05]
+        yLine = [min(data['value-y'])-0.05,max(data['value-y'])+0.05]
         
         colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        pg.setConfigOption('foreground', colorAxes)
-        pg.setConfigOptions(antialias=True)
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        self.chartVPKFOLD = ChartMultiple(self)
         
-        styles = {'color':colorText, 'font-size':'10px'}
-        self.graphWidget.setLabel('left', 'Valores predichos por K-Fold', **styles)
-        self.graphWidget.setLabel('bottom', 'Valores predichos por el modelo (datos totales)', **styles)
-        self.graphWidget.setBackground(colorBackground)
+        self.chartVPKFOLD.addPlot(xLine, yLine,color='#FF0000')
+        self.chartVPKFOLD.addScatter(data['value-x'], data['value-y'],c='#0000FF')
         
-        penLine = pg.mkPen(color=(255, 0, 0), width=2)
-        brushLine = QBrush(QColor(255,0,0,255))
-        brush = QBrush(QColor(0,0,255,255))
-        
-        xLine = [min(data['value-x'])-0.05,max(data['value-x'])+0.05]
-        yLine = [min(data['value-y'])-0.05,max(data['value-y'])+0.05]
-        
-        self.graphWidget.addLegend()
-        
-        self.graphWidget.plot(xLine, yLine,pen=penLine ,symbol=None, symbolSize=5, symbolBrush=brushLine)
-        self.graphWidget.plot(data['value-x'], data['value-y'], pen=None,symbol='o', symbolSize=5, symbolBrush=brush)
+        self.chartVPKFOLD.setTitleX('Valores predichos por el modelo (datos totales)')
+        self.chartVPKFOLD.setTitleY('Valores predichos por K-Fold')
+        self.chartVPKFOLD.setColorAxes(colorAxes)
+        self.chartVPKFOLD.setColorBackground(colorBackground)
+        self.chartVPKFOLD.setColorText(colorText)
         
         self.clearLayout(self.vLayoutChartValuesPredichosKFold)
-        
-        self.vLayoutChartValuesPredichosKFold.addWidget(self.graphWidget)
-        
+        self.vLayoutChartValuesPredichosKFold.addWidget(self.chartVPKFOLD)
         
         
     def createChartNegRMSE(self):
@@ -90,28 +78,21 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        pg.setConfigOption('foreground', colorAxes)
-        pg.setConfigOptions(antialias=True)
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        self.chartNegRMSE = ChartMultiple(self)
         
-        styles = {'color':colorText, 'font-size':'10px'}
-        self.graphWidget.setLabel('left', 'Neg-RMSE', **styles)
-        self.graphWidget.setLabel('bottom', 'K-Folds', **styles)
-        self.graphWidget.setBackground(colorBackground)
+        self.chartNegRMSE.addPlot(dataXTest, dataYTest,label='Test de validación',color='#0000FF',marker='o',markersize=2)
+        self.chartNegRMSE.addPlot(dataXTrain, dataYTrain,label='Test de entrenamiento',color='#000000',marker='o',markersize=2)
         
-        brushTest = QtGui.QBrush(QtGui.QColor(0, 0, 255, 225))
-        penLineTest = pg.mkPen(color=(0, 0, 255), width=2)
-        brushTrain = QtGui.QBrush(QtGui.QColor(0, 0, 0, 255))
-        penLineTrain = pg.mkPen(color=(0, 0, 0), width=2)
-        
-        self.graphWidget.addLegend()
-        self.graphWidget.plot(dataXTest, dataYTest,name="Test de validación", pen=penLineTest,symbol='o', symbolSize=5, symbolBrush=brushTest)
-        self.graphWidget.plot(dataXTrain, dataYTrain,name="Test de entrenamiento", pen=penLineTrain,symbol='o', symbolSize=5, symbolBrush=brushTrain)
+        self.chartNegRMSE.setTitleX('K-Folds')
+        self.chartNegRMSE.setTitleY('Neg-RMSE')
+        self.chartNegRMSE.setColorAxes(colorAxes)
+        self.chartNegRMSE.setColorBackground(colorBackground)
+        self.chartNegRMSE.setColorText(colorText)
+        self.chartNegRMSE.legend()
         
         self.clearLayout(self.vLayoutChartNegRMSEKFold)
-        
-        self.vLayoutChartNegRMSEKFold.addWidget(self.graphWidget)
+        self.vLayoutChartNegRMSEKFold.addWidget(self.chartNegRMSE)
+         
     
     def createChartRSquare(self):
         kValue = int(self.sBK.value())
@@ -128,28 +109,21 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
         
-        pg.setConfigOption('foreground', colorAxes)
-        pg.setConfigOptions(antialias=True)
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.setRenderHints(QPainter.Antialiasing)
+        self.chartRSquare = ChartMultiple(self)
         
-        styles = {'color':colorText, 'font-size':'10px'}
-        self.graphWidget.setLabel('left', 'R-cuadrado', **styles)
-        self.graphWidget.setLabel('bottom', 'K-Folds', **styles)
-        self.graphWidget.setBackground(colorBackground)
+        self.chartRSquare.addPlot(dataXTest, dataYTest,label='Test de validación',color='#0000FF',marker='o',markersize=2)
+        self.chartRSquare.addPlot(dataXTrain, dataYTrain,label='Test de entrenamiento',color='#000000',marker='o',markersize=2)
         
-        brushTest = QtGui.QBrush(QtGui.QColor(0, 0, 255, 225))
-        penLineTest = pg.mkPen(color=(0, 0, 255), width=2)
-        brushTrain = QtGui.QBrush(QtGui.QColor(0, 0, 0, 255))
-        penLineTrain = pg.mkPen(color=(0, 0, 0), width=2)
-        
-        self.graphWidget.addLegend()
-        self.graphWidget.plot(dataXTest, dataYTest,name="Test de validación", pen=penLineTest,symbol='o', symbolSize=5, symbolBrush=brushTest)
-        self.graphWidget.plot(dataXTrain, dataYTrain,name="Test de entrenamiento", pen=penLineTrain,symbol='o', symbolSize=5, symbolBrush=brushTrain)
+        self.chartRSquare.setTitleX('K-Folds')
+        self.chartRSquare.setTitleY('R-cuadrado')
+        self.chartRSquare.setColorAxes(colorAxes)
+        self.chartRSquare.setColorBackground(colorBackground)
+        self.chartRSquare.setColorText(colorText)
+        self.chartRSquare.legend()
         
         self.clearLayout(self.vLayoutChartRSquareKFold)
-        
-        self.vLayoutChartRSquareKFold.addWidget(self.graphWidget)    
+        self.vLayoutChartRSquareKFold.addWidget(self.chartRSquare) 
+          
         
     def setKeyModel(self, _keyModel):
         self.keyModel = _keyModel
