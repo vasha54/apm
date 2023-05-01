@@ -67,7 +67,7 @@ class WidgetChartHistogram(QWidget):
         dataChart ={'heights':heights,
                'bars':bars,
                'title_Y':'Frecuencia',
-               'title_X':'Coeficientes',
+               'title_X':'Valores del coeficiente',
                'xticks':bars}
         
         self.chartHistogram = ChartHistogram(self)

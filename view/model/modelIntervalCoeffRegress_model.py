@@ -19,7 +19,7 @@ class ModelIntervalCoeffRegressModel(QAbstractTableModel):
     def __init__(self,_keyModel, parent=None):
         QAbstractTableModel.__init__(self, parent)
         self.keyModel=_keyModel
-        self.namesSectionHeader=['Termino','Limite inferior','Limite superior']
+        self.namesSectionHeader=['Término','Límite inferior','Límite superior']
         self.terms =['Intercepto']
         self.terms = self.terms+AnalysisData().getDataModel(self.keyModel,ModelLMR.ALL_NAME_VARI)
         self.lowerLimit = AnalysisData().getDataModel(self.keyModel,ModelLMR.LOWER_LIMIT_VAR)

@@ -111,7 +111,7 @@ class WidgetBuildModel(WidgetTab):
         self.verticalLayout_5 = QVBoxLayout()
         self.label_8 = QLabel(self.groupBox)
         self.label_8.setSizePolicy(sizePolicy)
-        self.label_8.setText("Alfa para los coeficientes de regresión")
+        self.label_8.setText("Nivel de significación")
         self.verticalLayout_5.addWidget(self.label_8)
 
         self.doubleSBIntervalConfidence = QDoubleSpinBox(self.groupBox)
@@ -313,7 +313,7 @@ class WidgetBuildModel(WidgetTab):
         
         if self.modelModelLMR.canAddThisModel(modelTes) == False:
             isModelOK = False
-            error = error +"- El modelo conformado quiza su nombre no sea igual pero su estructura (Variable Dependiente, las Variables Inpendientes sin importar su orden y su intervalo de confianza) es identica a otro ya definido\n"    
+            error = error +"- El modelo conformado quiza su nombre no sea igual pero su estructura (Variable Dependiente, las Variables Inpendientes sin importar su orden y su nivel de significación) es identica a otro ya definido\n"    
             
         return [isModelOK,error]          
     

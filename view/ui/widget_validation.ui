@@ -33,7 +33,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Validación por bootsstropping</string>
+      <string>Validación por bootstrapping</string>
      </property>
     </widget>
    </item>

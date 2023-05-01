@@ -19,7 +19,7 @@ class ModelResultRegressModel(QAbstractTableModel):
     def __init__(self,_keyModel, parent=None):
         QAbstractTableModel.__init__(self, parent)
         self.keyModel=_keyModel
-        self.namesSectionHeader=['Termino','Coeficiente','std error','t','P-valor']
+        self.namesSectionHeader=['Término','Coeficiente','std error','T del término','P-valor']
         self.terms =['Intercepto']
         self.terms = self.terms+AnalysisData().getDataModel(self.keyModel,ModelLMR.ALL_NAME_VARI)
         self.coeff = AnalysisData().getDataModel(self.keyModel,ModelLMR.COEFF_VAR)

@@ -33,8 +33,9 @@ class ModelLMR:
         modelStr = self.nameModel+"("+self.nameVariableD+"~"
         union="+"
         union=union.join(self.namesVariableI)
-        modelStr=modelStr+union+";"
-        modelStr=modelStr+"intervalo confianza->"+str(self.intervalConfidence)+")";
+        #modelStr=modelStr+")"
+        modelStr=modelStr+union+")"
+        #modelStr=modelStr+"intervalo confianza->"+str(self.intervalConfidence)+")";
         return modelStr
     
     def __eq__(self, _otherModel):

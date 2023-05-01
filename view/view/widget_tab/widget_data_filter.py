@@ -222,7 +222,7 @@ class WidgetDataFilter(WidgetTab):
         
         self.tableViewDataFrame.verticalHeader().hide()
         self.label.setText(u"Datos Iniciales")
-        self.label_2.setText(u"Selecciones las variables del gráfico de correlación")
+        self.label_2.setText(u"Seleccione las variables para los gráficos de dispersión")
         self.gBVariable.setTitle(u"Detalles de la variable")
         self.lOMin.setText(u"NA")
         self.label_10.setText(u"Cant. Obser.")
@@ -230,7 +230,7 @@ class WidgetDataFilter(WidgetTab):
         self.lOCV.setText(u"NA")
         self.lOMedian.setText(u"NA")
         self.label_5.setText(u"Varianza")
-        self.label_4.setText(u"CV")
+        self.label_4.setText(u"CV (%)")
         self.label_9.setText(u"M\u00ednimo")
         self.label_7.setText(u"Mediana")
         self.lOMedia.setText(u"NA")

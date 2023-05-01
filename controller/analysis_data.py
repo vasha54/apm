@@ -146,9 +146,9 @@ class AnalysisData(metaclass=SingletonMeta):
     def getDataFrameComparativeModel(self):
         data={'models':[],
               'R-Cuadrado':[],
-              'AIC':[],
-              'Log-likehead':[],
+              #'Log-likehead':[],
               'R-cuadrado adjustado':[],
+              'AIC':[],
               'RSME':[],
               'BIC':[]}
         
@@ -157,9 +157,9 @@ class AnalysisData(metaclass=SingletonMeta):
         for key in keyModelsCompare:
             data['models'].append(self.managerModels.getDataModel(key,ModelLMR.NAME))
             data['R-Cuadrado'].append(self.managerModels.getDataModel(key,ModelLMR.RCUAD))
-            data['AIC'].append(self.managerModels.getDataModel(key, ModelLMR.AIC))
-            data['Log-likehead'].append(self.managerModels.getDataModel(key,ModelLMR.LOG_LIKELI_HEAD))
+            #data['Log-likehead'].append(self.managerModels.getDataModel(key,ModelLMR.LOG_LIKELI_HEAD))
             data['R-cuadrado adjustado'].append(self.managerModels.getDataModel(key,ModelLMR.RCUAD_ADJUST))
+            data['AIC'].append(self.managerModels.getDataModel(key, ModelLMR.AIC))
             data['RSME'].append(self.managerModels.getDataModel(key,ModelLMR.RMSE_MODEL))
             data['BIC'].append(self.managerModels.getDataModel(key,ModelLMR.BIC))
         
@@ -168,7 +168,7 @@ class AnalysisData(metaclass=SingletonMeta):
         data['BIC']=self.sortIndicators(data['BIC'],False)
         data['R-Cuadrado']=self.sortIndicators(data['R-Cuadrado'],True)
         data['R-cuadrado adjustado']=self.sortIndicators(data['R-cuadrado adjustado'],True)
-        data['Log-likehead']=self.sortIndicators(data['Log-likehead'],False)
+        #data['Log-likehead']=self.sortIndicators(data['Log-likehead'],False)
         
         df = pd.DataFrame(data)
         return df

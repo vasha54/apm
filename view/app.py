@@ -11,7 +11,7 @@ from PyQt5.QtGui import(
 from PyQt5.QtCore import QSize,QDir
 
 from PyQt5.uic import loadUi
-from PyQt5 import QtCore
+from PyQt5 import QtCore,QtHelp
 from view.ui.mainwindow_ui import Ui_MainWindow
 from controller.analysis_data import AnalysisData
 from view.view.status_bar import StatusBar
@@ -78,7 +78,7 @@ class App(QMainWindow, Ui_MainWindow):
         #self.m_tabWidget.addTab(self.widgetDetailsModelSelect,"Detalles del modelo seleccionado");
         #self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste");
         #self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Análisis de extrapolación oculta");
-        #self.m_tabWidget.addTab(self.widgetValidate,"Validación");
+        #self.m_tabWidget.addTab(self.widgetValidate,"Pruebas de Validación");
         
         self.m_tabWidget.setTabEnabled(1,False)
         self.m_tabWidget.setTabEnabled(2,False)
@@ -266,7 +266,7 @@ class App(QMainWindow, Ui_MainWindow):
         index = self.m_tabWidget.indexOf(self.widgetQualityAdjustModel);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Calidad de ajuste al modelo")
+            index=self.m_tabWidget.addTab(self.widgetQualityAdjustModel,"Pruebas de calidad de ajuste")
         else:
             self.widgetQualityAdjustModel.updateTab()
             
@@ -282,7 +282,7 @@ class App(QMainWindow, Ui_MainWindow):
         index = self.m_tabWidget.indexOf(self.widgetInformationExtrapolacion);
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Información de Extrapolación")
+            index=self.m_tabWidget.addTab(self.widgetInformationExtrapolacion,"Análisis de extrapolación oculta")
         else:
             self.widgetInformationExtrapolacion.updateTab()
             
@@ -298,7 +298,7 @@ class App(QMainWindow, Ui_MainWindow):
         index = self.m_tabWidget.indexOf(self.widgetValidate)
         
         if index ==-1:
-            index=self.m_tabWidget.addTab(self.widgetValidate,"Validación")
+            index=self.m_tabWidget.addTab(self.widgetValidate,"Pruebas de Validación")
         else:
             self.widgetValidate.updateTab()
             
@@ -334,8 +334,8 @@ class App(QMainWindow, Ui_MainWindow):
                           "<p>- Python</p>",)
         
     def showHelp(self):
-        pass
-        #helpEngine = QHelpEngine('help/index.qch')
+        helpEngine = QtHelp.QHelpEngine('help/index.qch')
+        helpEngine.contentWidget().show()
         
     def showPreference(self):
         preferencesDialog = DialogPreference(self)

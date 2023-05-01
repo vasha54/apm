@@ -53,7 +53,7 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         self.chartVPKFOLD.addScatter(data['value-x'], data['value-y'],c='#0000FF')
         
         self.chartVPKFOLD.setTitleX('Valores predichos por el modelo (datos totales)')
-        self.chartVPKFOLD.setTitleY('Valores predichos por K-Fold')
+        self.chartVPKFOLD.setTitleY('Valores predichos por K-Folds')
         self.chartVPKFOLD.setColorAxes(colorAxes)
         self.chartVPKFOLD.setColorBackground(colorBackground)
         self.chartVPKFOLD.setColorText(colorText)

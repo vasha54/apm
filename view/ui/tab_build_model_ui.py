@@ -183,7 +183,7 @@ class Ui_WidgetDataBuildModel(object):
 "variables independientes influye de\n"
 "forma significativa en la modelacion"))
         self.label.setText(_translate("WidgetDataBuildModel", "Nombre del modelo"))
-        self.label_8.setText(_translate("WidgetDataBuildModel", "Intervalo de confianza"))
+        self.label_8.setText(_translate("WidgetDataBuildModel", "Nivel de significación"))
         self.label_3.setText(_translate("WidgetDataBuildModel", "Variable dependiente"))
         self.label_4.setText(_translate("WidgetDataBuildModel", "Variables independientes"))
         self.pBAddModel.setText(_translate("WidgetDataBuildModel", "Registrar modelo"))

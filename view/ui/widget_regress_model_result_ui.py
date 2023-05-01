@@ -277,5 +277,5 @@ class Ui_WidgetRegressModelResult(object):
         self.label_7.setText(_translate("WidgetRegressModelResult", "Log-likelihood:"))
         self.lOLagLikeHead.setText(_translate("WidgetRegressModelResult", "NA"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabGeneral), _translate("WidgetRegressModelResult", "General"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabResultRegress), _translate("WidgetRegressModelResult", "Resultados de la regresión"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabResultRegress), _translate("WidgetRegressModelResult", "Coeficientes de regresión"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabIntervalEstimateCoefRegress), _translate("WidgetRegressModelResult", "Intervalo de estimación de los coeficientes de regresión"))

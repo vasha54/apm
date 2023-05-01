@@ -120,7 +120,7 @@ forma significativa en la modelacion</string>
           <item>
            <widget class="QLabel" name="label_8">
             <property name="text">
-             <string>Intervalo de confianza</string>
+             <string>Nivel de significación</string>
             </property>
            </widget>
           </item>

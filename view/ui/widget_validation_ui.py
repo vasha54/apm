@@ -44,5 +44,5 @@ class Ui_WidgetValidation(object):
     def retranslateUi(self, WidgetValidation):
         _translate = QtCore.QCoreApplication.translate
         WidgetValidation.setWindowTitle(_translate("WidgetValidation", "Form"))
-        self.rBKFold.setText(_translate("WidgetValidation", "Validación cruzada por K-Fold"))
-        self.rbBootStro.setText(_translate("WidgetValidation", "Validación por bootsstropping"))
+        self.rBKFold.setText(_translate("WidgetValidation", "Validación cruzada por K-Folds"))
+        self.rbBootStro.setText(_translate("WidgetValidation", "Validación por bootstrapping"))

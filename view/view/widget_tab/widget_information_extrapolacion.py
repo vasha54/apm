@@ -62,7 +62,7 @@ class WidgetInformationExtrapolacion(WidgetTab):
         sizePolicy.setHeightForWidth(self.spBCountLevelN.sizePolicy().hasHeightForWidth())
         self.spBCountLevelN.setSizePolicy(sizePolicy)
         self.spBCountLevelN.setMinimum(2)
-        self.spBCountLevelN.setMaximum(10)
+        self.spBCountLevelN.setMaximum(5)
         self.spBCountLevelN.setProperty("value", 3)
         self.horizontalLayout_2.addWidget(self.spBCountLevelN)
         self.gridLayout.addLayout(self.horizontalLayout_2, 2, 0, 1, 1)

@@ -139,7 +139,7 @@ class Ui_WidgetValidationBootStropping(object):
     def retranslateUi(self, WidgetValidationBootStropping):
         _translate = QtCore.QCoreApplication.translate
         WidgetValidationBootStropping.setWindowTitle(_translate("WidgetValidationBootStropping", "Form"))
-        self.label.setText(_translate("WidgetValidationBootStropping", "Cantidad de boot:"))
+        self.label.setText(_translate("WidgetValidationBootStropping", "Cantidad de boots:"))
         self.pBAnalizar.setText(_translate("WidgetValidationBootStropping", "Analizar"))
         self.gBResult.setTitle(_translate("WidgetValidationBootStropping", "Resultado"))
         self.label_2.setText(_translate("WidgetValidationBootStropping", "Media del RSME:"))

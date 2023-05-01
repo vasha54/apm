@@ -132,7 +132,7 @@ class Ui_DialogDetailsModel(object):
         self.label_3.setText(_translate("DialogDetailsModel", "Variable dependiente:"))
         self.lONameVarD.setText(_translate("DialogDetailsModel", "NA"))
         self.label_4.setText(_translate("DialogDetailsModel", "Variable independientes:"))
-        self.label_5.setText(_translate("DialogDetailsModel", "Intervalo de confianza:"))
+        self.label_5.setText(_translate("DialogDetailsModel", "Nivel de significación:"))
         self.lOIntervalConfidence.setText(_translate("DialogDetailsModel", "NA"))
         self.label.setText(_translate("DialogDetailsModel", "Observaciones de las variables"))
 

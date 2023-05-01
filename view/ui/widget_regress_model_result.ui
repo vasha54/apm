@@ -490,7 +490,7 @@
      </widget>
      <widget class="QWidget" name="tabResultRegress">
       <attribute name="title">
-       <string>Resultados de la regresión</string>
+       <string>Coeficientes de regresión</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>

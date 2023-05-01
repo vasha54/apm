@@ -114,7 +114,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Intervalo de confianza:</string>
+         <string>Nivel de significación:</string>
         </property>
        </widget>
       </item>

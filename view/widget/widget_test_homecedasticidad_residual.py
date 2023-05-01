@@ -93,7 +93,7 @@ class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadRe
         self.chartRVA.addScatter(data['xScatter'], data['yScatter'],c='#0000FF')
         
         self.chartRVA.setTitleX('Valores ajustados')
-        self.chartRVA.setTitleY('Valores observados')
+        self.chartRVA.setTitleY('Residuales')
         self.chartRVA.setColorAxes(colorAxes)
         self.chartRVA.setColorBackground(colorBackground)
         self.chartRVA.setColorText(colorText)

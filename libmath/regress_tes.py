@@ -1171,7 +1171,7 @@ def chartCoeffModel(_model, **kwargs):
     
     for j in range(0,len(namesVariables)):
         name = namesVariables[j]
-        dictBetasCoeff[name] = {'name':name,'coef':list(),'title_X':'Observación','title_Y':'DfBeta'}
+        dictBetasCoeff[name] = {'name':name,'coef':list(),'title_X':'Observación','title_Y':'DFBETAS'}
         for i in range(g):
             dictBetasCoeff[name]['coef'].append(dfbetas[i][j])
     

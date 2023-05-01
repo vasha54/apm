@@ -88,7 +88,7 @@ class WidgetOthersChartsModelSelect(QWidget,Ui_WidgetOthersChartsModelSelect):
                       {'heights':AnalysisData().getDataModel(self.keyModel,ModelLMR.DISTANCE_COOKS),
                        'bars':dataX,
                        'title_X':'Observación',
-                       'title_Y':'Distancia de Cooks'},
+                       'title_Y':'Distancia de Cook'},
                       {'heights':AnalysisData().getDataModel(self.keyModel,ModelLMR.LEVERAGE),
                        'bars':dataX,
                        'title_X':'Observación',
@@ -96,11 +96,11 @@ class WidgetOthersChartsModelSelect(QWidget,Ui_WidgetOthersChartsModelSelect):
                       {'heights':AnalysisData().getDataModel(self.keyModel,ModelLMR.COVARIANCE_RATIO),
                        'bars':dataX,
                        'title_X':'Observación',
-                       'title_Y':'Ratio se la covarianza'},
+                       'title_Y':'COVARATIO'},
                       {'heights':AnalysisData().getDataModel(self.keyModel,ModelLMR.DFFITS),
                        'bars':dataX,
                        'title_X':'Observación',
-                       'title_Y':'DfFit'}]
+                       'title_Y':'DFFITS'}]
         
         i = 0
         
@@ -125,7 +125,7 @@ class WidgetOthersChartsModelSelect(QWidget,Ui_WidgetOthersChartsModelSelect):
         
         dataChart ={'valuesX':AnalysisData().getDataModel(self.keyModel,ModelLMR.LEVERAGE),
                     'valuesY':AnalysisData().getDataModel(self.keyModel,ModelLMR.DISTANCE_COOKS),
-                    'title_Y':'Distancia de Cooks',
+                    'title_Y':'Distancia de Cook',
                     'title_X':'Leverage',
                     'sizePoints':5}
         

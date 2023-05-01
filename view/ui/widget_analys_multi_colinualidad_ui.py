@@ -418,7 +418,7 @@ class Ui_WidgetAnalysMultiColinualidad(object):
         self.lOutputTestHarveyCollierPValue.setText(_translate("WidgetAnalysMultiColinualidad", "NA"))
         self.label_4.setText(_translate("WidgetAnalysMultiColinualidad", "Media de los residuales sin escalamiento:"))
         self.lOutputMeanResidualNotScaled.setText(_translate("WidgetAnalysMultiColinualidad", "NA"))
-        self.label_5.setText(_translate("WidgetAnalysMultiColinualidad", "Media de los residuales estudertizados:"))
+        self.label_5.setText(_translate("WidgetAnalysMultiColinualidad", "Media de los residuales estudentizados:"))
         self.lOutputMeanResidualStudentized.setText(_translate("WidgetAnalysMultiColinualidad", "NA"))
         self.label_7.setText(_translate("WidgetAnalysMultiColinualidad", "Prueba de Rainbow de linealidad"))
         self.label_14.setText(_translate("WidgetAnalysMultiColinualidad", "F:"))

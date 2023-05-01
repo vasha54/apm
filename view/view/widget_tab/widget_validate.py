@@ -36,8 +36,8 @@ class WidgetValidate(WidgetTab):
         self.gridLayout.addWidget(self.subWidget, 1, 0, 1, 2)
         self.pushButtonNext.setVisible(True)
         
-        self.rBKFold.setText("Validación cruzada por K-Fold")
-        self.rbBootStro.setText("Validación por bootsstropping")
+        self.rBKFold.setText("Validación cruzada por K-Folds")
+        self.rbBootStro.setText("Validación por bootstrapping")
     
     def createWorkspace(self):
         self.keyModel = AnalysisData().getKeyModelSelect()

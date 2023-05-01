@@ -11,7 +11,7 @@ from view.preferences.preferences import PreferenceGUI
 class LimitVariableInpendentModel(QAbstractTableModel):
     def __init__(self,_keyModel, parent=None):
         QAbstractTableModel.__init__(self, parent)
-        self.headersName=['Variables', 'Límite inferior', 'Limite superior']
+        self.headersName=['Variables', 'Límite inferior', 'Límite superior']
         self.keyModel = _keyModel
         self.namesVarI = AnalysisData().getDataModel(self.keyModel,ModelLMR.ALL_NAME_VARI)
         self.decimalPlaces = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))

@@ -44,9 +44,9 @@ class WidgetDetailsModelSelect(WidgetTab):
         
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualNotScale,"Análisis de normalidad (Residuales no escalados)")
         self.tabWidgetDetailsModelSelect.addTab(self.tabTestNormalResidualStudentized,"Análisis de normalidad (Residuales estudertizados)")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabTestHomecedasticidadResidual,"Análisis de homecedasticidad de los residuales")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabAnalysMultiColinualidad,"Análisis de multicolinealidad")
-        self.tabWidgetDetailsModelSelect.addTab(self.tabChartsCoeffModelSelect,"Gráficas de los coeficientes del modelo")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabTestHomecedasticidadResidual,"Homocedasticidad e independencia de los residuales")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabAnalysMultiColinualidad,"VIF, linealidad y especificación")
+        self.tabWidgetDetailsModelSelect.addTab(self.tabChartsCoeffModelSelect,"DFBTAS")
         self.tabWidgetDetailsModelSelect.addTab(self.tabOthersChartsModelSelect,"Otros gráficos")
         
         
