@@ -45,6 +45,8 @@ class DialogHelp(QDialog):
         self.setLayout(self.hLayout)
         self.setWindowIcon(QIcon(":/img/ayuda.png"))
         self.setWindowTitle("Ayuda de LinReg")
+        self.setMinimumWidth(800)
+        self.setMinimumHeight(500)
     
     def createConnect(self):
         pass

@@ -4,9 +4,18 @@
     <virtualFolder>doc</virtualFolder>
     <filterSection>
         <toc>
-            <section title="QGraphics Help Example" ref="index.html">
-                <section title="Insert object" ref="insertobject.html"></section>
-                <section title="Delete object" ref="deleteobject.html"></section>
+            <section title="¿Qué es LinReg?" ref="index.html">
+                <section title="¿Cómo usar LinReg?" ref="insertobject.html"></section>
+                <section title="Importación de datos" ref="deleteobject.html"></section>
+                <section title="Selección de datos y Análisis estadístico básico de las variables involucradas" ref="deleteobject.html"></section>
+                <section title="Análisis exploratorio de datos y detección de correlaciones o correspondencias entre las variables" ref="deleteobject.html"></section>
+                <section title="Selección de la variable dependientes e independientes y conformación de los modelos matemáticos" ref="deleteobject.html"></section>
+                <section title="Análisis de los resultados generales de la regresión" ref="deleteobject.html"></section>
+                <section title="Comprobación de los supuestos de la regresión lineal, pruebas de especificación de los modelos lineales, multicolinealidad y detección de outliers" ref="deleteobject.html"></section>
+                <section title="Análisis de la calidad de ajuste de los modelos matemáticos" ref="deleteobject.html"></section>
+                <section title="Establecimiento del intervalo de aplicación a partir de análisis de extrapolación oculta" ref="deleteobject.html"></section>
+                <section title="Validación de los modelos matemáticos por técnicas de machine learning" ref="deleteobject.html"></section>
+                <section title="Comparar diferentes alternativas de modelos matemáticos" ref="deleteobject.html"></section>
             </section>
         </toc>
         <keywords>
