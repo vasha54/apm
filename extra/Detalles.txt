@@ -9,3 +9,6 @@ Asistente para el desarrollo de análisis de regresión lineal
 
 
 qhelpgenerator doc.qhp -o doc.qch
+
+
+qhelpgenerator qgraphicshelpexample.qhcp -o qgraphicshelpexample.qhc

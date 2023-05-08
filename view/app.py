@@ -29,9 +29,13 @@ from view.view.widget_tab.widget_comparative_models import WidgetComparativeMode
 from view.view.widget_tab.widget_tab import WidgetTab
 from view.view.widget_tab.presentation_ui_v2 import Ui_WidgetPresentacion
 from view.dialog.dialog_preference import DialogPreference
+from view.dialog.dialog_help import DialogHelp
 
 from view.resource import resource
 
+import os
+
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 class App(QMainWindow, Ui_MainWindow):
 
@@ -334,8 +338,8 @@ class App(QMainWindow, Ui_MainWindow):
                           "<p>- Python</p>",)
         
     def showHelp(self):
-        helpEngine = QtHelp.QHelpEngine('help/index.qch')
-        helpEngine.contentWidget().show()
+        helpDialog = DialogHelp(CURRENT_DIR,self)
+        helpDialog.exec()
         
     def showPreference(self):
         preferencesDialog = DialogPreference(self)
