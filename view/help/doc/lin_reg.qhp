@@ -5,17 +5,18 @@
     <filterSection>
         <toc>
             <section title="¿Qué es LinReg?" ref="index.html">
-                <section title="¿Cómo usar LinReg?" ref="insertobject.html"></section>
-                <section title="Importación de datos" ref="deleteobject.html"></section>
-                <section title="Selección de datos y Análisis estadístico básico de las variables involucradas" ref="deleteobject.html"></section>
-                <section title="Análisis exploratorio de datos y detección de correlaciones o correspondencias entre las variables" ref="deleteobject.html"></section>
-                <section title="Selección de la variable dependientes e independientes y conformación de los modelos matemáticos" ref="deleteobject.html"></section>
-                <section title="Análisis de los resultados generales de la regresión" ref="deleteobject.html"></section>
-                <section title="Comprobación de los supuestos de la regresión lineal, pruebas de especificación de los modelos lineales, multicolinealidad y detección de outliers" ref="deleteobject.html"></section>
-                <section title="Análisis de la calidad de ajuste de los modelos matemáticos" ref="deleteobject.html"></section>
-                <section title="Establecimiento del intervalo de aplicación a partir de análisis de extrapolación oculta" ref="deleteobject.html"></section>
-                <section title="Validación de los modelos matemáticos por técnicas de machine learning" ref="deleteobject.html"></section>
-                <section title="Comparar diferentes alternativas de modelos matemáticos" ref="deleteobject.html"></section>
+                <section title="¿Cómo usar LinReg?" ref="how_to_use_linreg.html"></section>
+                <section title="Importación de datos" ref="data_import.html"></section>
+                <section title="Selección de datos y Análisis estadístico básico de las variables involucradas" ref="leaked_data.html"></section>
+                <section title="Análisis exploratorio de datos y detección de correlaciones o correspondencias entre las variables" ref="correlation.html"></section>
+                <section title="Selección de la variable dependientes e independientes y conformación de los modelos matemáticos" ref="conformation_models.html"></section>
+                <section title="Análisis de los resultados generales de la regresión" ref="regression_results.html"></section>
+                <section title="Comprobación de los supuestos de la regresión lineal, pruebas de especificación de los modelos lineales, multicolinealidad y detección de outliers" ref="suitability_tests.html"></section>
+                <section title="Análisis de la calidad de ajuste de los modelos matemáticos" ref="fit_quality_tests.html"></section>
+                <section title="Establecimiento del intervalo de aplicación a partir de análisis de extrapolación oculta" ref="hidden_extrapolation_analysis.html"></section>
+                <section title="Validación de los modelos matemáticos por técnicas de machine learning" ref="validation_tests.html"></section>
+                <section title="Comparar diferentes alternativas de modelos matemáticos" ref="model_comparison.html"></section>
+                <section title="Referencias bibliográficas" ref="bibliographic_references.html"></section>
             </section>
         </toc>
         <keywords>
@@ -25,10 +26,18 @@
         </keywords>
         <files>
             <file>index.html</file>
-            <file>insertobject.html</file>
-            <file>insertellipse.html</file>
-            <file>insertrectangle.html</file>
-            <file>deleteobject.html</file>
+            <file>how_to_use_linreg.html</file>
+            <file>data_import.html</file>
+            <file>leaked_data.html</file>
+            <file>correlation.html</file>
+            <file>fit_quality_tests.html</file>
+            <file>validation_tests.html</file>
+            <file>model_comparison.html</file>
+            <file>conformation_models.html</file>
+            <file>hidden_extrapolation_analysis.html</file>
+            <file>regression_results.html</file>
+            <file>suitability_tests.html</file>
+            <file>bibliographic_references.html</file>
             <file>img/ellipse.png</file>
             <file>img/rectangle.png</file>
         </files>
