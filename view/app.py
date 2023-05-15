@@ -47,7 +47,7 @@ class App(QMainWindow, Ui_MainWindow):
         self.preference = PreferenceGUI.instance().subscribe(self)
 
     def createWorkSpace(self):
-        self.createMenuBar()
+        #self.createMenuBar()
         self.createToolsBars()
         self.createCentralWidget()
         self.createStatusBar()

@@ -121,6 +121,8 @@ class WidgetInformationExtrapolacion(WidgetTab):
         self.tableViewVarIND.setSizePolicy(sizePolicy)
         self.tableViewVarIND.setMinimumSize(QtCore.QSize(0, 0))
         self.tableViewVarIND.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableViewVarIND.setMinimumWidth(500)
+        self.tableViewVarIND.setMaximumWidth(500)
         self.hideShowComponentsResult(False)
         self.tableViewPointsExtrapolation.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.tableViewPointsExtrapolation.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)

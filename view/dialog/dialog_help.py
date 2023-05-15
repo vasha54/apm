@@ -27,7 +27,7 @@ class DialogHelp(QDialog):
         self.tWidget = QtWidgets.QTabWidget(self)
         self.tWidget.setMaximumWidth(200)
         self.tWidget.addTab(self.helpEngine.contentWidget(), "Contenidos")
-        self.tWidget.addTab(self.helpEngine.indexWidget(), "Índices")
+        #self.tWidget.addTab(self.helpEngine.indexWidget(), "Índices")
         
         self.textViewer = HelpBrowser(self.helpEngine,self)
         self.textViewer.setSource(QtCore.QUrl("qthelp://lin_reg.umcc.cu/doc/index.html"))
@@ -45,7 +45,7 @@ class DialogHelp(QDialog):
         self.setLayout(self.hLayout)
         self.setWindowIcon(QIcon(":/img/ayuda.png"))
         self.setWindowTitle("Ayuda de LinReg")
-        self.setMinimumWidth(800)
+        self.setMinimumWidth(860)
         self.setMinimumHeight(500)
     
     def createConnect(self):

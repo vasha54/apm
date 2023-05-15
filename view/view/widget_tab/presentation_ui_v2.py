@@ -41,7 +41,7 @@ class Ui_WidgetPresentacion(QtWidgets.QWidget):
         painter.translate(center)
         painter.scale(1*self.width()/2579.0,1*self.height()/1576.0)
         painter.translate(0-2579/2,0-1576/2)
-        painter.drawPixmap(0,0,2579,1576,QPixmap(":/img/portada.png"))
+        painter.drawPixmap(0,0,2579,1576,QPixmap(":/img/portada_1.png"))
         
        
 

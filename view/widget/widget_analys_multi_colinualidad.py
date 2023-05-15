@@ -38,6 +38,7 @@ class WidgetAnalysMultiColinualidad(QWidget,Ui_WidgetAnalysMultiColinualidad):
         self.tableViewMultiColinealidad.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.tableViewMultiColinealidad.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
         
+        
         placeDecimal = int(PreferenceGUI.instance().getValueSettings(PreferenceGUI.DECIMAL_PLACES))
         formatStr = '.'+str(placeDecimal)+'f'
         
