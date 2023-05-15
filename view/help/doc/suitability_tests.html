@@ -1,0 +1,156 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8   ">
+    <title>Comprobación de los supuestos de la regresión lineal, pruebas de especificación de los modelos lineales, multicolinealidad y detección de <i>outliers</i></title>
+</head>
+<body>
+<h3>Comprobación de los supuestos de la regresión lineal, pruebas de especificación de los modelos lineales, 
+    multicolinealidad y detección de <i>outliers</i></h3>
+
+<p>Esta pestaña es de gran importancia ya que forma parte del proceso de validación matemática de los modelos 
+    matemáticos. A través de sus diferentes análisis se evalúa si desde un punto de vista estadístico el 
+    modelo es adecuado, aunque sin hacer inferencias propiamente a pruebas formales de calidad de ajuste 
+    (las que se abordan debidamente en otra pestaña). </p>
+
+<p>De gran importancia reviste la comprobación de los supuestos de la regresión lineal (normalidad, independencia 
+    y homocedasticidad de los residuales) ya que tal como plantea <cite>Montgomery et al. (2002)</cite> los modelos de 
+    regresión serán solamente válidos si estos son satisfechos. A su vez se disponen de pruebas de linealidad y 
+    especificación, a través de las cuales puede corroborarse la adecuada formulación de la estructura matemática 
+    y de diferentes análisis para la detección de outliers influyentes. Estos últimos no deberían tenerse en 
+    consideración ya que pueden conducir a explicaciones incorrectas del modelo y conllevar a desviaciones en su 
+    descripción, así como falsear la verdadera calidad de ajuste del mismo a la colección de datos de proceso. 
+    Se determina el valor de inflación de la varianza para detectar posibles problemas de multicolinealidad y 
+    por tanto, evitar el enmascaramiento de efectos, interferencias en la respuesta y mala especificación del 
+    modelo; por ello es necesario que un término independiente no pueda expresarse a partir de uno o más 
+    términos independientes del modelo (debe ser legítimamente independiente).</p>
+
+<p>La información que se muestra es la asociada al modelo que se selecciona en la pestaña anterior 
+    (<i>Resultados de la regresión</i>), de forma tal que si se necesita ver la información de otro modelo, 
+    debe antes en esa pestaña seleccionarse y luego presionar el botón siguiente. Los resultados están divididos 
+    en las sub-pestañas siguientes:</p>
+
+<ul>
+    <li>Análisis de normalidad (residuales no escalados)</li>
+    <li>Análisis de normalidad (residuales estudentizados)</li>
+    <li>Homocedasticidad e independencia de los residuales</li>
+    <li>VIF, linealidad y especificación</li>
+    <li>DFBETAS</li>
+    <li>Otros gráficos</li>
+</ul>
+
+<p>Los análisis de normalidad con residuales no escalados parten de los residuales directos, sin ningún tipo de 
+    transformación mientras que la de los residuales escalados corresponde a los residuales estudentizados 
+    (externamente); variante potencialmente útil para la detección de outliers de acuerdo a <cite>Montgomery et al. 
+    (2002)</cite>. Las pruebas que se implementan al respecto se realizan para una confianza del 95% a partir dela 
+    librería <i>SciPy</i> <cite>(Virtanen, 2020)</cite> y son las siguientes:</p>
+
+<ul>
+    <li>Prueba de Lilliefors</li>
+    <li>Prueba de Shapiro-Wilk</li>
+    <li>Prueba de Kolmogorov-Smirnov</li>
+    <li>Prueba de Jarque-Bera</li>
+    <li>Prueba de K2 de D´Angostino</li>
+    <li>Prueba de Chi-Cuadrado</li>
+    <li>Prueba de Anderson-Darling</li>
+</ul>
+
+<p>Para cada prueba se determina el valor del estadígrafo correspondiente (que se presenta con siglas 
+    relacionadas con el nombre de la misma) y el P-valor. En estas, si el P-valor es mayor que el 
+    nivel de significación resulta que NO existen evidencias que supongan el rechazo de la idea 
+    que los residuales siguen una distribución normal. Alternativamente, se determinan los 
+    valores de los coeficientes de Curtosis y de asimetría, y se muestran los gráficos Q-Q 
+    de los residuales y de distribución de densidad.</p>
+
+<p>Los valores de los coeficientes de Curtosis y asimetría deben encontrarse entre -2 y 2 para que los 
+    residuales presenten una distribución normal. La distribución de la densidad de los residuales
+     debe asemejarse a la de distribución normal de referencia; y del mismo modo, los residuales 
+     deben de posicionarse sobre la línea de referencia en el gráfico Q-Q.</p>
+
+<p>Los análisis de homocedasticidad (varianza constante de los residuales e independiente del valor ajustado) 
+    se realizan a partir de la prueba de Breush-Pagan, la prueba de Goldfeld-Quandt y la prueba de White. 
+    En las mismas se determina el valor del estadígrafo asociado (representado con las siglas de la prueba) 
+    y el P-valor para una confianza del 95% a través del paquete <i>statsmodels</i> <cite>(Seabold y Perktold, 2010)</cite>. 
+    No es probable que los residuales sean homocedásticos si el P-valor de cada prueba es menor que el 
+    nivel de significación.</p>
+
+<p>Complementariamente se muestran los gráficos de Residuales vs Valor ajustado, en donde debe apreciarse 
+    una total dispersión y sin patrones definidos de los residuales,  de forma tal que la línea de tendencia 
+    resultante de la nube de densidad sea lo más horizontal posible y coincidente a y=0.</p>
+
+<p>La independencia de los residuos, o sea, que estos no se encuentren correlacionados entre sí se realiza 
+    mediante la prueba de Durbin-Watson y la de Breush-Godfrey, ambas realizadas mediante el paquete 
+    <i>statsmodels</i> <cite>(Seabold y Perktold, 2010)</cite>. La prueba de Breush-Godfrey se realiza para una 
+    confianza del 95% en la cual el P-valor debe ser mayor que el nivel de significación para que los 
+    residuales sean independientes entre sí mientras que para la de Durbin-Watson se determina el valor 
+    de su estadígrafo. Se le recomienda seguir los criterios referidos por <cite>Montgomery et al. (2002) </cite>  
+    el cual establece que:</p>
+
+<ul>
+    <li> d &lt; dL: Se infiere que los errores tienen autocorrelación positiva </li>
+    <li> d &gt; dU: Se infiere que los errores no presentan autocorrelación entre ellos </li>
+    <li> dL &lt;  d &lt; dU: La prueba no es concluyente </li>
+    
+</ul>
+
+<p>Los valores críticos o cotas dependen del tamaño de la muestra, del número de parámetros del modelo y de 
+    la confianza requerida; los cuales puede encontrarlo según el caso en <cite>Kanji (2006)</cite>.</p>
+
+<p>Alternativamente para el análisis de independencia de los residuales, puede emplear la gráfica anexa de 
+    Valores observados vs Valores predichos, los cuales deben posicionarse adecuadamente sobre la diagonal 
+    de 45<sup>o</sup> sin la existencia de patrones anormales definidos que indiquen una influencia externa.</p>
+
+<p>En la sub-pestaña <i>VIF, linealidad y especificación</i> se condensan análisis de gran importancia para la 
+    evaluación de la adecuación de los modelos.  El  valor de inflación de la varianza permite determinar si 
+    existe multicolinealidad si este es inferior a 10 aunque algunos autores consideran que deben ser inferior 
+    a 5 <cite>(Montgomery y Runger, 2018)</cite>.</p>
+
+<p>En esta sección se pueden realizar la prueba de especificación de Ramsey y la de White, la prueba de 
+    linealidad de Harvey-Collier, la prueba de los multiplicadores de Lagrange para linealidad y la prueba 
+    de Rainbow de linealidad. En general estas pruebas permiten explorar si hay errores de especificación, 
+    omisión de variables, poca dependencia lineal entre la variable dependiente y los predictores y realizar 
+    inferencias preliminares acerca del ajuste de los modelos matemáticos. Las mismas se implementan mediante 
+    la librería <i>statsmodels</i> <cite> (Seabold y Perktold, 2010)</cite> para una confianza del 95%. El P-valor de cada prueba 
+    debe ser mayor que al nivel de significación para inferir que no existen problemas de especificación y de 
+    poca dependencia lineal. Alternativamente, la media de los residuales debe presentar valores cercanos a 
+    cero con un bajo coeficiente de variación.</p>
+
+<p>En la sub-pestaña <i>DFBETAS</i> se muestran los gráficos DFBETAS para cada coeficiente de variación, los 
+    cuales son potencialmente útiles en la detección de outliers influyentes. Básicamente este indica cuánto 
+    cambia (en unidades de desviación estándar) si dicha observación fuera eliminada. Generalmente el valor 
+    máximo valor aceptado es 1 para muestras pequeñas y medianas, y para grandes muestras [2/n<sup>0.5</sup>] 
+        <cite>(Sullivan et al., 2021)</cite>. Si fuera superior a este valor debería examinarse con más 
+        detenimiento esta observación. </p>
+
+<p>En la sub-pestaña <i>Otros gráficos</i> se muestran correspondencias gráficas de los residuales y otros 
+    análisis para la detección de <i>outliers</i> influyentes. Existen diversos criterios para cada uno de estos 
+    análisis  a la hora de establecer el valor crítico a partir del cual se consideraría una observación 
+    atípica (<i>outlier</i>) influyente, le  recomendamos al respecto consultar como primera aproximación las 
+    siguientes fuentes: <cite>Sullivan et al. (2021), Rahman et al. (2022)</cite>, y <cite>Arimie et al. (2020)</cite>. 
+    Los <i>outliers</i> influyentes no deberían tenerse en consideración ya que pueden conducir a explicaciones incorrectas 
+     del modelo, conllevar a desviaciones en su descripción, así como falsear la verdadera calidad de ajuste 
+     del mismo a la colección de datos de proceso; generalmente estos son el resultado de una anormalidad del 
+     proceso o de errores de medición.</p>
+
+<p>Para el caso de los residuales estudiantados generalmente se recomienda que estos deben ser inferiores a 3. 
+    La estadística DFFITS mide el número de desviaciones estándar asociadas a la eliminación de la observación 
+    en cuestión. Si es mayor que <i>2(p/n)<sup>0.5</sup></i> (siendo <i>p</i> el número de parámetros del modelo 
+    y <i>n</i> la cantidad de observaciones) esa observación se considera influyente.</p>
+
+<p>A partir de los elementos diagonales de la matriz sombrero (matriz conocida en la literatura como matriz H) 
+    es posible establecer aproximaciones de la influencia o más bien, <i>cantidad de influencia</i> 
+    <cite>(Sullivan et al., 2021)</cite>. De modo general, se considera influyente si es mayor que <i>2p/n</i> (siendo 
+    <i>p</i> el número de parámetros del modelo y <i>n</i> la cantidad de observaciones).</p>
+
+<p>La distancia de Cook es una medida de influencia desarrollada por Cook sustentada en la matriz sombrero de 
+    la regresión. Existen diversos criterios (como usted comprenderá  luego de la lectura recomendada al 
+    respecto), de los cuales el más generalizado es considerar que una observación es influyente si tiene un 
+    valor mayor que 1 <cite>(Montgomery y Runger, 2018; Serrano et al., 2022)</cite>. </p>
+
+<p>La estadística de DFBETAS y DFFITS ofrecen inferencias acerca del efecto de las observaciones sobre los 
+    estimados y valores ajustados, sin embargo obvian la precisión de la estimación. De ahí entonces la 
+    importancia de  COVARATIO, que esencialmente determina el papel de la observación en dicha precisión. Si su 
+    valor es mayor que 1 entonces dicho punto mejora la precisión mientras que si es menor que 1, su inclusión 
+    disminuye la precisión. Por lo general, si es mayor o menor que <i>1+3p/n</i> (siendo <i>p</i> el número de 
+    parámetros del modelo y <i>n</i> la cantidad de observaciones) esa observación se considera influyente.</p>
+</body>
+</html>

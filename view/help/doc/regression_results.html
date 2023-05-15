@@ -1,0 +1,57 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8   ">
+    <title>Análisis de los resultados generales de la regresión </title>
+</head>
+<body>
+<h3>Análisis de los resultados generales de la regresión</h3>
+
+<p>En esta pestaña se muestran los principales resultados de la regresión y se encuentra subdividida en 
+    <i>General</i>, <i>Coeficientes de Regresión</i> e <i>Intervalos de estimación de los coeficientes de 
+        regresión</i>. En caso de disponerse de más de un modelo, deberá seleccionarse el modelo del cual se 
+        desee ver los resultados. Este detalle es importantísimo para el trabajo en las futuras pestañas, ya 
+        que el modelo seleccionado aquí condiciona los resultados que se mostrarán en las mismas.</p>
+
+<p>El nombre del modelo seleccionado aparece con una franja oscura en la parte superior del recuadro principal, 
+    mientras que el nombre de las otras alternativas (en caso de proceder) se posiciona debajo del recuadro 
+    principal. La selección de uno nuevo para ver sus resultados hace que se desmarque el seleccionado 
+    previamente y que se actualice la información mostrada en la pestaña actual.</p>
+
+<p>El ajuste de los datos por regresión lineal y la información mostrada en esta sección se fundamenta en el 
+    empleo de la librería <i>statsmodels</i> <cite>(Seabold y Perktold, 2010)</cite>, la cual es una de las más prestigiosas y 
+    reconocidas en Python para la cuestión.</p>
+
+<p>Información mostrada en la sub-pestaña <i>General¨</i></p>
+
+<ul>
+    <li>Variable dependiente</li>
+    <li>Número de observaciones</li>
+    <li>Grados de libertad (GL) de los residuales</li>
+    <li>Grados de libertad (GL) del modelo</li>
+    <li>Criterio de información de Akaike (AIC)</li>
+    <li>Criterio de información bayesiano (BIC)</li>
+    <li>Log-Likelihood</li>
+    <li>Coeficiente de determinación (R-cua)</li>
+    <li>Coeficiente de determinación ajustado (R-cua ajustada)</li>
+    <li>Valor del estadígrafo de Fisher de la prueba de significación de la regresión</li>
+    <li>P-valor de la prueba de significación de la regresión</li>
+    <li>Error cuadrático medio del modelo (MSE-modelo)</li>
+    <li>Error cuadrático medio de los residuales (MSE-residuales)</li>
+    <li>Error cuadrático medio total (MSE-total)</li>
+    <li>Raíz del error cuadrático medio del modelo (RMSE-modelo)</li>
+</ul>
+
+<p>Información mostrada en la sub-pestaña <i>Coeficientes de Regresión</i>:</p>
+
+<ul>
+    <li>Coeficientes de regresión</li>
+    <li>ANOVA de los coeficientes de regresión (que involucra al valor asociado de la distribución de  Student, el P-valor correspondiente y al error estándar de la estimación del coeficiente)</li>
+</ul>
+
+<p>Información mostrada en la sub-pestaña <i>Intervalos de estimación de los coeficientes de regresión:</i></p>
+<ul>
+    <li>Límite superior e inferior de estimación de cada coeficiente de regresión</li>
+</ul>
+
+</body>
+</html>

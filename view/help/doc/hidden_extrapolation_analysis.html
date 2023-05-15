@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8   ">
+    <title>Establecimiento del intervalo de aplicación a partir de análisis de extrapolación oculta</title>
+</head>
+<body>
+<h3>Establecimiento del intervalo de aplicación a partir de análisis de extrapolación oculta</h3>
+
+<p>La implantación informática de esta técnica de gran complejidad matemática es un aporte de <b>LinReg</b>, 
+    dado que no existen procesadores estadísticos ni librerías afines que permitan su realización, a pesar de 
+    ser de gran importancia para definir el intervalo de aplicación de los modelos <cite>(Montgomery et al., 2002; 
+    Montgomery y Runger, 2018; Serrano et al., 2022)</cite>. </p>
+
+<p>Los valores máximos y mínimos de cada variable independiente restringen el intervalo de aplicación de los 
+    modelos de regresión, pero solo en primera instancia. Ello no supone que dentro de tales limites se 
+    disponga de información suficiente para contemplar efectos entre diferentes niveles de los términos 
+    independientes y se puede incurrir por tal motivo a predicciones erróneas por <i>extrapolación oculta</i>
+    (Montgomery et al., 2002).  Por tal razón, para la definición del intervalo de aplicación de los modelos 
+    se realiza un análisis que parte del mallado definido por la combinación de las variables independientes 
+    involucradas en cada modelo y que está acotado por los valores máximos y mínimos de cada una de ellas. 
+    Luego, se analiza la posible inclusión de los puntos del mallado dentro de la región envolvente o cáscara 
+    de variables regresoras (RVH) <cite>(Montgomery et al., 2002)</cite> si se satisface la siguiente condición : 
+    x<sup>-1</sup>(X´X)<sup>-1</sup> &le; hmxm</p>
+
+<p>Donde:</p>
+
+<ul>
+    <li>X: Matriz de los predictores que se emplea en el desarrollo del modelo de regresión </li>
+    <li>x: Punto constituido para la nueva predicción con coordenadas desde 1 a k, donde k es el número de variables independientes del modelo según el orden de estos en la matriz X.</li>
+    <li>hmxm: Valor máximo de los elementos de la diagonal de la matriz sombrero.</li>
+</ul>
+
+<p>En caso de incluirse todos los puntos o nodos dentro de la RVH, se valida el intervalo de aplicación propuesto
+     para los modelos (que define la malla). De modo contrario, se restringe más el intervalo de aplicación 
+     propuesto y por tanto, se acota más la malla hasta satisfacer la condición anterior. </p>
+
+<p>Estos intervalos se especifican en la parte visual con la cantidad de niveles de las variables 
+    correspondientes. Por cuestiones de costo computacional, la cantidad de niveles se encuentra restringida a 
+    un máximo de 5.</p>
+    
+</body>
+</html>

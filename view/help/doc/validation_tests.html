@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8   ">
+    <title>Validación de los modelos matemáticos por técnicas de <i>machine learning</i></title>
+</head>
+<body>
+<h3>Validación de los modelos matemáticos por técnicas de <i>machine learning</i></h3>
+
+<p>La validación de los modelos matemáticos se puede realizar tanto por k-cross-folds (validación cruzada 
+    por folds o pliegues) o por bootstrapping. Ello se aclara en la parte visual, mediante los botones 
+    correspondientes.  </p>
+
+<p>La validación cruzada por k-folds se realiza con el fin de reducir los sesgos de muestreo aleatorio y el
+     problema de sobreajuste en el modelo matemático <cite>(Shah et al., 2021)</cite>. Este es un método estadístico para 
+     la evaluación del comportamiento predictivo de modelos matemáticos más exhaustivo y fiable que la simple 
+     división de los datos en dos conjuntos: uno de entrenamiento y otro de validación (método tradicional). 
+
+<p>Generalmente se recomienda un número de pliegues  (folds) igual a 10.  Para este caso por ejemplo, ello que 
+    supone la división del conjunto de datos en 10 subgrupos de igual tamaño. A partir de ello y de forma 
+    secuenciada, nueve se emplean para entrenamiento y uno para la validación del modelo, cuyo algoritmo 
+    concluye cuando todos los subgrupos hayan sido empleados para la validación del modelo 
+    <cite>(Jung et al., 2020)</cite>. Se emplea para su realización la librería <i>Sklearn</i> 
+    <cite>(Hao et al., 2019)</cite>.</p>
+
+<p>Se implementan dos métricas, el RMSE y el coeficiente de determinación. Por cuestiones obvias en cuanto a 
+    indicación de calidad de ajuste, le recomendamos que considere solamente la del RMSE. Para su análisis 
+    se muestran los resultados para el conjunto de validación, de entrenamiento y la prueba en general. 
+    Es deseable que no existan  diferencias entre ellos ni  mucha variabilidad (bajo coeficiente de variación CV)
+    , ya que ello supone estabilidad y robustez del modelo ante cambios en el set de validación.  
+    Los valores de RMSE deben ser bajos propiamente por cuestiones de calidad de ajuste. Alternativamente 
+    puede emplear la gráfica anexa de valores predichos por el modelo y los predichos por k-folds, los cuales 
+    deben ser lo más semejantes posibles y disponerse sin anomalías sobre la  diagonal de 45<sup>o</sup>.</p>
+ 
+<p>El proceso de bootstraping consiste en generar de forma iterativa diferentes modelos lineales, empleando en 
+    cada caso una bootstrap-sample creada mediante resampling del mismo tamaño que la muestra inicial. Para 
+    cada modelo ajustado se registran los valores de los coeficientes y finalmente se estudia su distribución. 
+    En general es deseable para una mayor robustez que exista poca variabilidad en los valores de los 
+    coeficientes de regresión y que el valor del RMSE de la prueba sea cercano a cero con bajo coeficiente de 
+    variación. Estos análisis se complementan con otros anteriores,  por ejemplo si no se comportase 
+    adecuadamente puede deberse entre otras razones a la existencia de outliers influyentes, a errores de 
+    especificación, de multiolinealidad o propiamente de calidad de ajuste. Por cuestiones de costo 
+    computacional, la cantidad de boots se encuentra limitada a 1000 (o sea, 1000 iteraciones).</p>
+</body>
+</html>
