@@ -6,6 +6,8 @@ from PyQt5.QtGui import (
     QBrush, QColor, QPainter
 )
 
+from math import floor, ceil
+
 from controller.analysis_data import AnalysisData
 
 from model.modelLMR import ModelLMR
@@ -43,6 +45,13 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         xLine = [min(data['value-x'])-0.05,max(data['value-x'])+0.05]
         yLine = [min(data['value-y'])-0.05,max(data['value-y'])+0.05]
         
+        limitsAxes = [floor(min(yLine[0],xLine[0])),ceil(max(yLine[1],xLine[1]))]
+        
+        ticks = {}
+        
+        for i in range(limitsAxes[0],limitsAxes[1]+1):
+            ticks[i]=i
+        
         colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
@@ -57,6 +66,10 @@ class WidgetValidationKold(QWidget,Ui_WidgetValidationKold):
         self.chartVPKFOLD.setColorAxes(colorAxes)
         self.chartVPKFOLD.setColorBackground(colorBackground)
         self.chartVPKFOLD.setColorText(colorText)
+        self.chartVPKFOLD.setLimitsAxisX(limitsAxes)
+        self.chartVPKFOLD.setLimitsAxisY(limitsAxes)
+        self.chartVPKFOLD.setXTicks(ticks)
+        self.chartVPKFOLD.setYTicks(ticks)
         
         self.clearLayout(self.vLayoutChartValuesPredichosKFold)
         self.vLayoutChartValuesPredichosKFold.addWidget(self.chartVPKFOLD)

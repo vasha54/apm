@@ -59,5 +59,6 @@ class ChartMultiple(ChartAbstract):
     def setNameChart(self,nameChart):
         self.data['name']=nameChart
         self.ax.set_title(nameChart,fontsize=10,color='#000000')
-        
+    
+     
     

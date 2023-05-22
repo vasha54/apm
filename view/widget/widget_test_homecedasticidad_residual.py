@@ -10,6 +10,8 @@ from PyQt5.QtGui import (
 
 import PyQt5.QtCore 
 
+from math import floor, ceil
+
 from controller.analysis_data import AnalysisData
 from model.modelLMR import ModelLMR
 from view.preferences.preferences import PreferenceGUI
@@ -56,6 +58,13 @@ class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadRe
         ys = [min(data['y'])-0.05,max(data['y'])+0.05]
         xs = [min(data['x'])-0.05,max(data['x'])+0.05]
         
+        limitsAxes = [floor(min(ys[0],xs[0])),ceil(max(ys[1],xs[1]))]
+        
+        ticks = {}
+        
+        for i in range(limitsAxes[0],limitsAxes[1]+1):
+            ticks[i]=i
+        
         colorText = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_TEXT_CHART)
         colorBackground = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_BACKGROUND_CHART)
         colorAxes = PreferenceGUI.instance().getValueSettings(PreferenceGUI.COLOR_AXES_CHART)
@@ -70,6 +79,10 @@ class WidgetTestHomecedasticidadResidual(QWidget,Ui_WidgetTestHomecedasticidadRe
         self.chartVOVA.setColorText(colorText)
         self.chartVOVA.setColorAxes(colorAxes)
         self.chartVOVA.setColorBackground(colorBackground)
+        self.chartVOVA.setLimitsAxisX(limitsAxes)
+        self.chartVOVA.setLimitsAxisY(limitsAxes)
+        self.chartVOVA.setXTicks(ticks)
+        self.chartVOVA.setYTicks(ticks)
         
         self.clearLayout(self.vLChartValueObserverValueAdjust)
         self.vLChartValueObserverValueAdjust.addWidget(self.chartVOVA)

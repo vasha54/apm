@@ -166,7 +166,6 @@ class ModelLMR:
     
     SET_UPPER_LIMIT_THIS_VARI_EXTRAPOLATION_HIDE ='setUpperLimitThisVarIExtrapolationHide'
     def setUpperLimitThisVarIExtrapolationHide(self,**kwargs):
-        
         nameVar = None
         newValue = None
         
@@ -203,7 +202,6 @@ class ModelLMR:
     
     SET_LOWER_LIMIT_THIS_VARI_EXTRAPOLATION_HIDE ='setLowerLimitThisVarIExtrapolationHide'
     def setLowerLimitThisVarIExtrapolationHide(self,**kwargs):
-        
         nameVar = None
         newValue = None
         

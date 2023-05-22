@@ -54,6 +54,21 @@ class ChartAbstract (FigureCanvas):
         
     def legend(self):
         self.ax.legend()
+    
+    def setLimitsAxisX(self,limitsX):
+        self.ax.set_xlim(limitsX)
+        
+    def setLimitsAxisY(self,limitsY):
+        self.ax.set_ylim(limitsY)
+        
+    def setXTicks(self,ticksX):
+        self.ax.set_xticks(list(ticksX.keys()))
+        self.ax.set_xticklabels(list(ticksX.values()))
+        
+    def setYTicks(self,ticksY):
+        self.ax.set_yticks(list(ticksY.keys()))
+        self.ax.set_yticklabels(list(ticksY.values()))
+        
         
     @abstractmethod
     def makeChart(self):

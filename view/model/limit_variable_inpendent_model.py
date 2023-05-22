@@ -49,7 +49,7 @@ class LimitVariableInpendentModel(QAbstractTableModel):
             return QtCore.QVariant(self.headersName[section])
         
     def flags(self,index):
-        if index.isValid() == False or index.column()==0:
+        if index.column()==0:
             return super().flags(index)
         else:
             return (super().flags(index) | QtCore.Qt.ItemIsEditable)
@@ -58,7 +58,7 @@ class LimitVariableInpendentModel(QAbstractTableModel):
     def setData(self,_index,_value,_role):
         if _index.isValid():
             if _role == QtCore.Qt.EditRole:
-                if isinstance(_value, (int,float)):
+                if self.isfloat(_value):
                     value = float(_value)
                     varI = self.namesVarI[_index.row()]
                     if _index.column() == 1:
@@ -67,4 +67,11 @@ class LimitVariableInpendentModel(QAbstractTableModel):
                         AnalysisData().getDataModel(self.keyModel,ModelLMR.SET_UPPER_LIMIT_THIS_VARI_EXTRAPOLATION_HIDE,nameVar=varI,newValue=value)
                 return True
         return False
+    
+    def isfloat(self,num):
+        try:
+            float(num)
+            return True
+        except ValueError:
+            return False
        
